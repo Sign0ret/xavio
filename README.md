@@ -20,4 +20,6 @@
 - /prisma/schema.prisma enum UserRole
 - si se  hacen cambios a este archivo  hacer los  prisma commands
 
-
+## COMMANDS USED IN TERMINAL
+- npm i
+- npm i framer-motion clsx tailwind-merge
