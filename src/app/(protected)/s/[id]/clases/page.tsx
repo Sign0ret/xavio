@@ -1,7 +1,19 @@
 import React from 'react';
-export default function YoChat( { params }: {
-  params: { id: string }
-} ) {
+import { Metadata } from 'next';
+
+type Props = {
+  params: { 
+    id: string,
+ }
+};
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `Clases de ${params.id}`
+  }
+} 
+  
+export default function Clases( { params }: Props) {
   return (
     <div>
       <p>selecciona una clase</p>

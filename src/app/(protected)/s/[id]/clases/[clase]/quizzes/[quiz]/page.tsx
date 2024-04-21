@@ -1,16 +1,25 @@
 import React from 'react';
-  
-export default function QuizClase( { params }: {
+import { Metadata } from 'next';
+
+type Props = {
   params: { 
     id: string,
-    clase: string,
+    avance: string,
     quiz: string,
  }
-} ) {
+};
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `Quiz de ${params.quiz}`
+  }
+} 
+  
+export default function QuizClase( { params }: Props) {
  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <p>{params.id}, listo para el quiz {params.quiz} de {params.clase}</p>
+      <p>{params.id}, listo para el quiz {params.quiz} de {params.quiz}</p>
       
     </main>
   );

@@ -1,11 +1,20 @@
 import React from 'react';
-  
-export default function AdminClase( { params }: {
+import { Metadata } from 'next';
+
+type Props = {
   params: { 
     id: string,
     clase: string,
  }
-} ) {
+};
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `Administra ${params.clase}`
+  }
+} 
+  
+export default function AdminClase( { params }: Props) {
  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

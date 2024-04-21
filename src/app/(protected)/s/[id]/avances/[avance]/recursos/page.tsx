@@ -1,11 +1,20 @@
 import React from 'react';
-  
-export default function Recursos( { params }: {
+import { Metadata } from 'next';
+
+type Props = {
   params: { 
     id: string,
     avance: string,
  }
-} ) {
+};
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `Avance ${params.avance}`
+  }
+} 
+  
+export default function Recursos( { params }: Props) {
  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

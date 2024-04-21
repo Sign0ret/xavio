@@ -5,12 +5,19 @@ import { auth } from "@/auth";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { NavbarDemo } from "@/components/components/navbar";
+import { BackgroundGradientDemo } from "@/components/components/card";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
+
+
 export const metadata: Metadata = {
-  title: "authTemplate by Sign0ret",
-  description: "next auth  v5  template with  middleware and all routes protected  by default",
+  title: {
+    default: "XAVIO",
+    template: "%s | XAVIO",
+  },
+  description: "plataforma de aprendizaje acompañado por IA generativa",
 };
 
 export default async function RootLayout({
@@ -24,6 +31,9 @@ export default async function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <NavbarDemo />
+          <section className="max-w-sm">
+            <BackgroundGradientDemo />
+          </section>
           <Toaster />
           {children}
         </body>
