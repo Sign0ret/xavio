@@ -1,0 +1,511 @@
+"use client"
+import React from 'react';
+import { Metadata } from 'next';
+import { useState } from 'react';
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
+import { 
+    DropdownMenuTrigger, 
+    DropdownMenuLabel, 
+    DropdownMenuSeparator, 
+    DropdownMenuItem, 
+    DropdownMenuContent, 
+    DropdownMenu 
+} from "@/components/ui/dropdown-menu"
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { 
+  SelectValue, 
+  SelectTrigger, 
+  SelectItem, 
+  SelectContent, 
+  Select 
+} from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
+import { Progress } from "@/components/ui/progress"
+import { 
+  TextIcon, 
+  MessageCircleIcon, 
+  PencilIcon, 
+  XIcon, 
+  UploadIcon, 
+  FileIcon,
+  FileQuestionIcon,
+  CheckIcon,
+  BookIcon,
+  ClipboardIcon,
+  BookOpenIcon,
+  CameraIcon,
+} from '@/components/icons';
+import { Boilerplate_mensaje } from '../_components/messages/boilerplate';
+import { Right_bar } from '../_components/rightbar';
+import { Reply } from '../_components/messages/reply';
+import { PostMedia } from '../_components/actions/post_media';
+import { PostTarea } from '../_components/actions/post_tarea';
+
+
+type Message = {
+    remitente: string,
+    tiempo: string,
+    mensaje: string,
+    bloque: number | null,
+}
+
+type Props = {
+  params: { 
+    id: string,
+    clase: string,
+ }
+};
+
+/* export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `Chat de ${params.clase}`
+  }
+}  */
+  
+export default function ChatClase( { params }: Props) {
+  const [reply, setReply] = useState<Message | null>(null);
+  const handleCloseReply = () => {
+    // Implement your logic here, such as closing the reply component
+    setReply(null);
+  };
+  const handleOpenReply = (message: Message) => {
+    setReply(message);
+  };
+  
+  const [openTasks, setOpenTasks] = useState<boolean>(false);
+  const [upInput, setUpInput] = useState<boolean>(false);
+  const personas = [
+    { value: 'mikejones', label: 'mikejones' },
+    { value: 'Person 2', label: 'Person 2' },
+    { value: 'Person 3', label: 'Person 3' }
+  ];
+  const status = [
+    { value: 0, label: 'Asignada' },
+    { value: 25, label: 'Haciendo' },
+    { value: 50, label: 'Hecha' },
+    { value: 75, label: 'Revisada' },
+    { value: 100, label: 'Archivada' }
+  ];
+  const mensajes = [
+    {
+      remitente: "adolfo",
+      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+      mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
+      bloque: 1,
+    },
+    {
+      remitente: "User",
+      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+      mensaje: "I need help with my order.",
+      bloque: 4,
+    },
+    {
+      remitente: "John Doe",
+      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+      mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
+      bloque: 2,
+    },
+    {
+      remitente: "adolfo",
+      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+      mensaje: "Hi there! How can I assist you today?",
+      bloque: 3,
+    },
+    {
+        remitente: "adolfo",
+        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+        mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
+        bloque: 1,
+      },
+      {
+        remitente: "User",
+        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+        mensaje: "I need help with my order.",
+        bloque: 4,
+      },
+      {
+        remitente: "John Doe",
+        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+        mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
+        bloque: 2,
+      },
+      {
+        remitente: "adolfo",
+        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
+        mensaje: "Hi there! How can I assist you today?",
+        bloque: 3,
+      },
+    // Los demás mensajes seguirían aquí con la misma estructura
+  ];
+  
+  return (
+    <section className='z-50'>
+        <div className="hidden lg:flex flex-col min-h-screen h-screen">
+            <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
+            <Link className="lg:hidden" href={`s/${params.id}/clases/chat`}>
+                <MessageCircleIcon className="h-6 w-6" />
+                <span className="sr-only">Clases</span>
+            </Link>
+
+            <div className="w-full flex-1">
+                <Sheet>
+                    <SheetTrigger>
+                    <div className="flex items-center gap-4">
+
+                        <Avatar>
+                            <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
+                            <AvatarFallback>JD</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                            <span className="font-semibold">{params.clase}</span>
+                            <span className="text-sm text-gray-500 mr-auto">Online</span>
+                        </div>
+                        </div>
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                        <SheetDescription>
+                            <p>ajustes</p>
+                        </SheetDescription>
+                        </SheetHeader>
+                    </SheetContent>
+                </Sheet>
+            </div>
+            <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
+                <PencilIcon className="h-4 w-4"/>
+                <span className="sr-only">Move up</span>
+            </Button>
+            {openTasks ? (
+                <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setOpenTasks(false)}>
+                    <XIcon className="h-4 w-4" />
+                    <span className="sr-only">Hide tasksbar</span>
+                </Button>
+            ) : (
+                <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setOpenTasks(true)}>
+                    <TextIcon className="h-4 w-4" />
+                    <span className="sr-only">open tasks</span>
+                </Button>
+            )}
+            </header>
+            <main className="flex flex-1 flex-col gap-4 p-4 pr-0 mr-0 md:p-6  md:pr-0 max-h-full overflow-y-hidden">
+            {openTasks ? (
+                <>
+                    <section className='flex flex-row overflow-y-hidden'>
+                        <div className="w-4/5 p-4 overflow-y-auto no-scrollbar ">
+                            {mensajes.map((mensaje, index) => (
+                                <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params} onReply={handleOpenReply}/>
+                            ))}
+                        </div>
+                        <section className='w-[280px] border'>
+                            <Right_bar params={params} />
+                        </section>
+                    </section>
+                </>
+                    
+            ) : (
+                     <div className='p-4 overflow-y-auto no-scrollbar mr-4'>
+                        {mensajes.map((mensaje, index) => (
+                            <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params}  onReply={handleOpenReply} />
+                        ))}
+                      </div>
+            )}
+            <div className={`mt-auto pr-6 ${upInput ? 'mb-20' : 'mb-0'}`}>
+                {reply && (
+                    <div className='mb-2 pl-20'>
+                        <Reply message={reply} onClose={handleCloseReply}/>
+                    </div>
+                )}
+                
+                <form className="flex items-center gap-4">
+                    <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <PencilIcon className="h-4 w-4 ml-4"/>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className='flex flex-col ml-14 mb-2'>
+                        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        {/* Foto/video nuevo */}
+                        <Dialog>
+                            <DialogTrigger>
+                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                    <span><CameraIcon className='h-4 w-4 mr-2' /></span>
+                                    <p>Foto/Video</p>
+                                </DropdownMenuLabel>
+                            </DialogTrigger>
+                            <DialogContent className='max-h-screen overflow-y-auto'>
+                                <DialogHeader>
+                                <DialogTitle>Subir Fotos</DialogTitle>
+                                <DialogDescription>
+                                    <PostMedia params={params} />
+                                </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                        {/* Documento nuevo */}
+                        <Dialog>
+                            <DialogTrigger>
+                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                    <span><FileIcon className='h-4 w-4 mr-2' /></span>
+                                    <p>Documento</p>
+                                </DropdownMenuLabel>
+                            </DialogTrigger>
+                            <DialogContent className='max-h-screen overflow-y-auto'>
+                                <DialogHeader>
+                                <DialogTitle>Subir Documentos</DialogTitle>
+                                <DialogDescription>
+                                    {/* <Documento_nuevo params={params} /> */}
+                                </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                        {/* Pago nuevo */}
+                        <Dialog>
+                            <DialogTrigger>
+                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                    <span><BookOpenIcon className='h-4 w-4 mr-2' /></span>
+                                    <p>Tema</p>
+                                </DropdownMenuLabel>
+                            </DialogTrigger>
+                            <DialogContent className='max-h-screen overflow-y-auto'>
+                                <DialogHeader>
+                                <DialogTitle>Nuevo Tema</DialogTitle>
+                                <DialogDescription>
+                                    {/* <Pago_nuevo params={params} /> */}
+                                </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                        {/* Quiz nuevo */}
+                        <Dialog>
+                            <DialogTrigger>
+                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                    <span><FileQuestionIcon className='h-4 w-4 mr-2' /></span>
+                                    <p>Quiz</p>
+                                </DropdownMenuLabel>
+                            </DialogTrigger>
+                            <DialogContent className='max-h-screen overflow-y-auto'>
+                                <DialogHeader>
+                                <DialogTitle>Nuevo Quiz</DialogTitle>
+                                <DialogDescription>
+                                    {/* <Producto_nuevo params={params} /> */}
+                                </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                        {/* tarea nueva */}
+                        <Dialog>
+                            <DialogTrigger>
+                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                    <span><CheckIcon className='h-4 w-4 mr-2' /></span>
+                                    <p>Tarea</p>
+                                </DropdownMenuLabel>
+                            </DialogTrigger>
+                            <DialogContent className='max-h-screen overflow-y-auto'>
+                                <DialogHeader>
+                                <DialogTitle>Nueva Tarea</DialogTitle>
+                                <DialogDescription>
+                                    <PostTarea />
+                                </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                    </DropdownMenuContent>
+                    </DropdownMenu>
+                <Input className="flex-1" placeholder="Type a message..." />
+                <Button variant="outline">Send</Button>
+                </form>
+            </div>
+            </main>
+        </div>
+        {/* mobile */}
+        <div className="flex lg:hidden flex-col fixed inset-0 overflow-y-auto min-h-screen h-screen bg-background z-40">
+            <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
+                <Link className="lg:hidden" href={`/s/${params.id}/clases/chat`}>
+                    <MessageCircleIcon className="h-6 w-6" />
+                    <span className="sr-only">Home</span>
+                </Link>
+                <div className="w-full flex-1">
+                    
+                <Sheet>
+                    <SheetTrigger>
+                    <div className="flex items-center gap-4">
+
+                        <Avatar>
+                            <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
+                            <AvatarFallback>JD</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                            <span className="font-semibold">{params.clase}</span>
+                            <span className="text-sm text-gray-500 mr-auto">Online</span>
+                        </div>
+                        </div>
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                        <SheetDescription>
+                            <p>ajustes</p>
+                        </SheetDescription>
+                        </SheetHeader>
+                    </SheetContent>
+                </Sheet>
+            </div>
+            <Button className="flex lg:hidden ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
+                <PencilIcon className="h-4 w-4"/>
+                <span className="sr-only">Move up</span>
+            </Button>
+            <Sheet>
+                <SheetTrigger>
+                    {/* <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline"> */}
+                        <TextIcon className="h-4 w-4" />
+                        <span className="sr-only">open tasks</span>
+                    {/* </Button> */}
+                </SheetTrigger>
+                <SheetContent>
+                    <Right_bar params={params} />
+                    {/* <SheetHeader>
+                    <SheetDescription>
+                        <p>ajustes</p>
+                    </SheetDescription>
+                    </SheetHeader> */}
+                </SheetContent>
+            </Sheet>
+            
+            </header>
+            <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-h-full overflow-y-hidden">
+                     <div className='p-4 overflow-y-auto no-scrollbar'>
+                        {mensajes.map((mensaje, index) => (
+                            <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params} onReply={handleOpenReply} />
+                        ))}
+                      </div>
+                    <div className={`mt-auto ${upInput ? 'mb-20' : 'mb-0'}`}>
+                        <div className='mb-2 px-5'>
+                            {reply && <Reply message={reply} onClose={handleCloseReply} />}
+                        </div>
+                        <form className="flex items-center gap-4">
+                            <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <PencilIcon className="h-4 w-4"/>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className='flex flex-col ml-2 mb-2 items-start'>
+                                <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                {/* Nueva Foto o Video Mobil */}
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Foto/Video
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent className='max-h-screen overflow-y-auto'>
+                                        <DrawerHeader>
+                                        <DrawerTitle>Subir fotos</DrawerTitle>
+                                        <DrawerDescription>
+                                            <PostMedia params={params} />
+                                        </DrawerDescription>
+                                        </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
+                                {/* Nuevo Documento Mobil */}
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Documento
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+                                        <DrawerHeader>
+                                        <DrawerTitle>Nuevo Documento</DrawerTitle>
+                                        <DrawerDescription>
+                                            {/* <Documento_nuevo params={params} /> */}
+                                        </DrawerDescription>
+                                        </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
+                                {/* Nuevo Tema Mobil */}
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Tema
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+                                        <DrawerHeader>
+                                        <DrawerTitle>Nuevo Tema</DrawerTitle>
+                                        <DrawerDescription>
+                                            {/* <Pago_nuevo params={params} /> */}
+                                        </DrawerDescription>
+                                        </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
+                                {/* Nuevo Quiz Mobil */}
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Quiz
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+                                        <DrawerHeader>
+                                        <DrawerTitle>Nuevo Quiz</DrawerTitle>
+                                        <DrawerDescription>
+                                            {/* <Producto_nuevo params={params} /> */}
+                                        </DrawerDescription>
+                                        </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
+                                {/* Nueva Tarea Mobil */}
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Tarea
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+                                    <DrawerHeader>
+                                        <DrawerTitle>Nueva Tarea</DrawerTitle>
+                                        <DrawerDescription>
+                                            {/*    */}
+                                        </DrawerDescription>
+                                    </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
+                            </DropdownMenuContent>
+                            </DropdownMenu>
+                            <Input className="flex-1" placeholder="Type a message..." />
+                            <Button variant="outline">Send</Button>
+                        </form>
+                    </div>
+                    </main>
+        </div>
+    </section>
+  );
+}

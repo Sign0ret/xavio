@@ -16,25 +16,35 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { MessageCircleIcon, BellIcon, XIcon,  } from '@/components/icons';
+
 export default function ClasesLayout({
     children,
     params, // will be a page or nested layout
   }: {
     children: React.ReactNode,
-    params: { username: string }
+    params: {
+        id: string,
+    },
   }) {
     const [selectedChat, setSelectedChat] = useState<number | null>(null);
     const [open, setOpen] = useState<boolean>(true);
     const chatData = [
-        { username: 'JohnDoe', name: 'John Doe Robert California Asies', message: 'Hey, hows it going?...', badge: 3 },
-        { username: 'JaneDoe', name: 'Jane Doe', message: 'Can you send me the file?...', badge: 5 },
-        { username: 'mikejones', name: 'Mike Jones', message: 'Lets meet tomorrow at...', badge: 2 },
-        { username: 'JohnDoe', name: 'John Doe', message: 'Hey, hows it going?...', badge: 3 },
-        { username: 'JaneDoe', name: 'Jane Doe', message: 'Can you send me the file?...', badge: 5 },
-        { username: 'mikejones', name: 'Mike Jones', message: 'Lets meet tomorrow at...', badge: 2 },
-        { username: 'JohnDoe', name: 'John Doe', message: 'Hey, hows it going?...', badge: 3 },
-        { username: 'JaneDoe', name: 'Jane Doe', message: 'Can you send me the file?...', badge: 5 },
-        { username: 'mikejones', name: 'Mike Jones', message: 'Lets meet tomorrow at...', badge: 2 }
+        /* 
+            message should be queried 
+            badge should  be queried
+        */
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'bbbbbb', name: 'fisica', message: 'Lets meet tomorrow at...', badge: 2 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+
       ];
       const houses = {
         "Process": [
@@ -71,9 +81,9 @@ export default function ClasesLayout({
             <div className="border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
                 <div className="flex h-full max-h-screen flex-col gap-2">
                 <div className="flex h-[60px] items-center border-b px-6">
-                    <Link className="flex items-center gap-2 font-semibold" href={`/yo/${params.username}/chat`}>
+                    <Link className="flex items-center gap-2 font-semibold" href={`/s/${params.id}/clases/chat`}>
                     <MessageCircleIcon className="h-6 w-6" />
-                    <span className="">JMO</span>
+                    <span className="">Clases</span>
                     </Link>
                     <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
                         <BellIcon className="h-4 w-4" />
@@ -87,13 +97,13 @@ export default function ClasesLayout({
                 </div>
                 <div className="flex-1 overflow-auto py-2">
                     <div className="px-4 mb-4 flex items-center gap-2">
-                        <Input placeholder="Search contacts..." />
+                        <Input placeholder="Buscar clases..." />
                     </div>
                     <div className="px-4 mb-4 flex items-center gap-2 lg:max-w-[280px]">
 
                         <Select>
                             <SelectTrigger className='max-w-[150px] lg:max-w-[120px]'>
-                                <SelectValue placeholder="filtrar casa" />
+                                <SelectValue placeholder="filtrar tema" />
                             </SelectTrigger>
                             <SelectContent>
                                 {Object.entries(houses).map(([status, options]) => (
@@ -108,7 +118,7 @@ export default function ClasesLayout({
                         </Select>
                         <Select>
                             <SelectTrigger className='max-w-[150px] lg:max-w-[120px]'>
-                                <SelectValue placeholder="filtrar rol" />
+                                <SelectValue placeholder="filtrar status" />
                             </SelectTrigger>
                             <SelectContent>
                                 {Object.entries(roles).map(([group, options]) => (
@@ -128,11 +138,11 @@ export default function ClasesLayout({
                             <Link
                             key={index}
                             className={`flex items-center gap-3 rounded-lg ${selectedChat === index ? 'bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50' : 'px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'}`}
-                            href={`/yo/${params.username}/chat/${chat.username}`}
+                            href={`/s/${params.id}/clases/chat/${chat.id}`}
                             onClick={() => setSelectedChat(index)}
                             >
                             <Avatar className="z-0"> {/* Change z-[-20] to z-0 */}
-                                <AvatarImage alt={`@${chat.username}`} src="/placeholder-avatar.jpg" />
+                                <AvatarImage alt={`@${chat.id}`} src="/placeholder-avatar.jpg" />
                                 <AvatarFallback>{chat.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div>
@@ -170,7 +180,7 @@ export default function ClasesLayout({
                 <div className="border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
                     <div className="flex h-full max-h-screen flex-col gap-2">
                     <div className="flex h-[60px] items-center border-b px-6">
-                        <Link className="flex items-center gap-2 font-semibold" href={`/yo/${params.username}/chat`}>
+                        <Link className="flex items-center gap-2 font-semibold" href={`/yo/${params.id}/chat`}>
                         <MessageCircleIcon className="h-6 w-6" />
                         <span className="">JMO</span>
                         </Link>
@@ -194,11 +204,11 @@ export default function ClasesLayout({
                                 <Link
                                 key={index}
                                 className={`flex items-center gap-3 rounded-lg ${selectedChat === index ? 'bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50' : 'px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'}`}
-                                href={`/yo/${params.username}/chat/${chat.username}`}
+                                href={`/s/${params.id}/clases/chat/${chat.id}`}
                                 onClick={() => setSelectedChat(index)}
                                 >
                                 <Avatar>
-                                    <AvatarImage alt={`@${chat.username}`} src="/placeholder-avatar.jpg" />
+                                    <AvatarImage alt={`@${chat.id}`} src="/placeholder-avatar.jpg" />
                                     <AvatarFallback>{chat.name.charAt(0)}</AvatarFallback>
                                 </Avatar>
                                 <div>

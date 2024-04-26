@@ -30,10 +30,10 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          <NavbarDemo />
-          <section className="max-w-sm">
+          {/* <NavbarDemo /> */}
+          {/* <section className="max-w-sm">
             <BackgroundGradientDemo />
-          </section>
+          </section> */}
           <Toaster />
           {children}
         </body>

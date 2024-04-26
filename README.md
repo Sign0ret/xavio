@@ -22,4 +22,11 @@
 
 ## COMMANDS USED IN TERMINAL
 - npm i
-- npm i framer-motion clsx tailwind-merge
+- npm i framer-motion clsx tailwind-merge @radix-ui/react-label @tabler/icons-react
+
+
+
+## Al regresar
+- Chat bloques para enviar
+    - todos lapiz
+    - contestar
