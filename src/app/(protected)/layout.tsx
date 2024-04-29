@@ -7,7 +7,6 @@ interface ProtectedLayoutProps {
 const ProtectedLayout = ({children}: ProtectedLayoutProps) => {
     return (
         <div className="h-full w-full">
-            {/* <Navbar /> */}
             <div className="">
                 {children}
             </div>

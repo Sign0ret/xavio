@@ -25,7 +25,7 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 import Link from "next/link";
 
-export const PostTarea = () => {
+export const PostHomework = () => {
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl");
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked" 
@@ -82,12 +82,12 @@ export const PostTarea = () => {
                                 name="title"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Titulo</FormLabel>
+                                        <FormLabel>Title</FormLabel>
                                         <FormControl>
                                             <Input 
                                                 {...field}
                                                 disabled={isPending}
-                                                placeholder="Tarea"
+                                                placeholder="Title"
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -99,12 +99,12 @@ export const PostTarea = () => {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Descripción</FormLabel>
+                                        <FormLabel>Description</FormLabel>
                                         <FormControl>
                                             <Input 
                                                 {...field}
                                                 disabled={isPending}
-                                                placeholder="Descripción"
+                                                placeholder="Description"
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -116,7 +116,7 @@ export const PostTarea = () => {
                                 name="delivery_date"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Titulo</FormLabel>
+                                        <FormLabel>Deadline</FormLabel>
                                         <FormControl>
                                             <Input 
 /*                                                 {...field}
@@ -136,7 +136,7 @@ export const PostTarea = () => {
                         type="submit"
                         className="w-full"
                     >
-                       {showTwoFactor ? "Confirm" : "Login"} 
+                       {showTwoFactor ? "Confirm" : "Submit"} 
                     </Button>
                 </form>
             </Form>    

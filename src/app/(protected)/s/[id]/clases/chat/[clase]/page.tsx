@@ -68,7 +68,9 @@ import { Boilerplate_mensaje } from '../_components/messages/boilerplate';
 import { Right_bar } from '../_components/rightbar';
 import { Reply } from '../_components/messages/reply';
 import { PostMedia } from '../_components/actions/post_media';
-import { PostTarea } from '../_components/actions/post_tarea';
+import { PostHomework } from '../_components/actions/post_homework';
+import { PostSubject } from '../_components/actions/post_subject';
+import { PostQuiz } from '../_components/actions/post_quiz';
 
 
 type Message = {
@@ -173,7 +175,7 @@ export default function ChatClase( { params }: Props) {
             <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
             <Link className="lg:hidden" href={`s/${params.id}/clases/chat`}>
                 <MessageCircleIcon className="h-6 w-6" />
-                <span className="sr-only">Clases</span>
+                <span className="sr-only">Classes</span>
             </Link>
 
             <div className="w-full flex-1">
@@ -251,19 +253,19 @@ export default function ChatClase( { params }: Props) {
                         <PencilIcon className="h-4 w-4 ml-4"/>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='flex flex-col ml-14 mb-2'>
-                        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        {/* Foto/video nuevo */}
+                        {/* Foto/video/Documento nuevo */}
                         <Dialog>
                             <DialogTrigger>
                                 <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                     <span><CameraIcon className='h-4 w-4 mr-2' /></span>
-                                    <p>Foto/Video</p>
+                                    <p>Media</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
                             <DialogContent className='max-h-screen overflow-y-auto'>
                                 <DialogHeader>
-                                <DialogTitle>Subir Fotos</DialogTitle>
+                                <DialogTitle>Upload Media</DialogTitle>
                                 <DialogDescription>
                                     <PostMedia params={params} />
                                 </DialogDescription>
@@ -271,7 +273,7 @@ export default function ChatClase( { params }: Props) {
                             </DialogContent>
                         </Dialog>
                         {/* Documento nuevo */}
-                        <Dialog>
+{/*                         <Dialog>
                             <DialogTrigger>
                                 <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                     <span><FileIcon className='h-4 w-4 mr-2' /></span>
@@ -282,24 +284,24 @@ export default function ChatClase( { params }: Props) {
                                 <DialogHeader>
                                 <DialogTitle>Subir Documentos</DialogTitle>
                                 <DialogDescription>
-                                    {/* <Documento_nuevo params={params} /> */}
+                                    {/* <Documento_nuevo params={params} /> 
                                 </DialogDescription>
                                 </DialogHeader>
                             </DialogContent>
-                        </Dialog>
-                        {/* Pago nuevo */}
+                        </Dialog> */}
+                        {/* Tema nuevo */}
                         <Dialog>
                             <DialogTrigger>
                                 <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                     <span><BookOpenIcon className='h-4 w-4 mr-2' /></span>
-                                    <p>Tema</p>
+                                    <p>Subject</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
                             <DialogContent className='max-h-screen overflow-y-auto'>
                                 <DialogHeader>
-                                <DialogTitle>Nuevo Tema</DialogTitle>
+                                <DialogTitle>New Subject</DialogTitle>
                                 <DialogDescription>
-                                    {/* <Pago_nuevo params={params} /> */}
+                                   <PostSubject params={params}/>
                                 </DialogDescription>
                                 </DialogHeader>
                             </DialogContent>
@@ -314,9 +316,9 @@ export default function ChatClase( { params }: Props) {
                             </DialogTrigger>
                             <DialogContent className='max-h-screen overflow-y-auto'>
                                 <DialogHeader>
-                                <DialogTitle>Nuevo Quiz</DialogTitle>
+                                <DialogTitle>New Quiz</DialogTitle>
                                 <DialogDescription>
-                                    {/* <Producto_nuevo params={params} /> */}
+                                    <PostQuiz params={params}/>
                                 </DialogDescription>
                                 </DialogHeader>
                             </DialogContent>
@@ -326,14 +328,14 @@ export default function ChatClase( { params }: Props) {
                             <DialogTrigger>
                                 <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                     <span><CheckIcon className='h-4 w-4 mr-2' /></span>
-                                    <p>Tarea</p>
+                                    <p>Homework</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
                             <DialogContent className='max-h-screen overflow-y-auto'>
                                 <DialogHeader>
-                                <DialogTitle>Nueva Tarea</DialogTitle>
+                                <DialogTitle>New Homework</DialogTitle>
                                 <DialogDescription>
-                                    <PostTarea />
+                                    <PostHomework />
                                 </DialogDescription>
                                 </DialogHeader>
                             </DialogContent>
@@ -416,18 +418,18 @@ export default function ChatClase( { params }: Props) {
                                 <PencilIcon className="h-4 w-4"/>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className='flex flex-col ml-2 mb-2 items-start'>
-                                <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                {/* Nueva Foto o Video Mobil */}
+                                {/* Nueva Foto/Video/Documeto Mobil */}
                                 <Drawer>
                                     <DrawerTrigger>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Foto/Video
+                                            Media
                                         </DropdownMenuLabel>
                                     </DrawerTrigger>
                                     <DrawerContent className='max-h-screen overflow-y-auto'>
                                         <DrawerHeader>
-                                        <DrawerTitle>Subir fotos</DrawerTitle>
+                                        <DrawerTitle>Upload Media</DrawerTitle>
                                         <DrawerDescription>
                                             <PostMedia params={params} />
                                         </DrawerDescription>
@@ -435,7 +437,7 @@ export default function ChatClase( { params }: Props) {
                                     </DrawerContent>
                                 </Drawer>
                                 {/* Nuevo Documento Mobil */}
-                                <Drawer>
+{/*                                 <Drawer>
                                     <DrawerTrigger>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                             Documento
@@ -445,23 +447,23 @@ export default function ChatClase( { params }: Props) {
                                         <DrawerHeader>
                                         <DrawerTitle>Nuevo Documento</DrawerTitle>
                                         <DrawerDescription>
-                                            {/* <Documento_nuevo params={params} /> */}
+                                            {/* <Documento_nuevo params={params} /> *
                                         </DrawerDescription>
                                         </DrawerHeader>
                                     </DrawerContent>
-                                </Drawer>
+                                </Drawer> */}
                                 {/* Nuevo Tema Mobil */}
                                 <Drawer>
                                     <DrawerTrigger>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Tema
+                                            Subject
                                         </DropdownMenuLabel>
                                     </DrawerTrigger>
                                     <DrawerContent>
                                         <DrawerHeader>
-                                        <DrawerTitle>Nuevo Tema</DrawerTitle>
+                                        <DrawerTitle>New Subject</DrawerTitle>
                                         <DrawerDescription>
-                                            {/* <Pago_nuevo params={params} /> */}
+                                            <PostSubject params={params} />
                                         </DrawerDescription>
                                         </DrawerHeader>
                                     </DrawerContent>
@@ -475,9 +477,9 @@ export default function ChatClase( { params }: Props) {
                                     </DrawerTrigger>
                                     <DrawerContent>
                                         <DrawerHeader>
-                                        <DrawerTitle>Nuevo Quiz</DrawerTitle>
+                                        <DrawerTitle>New Quiz</DrawerTitle>
                                         <DrawerDescription>
-                                            {/* <Producto_nuevo params={params} /> */}
+                                            <PostQuiz params={params} />
                                         </DrawerDescription>
                                         </DrawerHeader>
                                     </DrawerContent>
@@ -486,14 +488,14 @@ export default function ChatClase( { params }: Props) {
                                 <Drawer>
                                     <DrawerTrigger>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Tarea
+                                            Homework
                                         </DropdownMenuLabel>
                                     </DrawerTrigger>
                                     <DrawerContent>
                                     <DrawerHeader>
-                                        <DrawerTitle>Nueva Tarea</DrawerTitle>
+                                        <DrawerTitle>New Homework</DrawerTitle>
                                         <DrawerDescription>
-                                            {/*    */}
+                                            <PostHomework />
                                         </DrawerDescription>
                                     </DrawerHeader>
                                     </DrawerContent>
