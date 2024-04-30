@@ -5,7 +5,17 @@ import {
   } from "@/components/ui/collapsible"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { ChevronsUpDownIcon } from "@/components/icons";
 
 const topicsInfo = [
     {
@@ -43,54 +53,62 @@ export default function TemaClaseLayout({
     params: { 
         id: string,
         clase: string,
-        tema: string,
     }
   }) {
     return (
-        <div key="1" className="flex h-screen w-full">
+      <div className="h-screen w-full">
+        <div className="hidden lg:flex">
             <div className="flex w-1/5 flex-col items-start justify-start space-y-2 p-4">
                 <Collapsible className="w-[350px] space-y-2">
-                <div className="flex items-center justify-between space-x-4 px-4">
-                    <h4 className="text-sm font-semibold">Temas | {params.clase}</h4>
-                    <CollapsibleTrigger asChild>
-                    <Button className="w-9 p-0" size="sm" variant="ghost">
-                        <ChevronsUpDownIcon className="h-4 w-4" />
-                        <span className="sr-only">Toggle</span>
-                    </Button>
-                    </CollapsibleTrigger>
-                </div>
-                <div className="rounded-md border px-4 py-3 font-mono text-sm">{topicsInfo[0].topic}</div>
-                <CollapsibleContent className="space-y-2">
-                    {topicsInfo.map((topic, index) => (
-                        <Link href={`/s/${params.id}/clases/${params.clase}}/temas/${topic.topic}`}>
-                            <div key={topic.topic} className="rounded-md border px-4 py-3 my-2 font-mono text-sm">{topic.topic}</div>
-                        </Link>
-                    ))}
-                </CollapsibleContent>
+                  <div className="flex items-center justify-between space-x-4 px-4">
+                      <h4 className="text-sm font-semibold">Temas | {params.clase}</h4>
+                      <CollapsibleTrigger asChild>
+                      <Button className="w-9 p-0" size="sm" variant="ghost">
+                          <ChevronsUpDownIcon className="h-4 w-4" />
+                          <span className="sr-only">Toggle</span>
+                      </Button>
+                      </CollapsibleTrigger>
+                  </div>  
+                  <div className="rounded-md border px-4 py-3 font-mono text-sm">{topicsInfo[0].topic}</div>
+                  <CollapsibleContent className="space-y-2">
+                      {topicsInfo.map((topic, index) => (
+                          <Link key={`${topic.topic}-large`} href={`/s/${params.id}/clases/${params.clase}}/temas/${topic.topic}`}>
+                              <div className="rounded-md border px-4 py-3 my-2 font-mono text-sm">{topic.topic}</div>
+                          </Link>
+                      ))}
+                  </CollapsibleContent>
                 </Collapsible>
             </div>
             <div className="flex w-4/5 flex-col items-center justify-center bg-white p-8">
                 {children}
             </div>
         </div>
+        <div className="lg:hidden flex w-full flex-col items-center justify-center bg-white p-8">
+          <Drawer>
+              <DrawerTrigger>
+                <Button className="w-9 flex flex-row" size="sm" variant="ghost">
+                    <ChevronsUpDownIcon className="h-4 w-4" />
+                    <h4 className="text-sm font-semibold">Temas | {params.clase}</h4>
+                    <span className="sr-only">Toggle</span>
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent className='max-h-screen overflow-y-auto'>
+                  <DrawerHeader>
+                  <DrawerTitle>Temas | {params.clase}</DrawerTitle>
+                  <DrawerDescription>
+                    {topicsInfo.map((topic, index) => (
+                          <Link key={`${topic.topic}small`} href={`/s/${params.id}/clases/${params.clase}}/temas/${topic.topic}`}>
+                              <div className="rounded-md border px-4 py-3 my-2 font-mono text-sm">{topic.topic}</div>
+                          </Link>
+                    ))}
+                  </DrawerDescription>
+                  </DrawerHeader>
+              </DrawerContent>
+          </Drawer>
+          <div>
+                {children}
+          </div>
+        </div>
+      </div>
     )
 }
-function ChevronsUpDownIcon(props) {
-    return (
-      <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="m7 15 5 5 5-5" />
-        <path d="m7 9 5-5 5 5" />
-      </svg>
-    )
-  }

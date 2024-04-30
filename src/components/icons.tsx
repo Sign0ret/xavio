@@ -366,9 +366,8 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
       </svg>
     )
   }
-   
   
-/*   export function FileIcon({ className, ...rest }: IconProps) {
+export function ChevronsUpDownIcon({ className, ...rest }: IconProps) {
     return (
       <svg
         {...rest}
@@ -383,10 +382,8 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-        <polyline points="14 2 14 8 20 8" />
+        <path d="m7 15 5 5 5-5" />
+        <path d="m7 9 5-5 5 5" />
       </svg>
     )
   }
-   */
-  

@@ -17,8 +17,8 @@ export const generateMetadata = ({ params }: Props): Metadata => {
 export default function Tareas( { params }: Props) {
 
   return (
-    <div>
-      <p>selecciona una tarea de la clase {params.clase}</p>
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <p>{params.id}, bienvenido a tus quizzes de {params.clase}</p>
+    </main>
   );
 }
