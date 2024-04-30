@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Collapsible,
     CollapsibleContent,
@@ -41,6 +43,150 @@ const topicsInfo = [
       description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
       lastUpdated: "2024-03-30T10:20:00",
       contributor: "adolfo"
+    },
+    {
+      topic: "Algebra",
+      description: "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Geometry",
+      description: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "User"
+    },
+    {
+      topic: "Calculus",
+      description: "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "John Doe"
+    },
+    {
+      topic: "Statistics",
+      description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Algebra",
+      description: "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Geometry",
+      description: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "User"
+    },
+    {
+      topic: "Calculus",
+      description: "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "John Doe"
+    },
+    {
+      topic: "Statistics",
+      description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Algebra",
+      description: "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Geometry",
+      description: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "User"
+    },
+    {
+      topic: "Calculus",
+      description: "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "John Doe"
+    },
+    {
+      topic: "Statistics",
+      description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Geometry",
+      description: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "User"
+    },
+    {
+      topic: "Calculus",
+      description: "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "John Doe"
+    },
+    {
+      topic: "Statistics",
+      description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Geometry",
+      description: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "User"
+    },
+    {
+      topic: "Calculus",
+      description: "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "John Doe"
+    },
+    {
+      topic: "Statistics",
+      description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Geometry",
+      description: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "User"
+    },
+    {
+      topic: "Calculus",
+      description: "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "John Doe"
+    },
+    {
+      topic: "Statistics",
+      description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
+    },
+    {
+      topic: "Geometry",
+      description: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "User"
+    },
+    {
+      topic: "Calculus",
+      description: "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape and algebra is the study of generalizations of arithmetic operations.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "John Doe"
+    },
+    {
+      topic: "Statistics",
+      description: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+      lastUpdated: "2024-03-30T10:20:00",
+      contributor: "adolfo"
     }
   ];
   
@@ -55,10 +201,11 @@ export default function TemaClaseLayout({
         clase: string,
     }
   }) {
+
     return (
       <div className="h-screen w-full">
         <div className="hidden lg:flex">
-            <div className="flex w-1/5 flex-col items-start justify-start space-y-2 p-4">
+            <div className="flex w-1/5 flex-col items-start justify-start space-y-2 p-4 overflow-y-auto">
                 <Collapsible className="w-[350px] space-y-2">
                   <div className="flex items-center justify-between space-x-4 px-4">
                       <h4 className="text-sm font-semibold">Temas | {params.clase}</h4>
@@ -72,7 +219,7 @@ export default function TemaClaseLayout({
                   <div className="rounded-md border px-4 py-3 font-mono text-sm">{topicsInfo[0].topic}</div>
                   <CollapsibleContent className="space-y-2">
                       {topicsInfo.map((topic, index) => (
-                          <Link key={`${topic.topic}-large`} href={`/s/${params.id}/clases/${params.clase}}/temas/${topic.topic}`}>
+                          <Link key={`${topic.topic}-large`} href={`/s/${params.id}/clases/${params.clase}/temas/${topic.topic}`}>
                               <div className="rounded-md border px-4 py-3 my-2 font-mono text-sm">{topic.topic}</div>
                           </Link>
                       ))}

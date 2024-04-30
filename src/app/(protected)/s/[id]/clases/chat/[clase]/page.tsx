@@ -71,6 +71,7 @@ import { PostMedia } from '../_components/actions/post_media';
 import { PostHomework } from '../_components/actions/post_homework';
 import { PostSubject } from '../_components/actions/post_subject';
 import { PostQuiz } from '../_components/actions/post_quiz';
+import { PatchClass } from '../_components/actions/patch_class';
 
 
 type Message = {
@@ -178,30 +179,7 @@ export default function ChatClase( { params }: Props) {
                 <span className="sr-only">Classes</span>
             </Link>
 
-            <div className="w-full flex-1">
-                <Sheet>
-                    <SheetTrigger>
-                    <div className="flex items-center gap-4">
-
-                        <Avatar>
-                            <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
-                            <AvatarFallback>JD</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col">
-                            <span className="font-semibold">{params.clase}</span>
-                            <span className="text-sm text-gray-500 mr-auto">Online</span>
-                        </div>
-                        </div>
-                    </SheetTrigger>
-                    <SheetContent>
-                        <SheetHeader>
-                        <SheetDescription>
-                            <p>ajustes</p>
-                        </SheetDescription>
-                        </SheetHeader>
-                    </SheetContent>
-                </Sheet>
-            </div>
+            <PatchClass params={params} />
             <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <PencilIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
@@ -355,31 +333,7 @@ export default function ChatClase( { params }: Props) {
                     <MessageCircleIcon className="h-6 w-6" />
                     <span className="sr-only">Home</span>
                 </Link>
-                <div className="w-full flex-1">
-                    
-                <Sheet>
-                    <SheetTrigger>
-                    <div className="flex items-center gap-4">
-
-                        <Avatar>
-                            <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
-                            <AvatarFallback>JD</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col">
-                            <span className="font-semibold">{params.clase}</span>
-                            <span className="text-sm text-gray-500 mr-auto">Online</span>
-                        </div>
-                        </div>
-                    </SheetTrigger>
-                    <SheetContent>
-                        <SheetHeader>
-                        <SheetDescription>
-                            <p>ajustes</p>
-                        </SheetDescription>
-                        </SheetHeader>
-                    </SheetContent>
-                </Sheet>
-            </div>
+            <PatchClass params={params} />
             <Button className="flex lg:hidden ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <PencilIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>

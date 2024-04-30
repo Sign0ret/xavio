@@ -19,7 +19,6 @@ export default function QuizzesClase( { params }: Props) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <p>{params.id}, bienvenido a tus quizzes de {params.clase}</p>
-      
     </main>
   );
 }
