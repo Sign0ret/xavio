@@ -20,16 +20,11 @@ type Props = {
 
 export function QuizDescriptionCard({ params, quizDescription }: Props) {
   return (
-    <div>
-      <BackgroundGradient className="rounded-[22px] lg:min-w-sm min-h-[300px] p-4 sm:p-10 bg-white dark:bg-zinc-900">
-        <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
-          {quizDescription.topic}
-        </p>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {quizDescription.description}
-        </p>
-        
-      </BackgroundGradient>
-    </div>
+    <section className="w-full lg:min-w-[700px] rounded-md bg-zinc-700 p-8 my-4 overflow-y-auto max-h-[80vh] text-white"> 
+      <h3 className="mb-8 text-3xl font-semibold">Quiz {quizDescription.topic}</h3>
+        <div className="space-y-4">
+            <p>{quizDescription.description}</p>
+        </div>
+    </section>
   );
 }

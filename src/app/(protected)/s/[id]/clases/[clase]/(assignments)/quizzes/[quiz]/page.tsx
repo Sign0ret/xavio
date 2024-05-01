@@ -42,7 +42,7 @@ export default function QuizClase( { params }: Props) {
  
   return (
     <main>
-      <h2 className="mb-4 text-4xl font-bold">Quiz {params.quiz}</h2>
+      <h2 className="mb-4 text-4xl font-bold text-white">Quiz {params.quiz}</h2>
                 {quizInfo.map((question, qIndex) => (
                   <section key={question.id} className="w-full lg:min-w-[900px] rounded-md bg-gray-200 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
                     <h3 className="mb-8 text-3xl font-semibold">Question {qIndex+1}</h3>
@@ -57,9 +57,9 @@ export default function QuizClase( { params }: Props) {
                                 </label>
                               </>
                             ))}
-                            </div>
                           </div>
-                    </section>
+                      </div>
+                  </section>
                 ))}
     </main>
   );

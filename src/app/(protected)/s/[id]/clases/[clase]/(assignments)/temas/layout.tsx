@@ -205,7 +205,7 @@ export default function TemaClaseLayout({
     return (
       <div className="h-screen w-full">
         <div className="hidden lg:flex">
-            <div className="flex w-1/5 flex-col items-start justify-start space-y-2 p-4 overflow-y-auto">
+            <div className="flex w-1/5 flex-col items-start justify-start space-y-2 p-4 overflow-y-auto pt-[70px]">
                 <Collapsible className="w-[350px] space-y-2">
                   <div className="flex items-center justify-between space-x-4 px-4">
                       <h4 className="text-sm font-semibold">Temas | {params.clase}</h4>

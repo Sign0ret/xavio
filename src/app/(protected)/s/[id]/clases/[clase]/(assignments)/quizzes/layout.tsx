@@ -32,16 +32,16 @@ export default function QuizClaseLayout({
     }
   }) {
     return (
-      <div className="h-screen w-full">
+      <div className="h-screen w-full pt-20 bg-zinc-900">
         <div key="1" className="hidden lg:flex">
             <div className="flex w-2/5 flex-col items-start justify-start space-y-2 p-4">
                 <QuizDescriptionCard quizDescription={quizDescription} params={params}/>
             </div>
-            <div className="flex w-3/5 flex-col items-center justify-center bg-white p-8">
+            <div className="flex w-3/5 flex-col items-center justify-center p-8">
                 {children}
             </div>
         </div>
-        <div className="lg:hidden flex w-full flex-col items-center justify-center bg-white p-8">
+        <div className="lg:hidden flex w-full flex-col items-center justify-center p-8">
             <Drawer>
                 <DrawerTrigger>
                     <Button className="w-9 flex flex-row" size="sm" variant="ghost">
@@ -52,7 +52,6 @@ export default function QuizClaseLayout({
                 </DrawerTrigger>
                 <DrawerContent className='max-h-screen overflow-y-auto'>
                     <DrawerHeader>
-                    <DrawerTitle>Quiz | {params.clase}</DrawerTitle>
                     <DrawerDescription>
                       <QuizDescriptionCard quizDescription={quizDescription} params={params}/>
                     </DrawerDescription>
