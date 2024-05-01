@@ -172,7 +172,7 @@ export default function ChatClase( { params }: Props) {
   
   return (
     <section className='z-50'>
-        <div className="hidden lg:flex flex-col min-h-screen h-screen">
+        <div className="hidden lg:flex flex-col min-h-screen h-screen pt-[70px]">
             <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
             <Link className="lg:hidden" href={`s/${params.id}/clases/chat`}>
                 <MessageCircleIcon className="h-6 w-6" />
@@ -327,7 +327,7 @@ export default function ChatClase( { params }: Props) {
             </main>
         </div>
         {/* mobile */}
-        <div className="flex lg:hidden flex-col fixed inset-0 overflow-y-auto min-h-screen h-screen bg-background z-40">
+        <div className="flex lg:hidden flex-col fixed inset-0 overflow-y-auto pt-[70px] min-h-screen h-screen bg-background z-40">
             <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
                 <Link className="lg:hidden" href={`/s/${params.id}/clases/chat`}>
                     <MessageCircleIcon className="h-6 w-6" />

@@ -1,7 +1,7 @@
 "use client";
-import { BackgroundGradientDemo } from "@/components/components/card";
-export const Card = () => {
+import { Card } from "@/components/components/card";
+export const CardGradient = () => {
     return (
-        <BackgroundGradientDemo />
+        <Card />
     );
 };

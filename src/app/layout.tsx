@@ -5,7 +5,6 @@ import { auth } from "@/auth";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { NavbarDemo } from "@/components/components/navbar";
-import { BackgroundGradientDemo } from "@/components/components/card";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,12 +29,11 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          {/* <NavbarDemo /> */}
-          {/* <section className="max-w-sm">
-            <BackgroundGradientDemo />
-          </section> */}
-          <Toaster />
-          {children}
+            <div className="z-1000">
+              <NavbarDemo />
+            </div>
+            <Toaster />
+              {children}
         </body>
       </html>
     </SessionProvider>
