@@ -30,3 +30,6 @@
 - Chat bloques para enviar
     - todos lapiz
     - contestar
+
+# Magic command
+- hacer que algo aparezca por encima de lo otro.

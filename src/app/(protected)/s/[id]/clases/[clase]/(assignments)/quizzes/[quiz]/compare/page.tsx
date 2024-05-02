@@ -1,6 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
 
+import { QuizDo } from '../../../_components/quiz/quiz_do';
+
 type Props = {
   params: { 
     id: string,
@@ -66,12 +68,12 @@ const quizInfo = [
 ];
 
   
-export default function QuizClase( { params }: Props) {
+export default function QuizCompare( { params }: Props) {
  
-  return (        
-    <div>
-      <p>Haz Click en iniciar para comenzar con tu Quiz.</p>
+  return (
 
-    </div>
+    <QuizDo params={params} />
+        
+    
   );
 }

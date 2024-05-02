@@ -1,6 +1,5 @@
-import { QuizDescriptionCard } from "../_components/quiz_description_card";
+import { QuizSideCard} from "../../_components/quiz/quiz_sidecard";
 import { ChevronsUpDownIcon } from "@/components/icons";
-import { TareaDescriptionCard } from "../_components/tarea_description_card";
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -12,6 +11,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+
+
+
 
 const quizDescription = {
   topic: "Algebra",
@@ -34,8 +36,8 @@ export default function QuizClaseLayout({
     return (
       <div className="h-screen w-full pt-20 bg-zinc-900">
         <div key="1" className="hidden lg:flex">
-            <div className="flex w-2/5 flex-col items-start justify-start space-y-2 p-4">
-                <QuizDescriptionCard quizDescription={quizDescription} params={params}/>
+            <div className="flex w-2/5 flex-col items-start justify-start space-y-2 p-4 relative inset-x-0 max-w-2xl mx-auto z-50">
+                <QuizSideCard quizDescription={quizDescription} params={params}/>
             </div>
             <div className="flex w-3/5 flex-col items-center justify-center p-8">
                 {children}
@@ -53,7 +55,7 @@ export default function QuizClaseLayout({
                 <DrawerContent className='max-h-screen overflow-y-auto'>
                     <DrawerHeader>
                     <DrawerDescription>
-                      <QuizDescriptionCard quizDescription={quizDescription} params={params}/>
+                      <QuizSideCard quizDescription={quizDescription} params={params}/>
                     </DrawerDescription>
                     </DrawerHeader>
                 </DrawerContent>

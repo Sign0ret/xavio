@@ -1,68 +1,33 @@
-import { ChevronsUpDownIcon } from "@/components/icons";
-import { TareaDescriptionCard } from "../_components/tarea_description_card";
-import { Button } from "@/components/ui/button"
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
 
-const tareaDescription = {
-  topic: "Algebra",
-  description: "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols.",
-  lastUpdated: "2024-03-30T10:20:00",
-  contributor: "adolfo"
-}
+"use client";
+import { Button } from "../_components/ui/moving-border";
 
 export default function TareaClaseLayout({
-    children,
-    params, // will be a page or nested layout
-  }: {
-    children: React.ReactNode,
-    params: { 
-        id: string,
-        clase: string,
-        quiz: string,
-    }
-  }) {
-    return (
-        <div className="h-screen w-full">
-            <div className="hidden lg:flex">
-                <div className="flex w-2/5 flex-col items-start justify-start space-y-2 p-4">
-                    <TareaDescriptionCard tareaDescription={tareaDescription} params={params}/>
-                </div>
-                <div className="flex w-3/5 flex-col items-center justify-center bg-white p-8">
-                    {children}
-                </div>
-            </div>
-            <div className="lg:hidden flex w-full flex-col items-center justify-center bg-white p-8">
-                <Drawer>
-                    <DrawerTrigger>
-                        <Button className="w-9 flex flex-row" size="sm" variant="ghost">
-                            <ChevronsUpDownIcon className="h-4 w-4" />
-                            <h4 className="text-sm font-semibold">Tarea | {params.clase}</h4>
-                            <span className="sr-only">Toggle</span>
-                        </Button>
-                    </DrawerTrigger>
-                    <DrawerContent className='max-h-screen overflow-y-auto'>
-                        <DrawerHeader>
-                        <DrawerTitle>Tarea | {params.clase}</DrawerTitle>
-                        <DrawerDescription>
-                            <TareaDescriptionCard tareaDescription={tareaDescription} params={params}/>
-                        </DrawerDescription>
-                        </DrawerHeader>
-                    </DrawerContent>
-                </Drawer>
-                <div>
-                    {children}
-                </div>
-            </div>
+  children,
+  params, // will be a page or nested layout
+}: {
+  children: React.ReactNode;
+  params: {
+    id: string;
+    clase: string;
+    quiz: string;
+  };
+}) {
+  return (
+    <div className="h-screen w-full">
+      <div className="flex flex-col lg:flex-row">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex w-full lg:w-2/5 flex-col items-start justify-end space-y-2 p-[40px] lg:p-0 h-screen">
+            <br/>
+            <br/>
+            <br/>   
+        <div className="pl-14 w-full max-h-[90vh] h-full">
+          <Button className="p-20">Instructions</Button>
         </div>
-        
-    )
+        </div>
+        <div className="flex w-full lg:w-3/5 flex-col items-center justify-center p-8">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
 }
