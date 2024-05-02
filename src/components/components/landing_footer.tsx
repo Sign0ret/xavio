@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="bg-gray-800 text-white py-5">
           <div className="mx-auto max-w-7xl">
             <div className="text-center">
-              <Image src={'/ggs.png'} alt="Logo" width={80} height={40} />
+              <Image src={'/xavoi.svg'} alt="Logo" width={80} height={40} />
             </div>
           </div>
         </div>

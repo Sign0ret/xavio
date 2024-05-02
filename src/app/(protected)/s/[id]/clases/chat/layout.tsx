@@ -16,6 +16,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { MessageCircleIcon, BellIcon, XIcon,  } from '@/components/icons';
+import { NavbarSession } from '../../_components/navbar-session';
 
 export default function ClasesLayout({
     children,

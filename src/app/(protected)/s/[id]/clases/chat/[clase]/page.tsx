@@ -73,6 +73,7 @@ import { PostSubject } from '../_components/actions/post_subject';
 import { PostQuiz } from '../_components/actions/post_quiz';
 import { PatchClass } from '../_components/actions/patch_class';
 import { BackgroundBeams } from '@/components/ui/background-gradient-animation';
+import { NavbarSession } from '../../../_components/navbar-session';
 
 
 type Message = {
@@ -173,6 +174,7 @@ export default function ChatClase( { params }: Props) {
   
   return (
     <section className=' relative inset-x-0 z-50'>
+        <NavbarSession idUser={params.id} />
         <div className="hidden lg:flex flex-col min-h-screen h-screen pt-[70px]">
         <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-[#18181b] px-6 relative inset-x-0 z-50">
             <Link className="lg:hidden" href={`s/${params.id}/clases/chat`}>
@@ -221,14 +223,14 @@ export default function ChatClase( { params }: Props) {
                         ))}
                       </div>
             )}
-            <div className={`mt-auto pr-6 ${upInput ? 'mb-20' : 'mb-0'}`}>
+            <div className={`mt-auto pr-6 ${upInput ? 'mb-20' : 'mb-0'} relative inset-x-0 z-50`}>
                 {reply && (
                     <div className='mb-2 pl-20'>
                         <Reply message={reply} onClose={handleCloseReply}/>
                     </div>
                 )}
                 
-                <form className="flex items-center gap-4 relative inset-x-0 z-50">
+                <form className="flex items-center gap-4 ">
                     <DropdownMenu>
                     <DropdownMenuTrigger>
                         <PencilIcon className="h-4 w-4 ml-4 text-white"/>

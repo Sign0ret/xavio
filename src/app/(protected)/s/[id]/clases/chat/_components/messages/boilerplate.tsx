@@ -47,7 +47,7 @@ export function Boilerplate_mensaje({ mensaje, params, onReply }: Props) {
   return (
     <div className={`relative z-50 flex items-start gap-2.5 ${isCurrentUser ? 'justify-end' : ''} py-2`}>
       {isCurrentUser ? null : (
-        <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Jese image" />
+        <img className="w-8 h-8 rounded-full" src="/xavio.svg" alt="Jese image" />
       )}
       {isCurrentUser && (
         <DropdownMenu>

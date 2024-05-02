@@ -45,7 +45,7 @@ function Navbar({ className, menuOpen, toggleMenu }: { className?: string; menuO
               </button>
             </div>
             <Link href='/'>
-              <Image src={'/ggs.png'} alt="Logo" className="h-8 w-20" width={20} height={8}/>
+              <Image src={'/xavio.svg'} alt="Logo" className="h-8 w-20" width={20} height={8}/>
             </Link>
           </div>
           {/* Aquí se mantiene la lógica para mostrar los elementos del menú */}

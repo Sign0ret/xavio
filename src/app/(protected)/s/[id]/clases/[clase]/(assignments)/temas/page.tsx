@@ -17,7 +17,7 @@ export const generateMetadata = ({ params }: Props): Metadata => {
 export default function Temas( { params }: Props) {
   
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 h-full w-full">
       <p>Estos son los temas de la clase {params.clase}</p>
       {/* Aqui va la sidebar de Bloques */}
     </main>

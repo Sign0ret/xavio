@@ -90,44 +90,44 @@ export function Right_bar({ params }: Props) {
 }
 export const projects = [
   {
-    id: "aaa",
+    id: "tema1",
     type: "temas",
     title: "Tema 1",
     description:
       "A technology company that builds economic infrastructure for the internet.",
   },
   {
-    id: "aaa",
+    id: "tarea1",
     type: "tareas",
     title: "Tarea 1",
     description:
       "A streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.",
   },
   {
-    id: "aaa",
+    id: "quiz1",
     type: "quizzes",
     title: "Quiz 1",
     description:
       "A multinational technology company that specializes in Internet-related services and products.",
   },
   {
-    id: "aaa",
+    id: "tema2",
     type: "temas",
-    title: "Meta",
+    title: "Tema 2",
     description:
       "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
   },
   {
-    id: "aaa",
+    id: "tema3",
     type: "temas",
-    title: "Amazon",
+    title: "Tema 3",
     description:
       "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
   },
   {
-    id: "aaa",
+    id: "tema4",
     type: "temas",
-    title: "Microsoft",
+    title: "Tema 4",
     description:
       "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
   },
