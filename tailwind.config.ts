@@ -121,6 +121,7 @@ const config = {
     },
     require("tailwindcss-animate"),
     addVariablesForColors,
+    require('tailwind-scrollbar'),
   ],
 } satisfies Config
 

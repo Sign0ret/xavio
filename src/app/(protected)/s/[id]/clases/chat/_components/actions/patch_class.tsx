@@ -108,7 +108,7 @@ export function PatchClass({ params }: Props) {
       setIsDropdownOpen(!isDropdownOpen);
     };
     return (
-        <div className="w-full flex-1">
+        <div className="w-full flex-1 ">
         <Sheet>
             <SheetTrigger>
             <div className="flex items-center gap-4">
@@ -118,8 +118,8 @@ export function PatchClass({ params }: Props) {
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                    <span className="font-semibold">{params.clase}</span>
-                    <span className="text-sm text-gray-500 mr-auto">Online</span>
+                    <span className="font-semibold text-white">{params.clase}</span>
+                    <span className="text-sm text-gray-100 mr-auto">Online</span>
                 </div>
                 </div>
             </SheetTrigger>

@@ -61,7 +61,7 @@ export function Right_bar({ params }: Props) {
       break;
   }
   return (
-    <Card className="border-none shadow-none min-w-full max-h-full min-h-full overflow-y-auto no-scrollbar">
+    <Card className="border-none shadow-none min-w-full max-h-full min-h-full overflow-y-auto no-scrollbar bg-zinc-900">
         <CardHeader className='sticky top-0 z-50 bg-inherit py-2'>
             <CardTitle>
               <ToggleGroup
@@ -71,10 +71,10 @@ export function Right_bar({ params }: Props) {
                   if (value) setValue(value);
                 }}
               >
-                <ToggleGroupItem value="assignments"><ClipboardIcon className="h-4 w-4" /></ToggleGroupItem>
-                <ToggleGroupItem value="temas"><BookOpenIcon className='h-4 w-4' /></ToggleGroupItem>
-                <ToggleGroupItem value="tareas"><CheckIcon className='h-4 w-4' /></ToggleGroupItem>
-                <ToggleGroupItem value="quizzes"><FileQuestionIcon className='h-4 w-4' /></ToggleGroupItem>              
+                <ToggleGroupItem value="assignments" className='text-purple-500 hover:bg-zinc-800'><ClipboardIcon className="h-4 w-4" /></ToggleGroupItem>
+                <ToggleGroupItem value="temas"  className='text-purple-500  hover:bg-zinc-800'><BookOpenIcon className='h-4 w-4' /></ToggleGroupItem>
+                <ToggleGroupItem value="tareas"  className='text-purple-500  hover:bg-zinc-800'><CheckIcon className='h-4 w-4' /></ToggleGroupItem>
+                <ToggleGroupItem value="quizzes"  className='text-purple-500  hover:bg-zinc-800'><FileQuestionIcon className='h-4 w-4' /></ToggleGroupItem>              
               </ToggleGroup>
             </CardTitle>
             <CardDescription>

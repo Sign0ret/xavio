@@ -1,4 +1,5 @@
 "use client"
+import { BackgroundBeams } from '@/components/ui/background-gradient-animation';
 import React from 'react';
 
 type Props = {
@@ -6,16 +7,11 @@ type Props = {
     id: string,
  }
 };
-
-/* export const generateMetadata = ({ params }: Props): Metadata => {
-  return {
-    title: `Chat de ${params.clase}`
-  }
-}  */
   
 export default function Chat( { params }: Props) {
     return (
-        <div>
+        <div className='bg-zinc-900'>
+          <BackgroundBeams/>
         </div>
     )
 }

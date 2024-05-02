@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from "next/image";
-import XavioLogo from "./ggs.png";
 import { FaFacebook, FaInstagram, FaReact, FaNode } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
 import { FaSquareXTwitter } from "react-icons/fa6";
@@ -12,7 +11,7 @@ const Footer = () => {
         <div className="bg-gray-800 text-white py-5">
           <div className="mx-auto max-w-7xl">
             <div className="text-center">
-              <Image src={XavioLogo} alt="Logo" width={80} height={40} />
+              <Image src={'/ggs.png'} alt="Logo" width={80} height={40} />
             </div>
           </div>
         </div>

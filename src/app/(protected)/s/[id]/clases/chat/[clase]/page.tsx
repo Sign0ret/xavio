@@ -72,6 +72,7 @@ import { PostHomework } from '../_components/actions/post_homework';
 import { PostSubject } from '../_components/actions/post_subject';
 import { PostQuiz } from '../_components/actions/post_quiz';
 import { PatchClass } from '../_components/actions/patch_class';
+import { BackgroundBeams } from '@/components/ui/background-gradient-animation';
 
 
 type Message = {
@@ -171,48 +172,50 @@ export default function ChatClase( { params }: Props) {
   ];
   
   return (
-    <section className='z-50'>
+    <section className=' relative inset-x-0 z-50'>
         <div className="hidden lg:flex flex-col min-h-screen h-screen pt-[70px]">
-            <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
+        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-[#18181b] px-6 relative inset-x-0 z-50">
             <Link className="lg:hidden" href={`s/${params.id}/clases/chat`}>
-                <MessageCircleIcon className="h-6 w-6" />
+                <MessageCircleIcon className="h-6 w-6"/>
                 <span className="sr-only">Classes</span>
             </Link>
 
             <PatchClass params={params} />
-            <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
+            <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <PencilIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
             </Button>
             {openTasks ? (
-                <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setOpenTasks(false)}>
+                <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpenTasks(false)}>
                     <XIcon className="h-4 w-4" />
                     <span className="sr-only">Hide tasksbar</span>
                 </Button>
             ) : (
-                <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setOpenTasks(true)}>
+                <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpenTasks(true)}>
                     <TextIcon className="h-4 w-4" />
                     <span className="sr-only">open tasks</span>
                 </Button>
             )}
             </header>
-            <main className="flex flex-1 flex-col gap-4 p-4 pr-0 mr-0 md:p-6  md:pr-0 max-h-full overflow-y-hidden">
+            <main className="flex flex-1 flex-col gap-4 p-4 pr-0 mr-0  bg-zinc-900 md:pr-0 max-h-full overflow-y-hidden">
             {openTasks ? (
                 <>
                     <section className='flex flex-row overflow-y-hidden'>
                         <div className="w-4/5 p-4 overflow-y-auto no-scrollbar ">
+                            <BackgroundBeams />
                             {mensajes.map((mensaje, index) => (
                                 <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params} onReply={handleOpenReply}/>
                             ))}
                         </div>
-                        <section className='w-[280px] border'>
-                            <Right_bar params={params} />
+                        <section className='w-[280px] relative inset-x-0 max-w-2xl mx-auto z-50 '>
+                            <Right_bar params={params}  />
                         </section>
                     </section>
                 </>
                     
             ) : (
                      <div className='p-4 overflow-y-auto no-scrollbar mr-4'>
+                        <BackgroundBeams />
                         {mensajes.map((mensaje, index) => (
                             <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params}  onReply={handleOpenReply} />
                         ))}
@@ -225,12 +228,12 @@ export default function ChatClase( { params }: Props) {
                     </div>
                 )}
                 
-                <form className="flex items-center gap-4">
+                <form className="flex items-center gap-4 relative inset-x-0 z-50">
                     <DropdownMenu>
                     <DropdownMenuTrigger>
-                        <PencilIcon className="h-4 w-4 ml-4"/>
+                        <PencilIcon className="h-4 w-4 ml-4 text-white"/>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='flex flex-col ml-14 mb-2'>
+                    <DropdownMenuContent className='flex flex-col ml-14 mb-2 bg-[#18181b] text-white'>
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         {/* Foto/video/Documento nuevo */}
@@ -241,7 +244,7 @@ export default function ChatClase( { params }: Props) {
                                     <p>Media</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
-                            <DialogContent className='max-h-screen overflow-y-auto'>
+                            <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                 <DialogHeader>
                                 <DialogTitle>Upload Media</DialogTitle>
                                 <DialogDescription>
@@ -258,7 +261,7 @@ export default function ChatClase( { params }: Props) {
                                     <p>Documento</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
-                            <DialogContent className='max-h-screen overflow-y-auto'>
+                            <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                 <DialogHeader>
                                 <DialogTitle>Subir Documentos</DialogTitle>
                                 <DialogDescription>
@@ -272,10 +275,10 @@ export default function ChatClase( { params }: Props) {
                             <DialogTrigger>
                                 <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                     <span><BookOpenIcon className='h-4 w-4 mr-2' /></span>
-                                    <p>Subject</p>
+                                    <p >Subject</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
-                            <DialogContent className='max-h-screen overflow-y-auto'>
+                            <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                 <DialogHeader>
                                 <DialogTitle>New Subject</DialogTitle>
                                 <DialogDescription>
@@ -292,7 +295,7 @@ export default function ChatClase( { params }: Props) {
                                     <p>Quiz</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
-                            <DialogContent className='max-h-screen overflow-y-auto'>
+                            <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                 <DialogHeader>
                                 <DialogTitle>New Quiz</DialogTitle>
                                 <DialogDescription>
@@ -309,7 +312,7 @@ export default function ChatClase( { params }: Props) {
                                     <p>Homework</p>
                                 </DropdownMenuLabel>
                             </DialogTrigger>
-                            <DialogContent className='max-h-screen overflow-y-auto'>
+                            <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                 <DialogHeader>
                                 <DialogTitle>New Homework</DialogTitle>
                                 <DialogDescription>
@@ -320,14 +323,14 @@ export default function ChatClase( { params }: Props) {
                         </Dialog>
                     </DropdownMenuContent>
                     </DropdownMenu>
-                <Input className="flex-1" placeholder="Type a message..." />
-                <Button variant="outline">Send</Button>
+                <Input className="flex-1 bg-zinc-200" placeholder="Type a message..." />
+                <Button variant="outline" className='bg-purple-600 text-white'>Send</Button>
                 </form>
             </div>
             </main>
         </div>
         {/* mobile */}
-        <div className="flex lg:hidden flex-col fixed inset-0 overflow-y-auto pt-[70px] min-h-screen h-screen bg-background z-40">
+        <div className="flex lg:hidden flex-col fixed inset-0 scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll pt-[70px] min-h-screen h-screen bg-background z-40">
             <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
                 <Link className="lg:hidden" href={`/s/${params.id}/clases/chat`}>
                     <MessageCircleIcon className="h-6 w-6" />
@@ -381,7 +384,7 @@ export default function ChatClase( { params }: Props) {
                                             Media
                                         </DropdownMenuLabel>
                                     </DrawerTrigger>
-                                    <DrawerContent className='max-h-screen overflow-y-auto'>
+                                    <DrawerContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                         <DrawerHeader>
                                         <DrawerTitle>Upload Media</DrawerTitle>
                                         <DrawerDescription>
@@ -457,11 +460,14 @@ export default function ChatClase( { params }: Props) {
                             </DropdownMenuContent>
                             </DropdownMenu>
                             <Input className="flex-1" placeholder="Type a message..." />
-                            <Button variant="outline">Send</Button>
+                            <Button variant="outline" className=''>Send</Button>
                         </form>
                     </div>
                     </main>
         </div>
+        
     </section>
+    
+    
   );
 }

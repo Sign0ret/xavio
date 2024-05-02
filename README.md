@@ -22,7 +22,8 @@
 
 ## COMMANDS USED IN TERMINAL
 - npm i
-- npm i framer-motion clsx tailwind-merge @radix-ui/react-label @tabler/icons-react
+- npm i framer-motion clsx tailwind-merge @radix-ui/react-label @tabler/icons-react  @tsparticles/react @tsparticles/engine @tsparticles/slim mini-svg-data-uri
+- npm install --save-dev tailwind-scrollbar
 
 
 
