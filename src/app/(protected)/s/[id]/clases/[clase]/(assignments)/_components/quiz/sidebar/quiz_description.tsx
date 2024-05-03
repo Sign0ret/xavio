@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
+import QuizInstructions from './quiz_instructions';
+import QuizData from './quiz_data';
 
 type Props = {
     params: {
@@ -18,20 +20,13 @@ type Props = {
 function QuizDescription({ params , quizDescription}: Props) {
   return (
     <div>
-        <div className="flex flex-row justify-between mb-5">
-            <p>Duration: 15:30 min</p>
-            <p>10 questions</p>
-            <p>100pts</p>
-            
-        </div>
-        <div className="space-y-4">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam, laborum. Beatae sint quidem nam repudiandae!</p>
-        </div>
+        <QuizData params={params} quizDescription={quizDescription}/>
+        <QuizInstructions params={params} quizDescription={quizDescription}/>
         <Link
-            href={`/s/${params.id}/clases/${params.clase}/quizzes/${params.quiz}/doing`}
-            className="flex items-right border-2 border-white text-white font-bold mt-4 rounded-lg px-4 py-2"
+          href={`/s/${params.id}/clases/${params.clase}/quizzes/${params.quiz}/doing`}
+          className="flex items-center border-2 border-white text-white font-bold mt-4 rounded-lg px-4 py-2"
         >
-            Begin quiz
+          Begin quiz
         </Link>
     </div>
   )

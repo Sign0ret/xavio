@@ -1,6 +1,7 @@
 import { QuizSideCard} from "../../_components/quiz/quiz_sidecard";
 import { ChevronsUpDownIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button"
+
 import {
   Drawer,
   DrawerClose,
@@ -34,7 +35,8 @@ export default function QuizClaseLayout({
     }
   }) {
     return (
-      <div className="h-screen w-full pt-20 bg-zinc-900">
+      <div className="h-screen w-full pt-20 bg-zinc-900 overflow-y-hidden">
+        {/* Large */}
         <div key="1" className="hidden lg:flex">
             <div className="flex w-2/5 flex-col items-start justify-start space-y-2 p-4 relative inset-x-0 max-w-2xl mx-auto z-50">
                 <QuizSideCard quizDescription={quizDescription} params={params}/>
@@ -43,21 +45,16 @@ export default function QuizClaseLayout({
                 {children}
             </div>
         </div>
-        <div className="lg:hidden flex w-full flex-col items-center justify-center p-8">
+        {/* Mobil */}
+        <div className="lg:hidden flex w-full flex-col items-center justify-center p-8 relative inset-x-0 max-w-2xl mx-auto z-50">
             <Drawer>
-                <DrawerTrigger>
-                    <Button className="w-9 flex flex-row" size="sm" variant="ghost">
-                        <ChevronsUpDownIcon className="h-4 w-4" />
-                        <h4 className="text-sm font-semibold">Tarea | {params.clase}</h4>
-                        <span className="sr-only">Toggle</span>
-                    </Button>
+                <DrawerTrigger asChild>
+                  <Button variant="default" className="bg-zinc-700 text-white hover:bg-zinc-700 transition-colors duration-300 bg-opacity-50">Instrucciones | {params.quiz}</Button>
                 </DrawerTrigger>
-                <DrawerContent className='max-h-screen overflow-y-auto'>
-                    <DrawerHeader>
+                <DrawerContent className='max-h-[vh-80] overflow-y-hidden bg-zinc-700 border-zinc-700'>
                     <DrawerDescription>
                       <QuizSideCard quizDescription={quizDescription} params={params}/>
                     </DrawerDescription>
-                    </DrawerHeader>
                 </DrawerContent>
             </Drawer>
             <div>

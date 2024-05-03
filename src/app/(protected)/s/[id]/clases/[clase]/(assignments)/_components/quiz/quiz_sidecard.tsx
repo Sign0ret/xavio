@@ -36,13 +36,13 @@ export function QuizSideCard({ params, quizDescription }: Props) {
       content = <QuizDescription params={params} quizDescription={quizDescription}/>;
       break;
     case 'doing':
-      content = <QuizDoing/>;
+      content = <QuizDoing params={params} quizDescription={quizDescription}/>;
       break;
     case 'revision':
-      content = <QuizRevision/>;
+      content = <QuizRevision params={params} quizDescription={quizDescription}/>;
       break;
       case 'compare':
-      content = <QuizCompare/>;
+      content = <QuizCompare params={params} quizDescription={quizDescription}/>;
       break;
     default:
       content = <QuizDescription params={params} quizDescription={quizDescription}/>;
@@ -50,7 +50,7 @@ export function QuizSideCard({ params, quizDescription }: Props) {
   }
 
   return (
-    <section className="w-full lg:min-w-[700px] rounded-md bg-zinc-700 p-8 my-4 overflow-y-auto max-h-[80vh] text-white"> 
+    <section className="w-full rounded-md bg-zinc-700 p-8 my-4 overflow-y-auto max-h-[80vh] text-white"> 
       <div className='flex flex-row justify-between items-center mb-8'>
         <h3 className="text-3xl font-semibold">Quiz {quizDescription.topic}</h3>
         <ToggleGroup

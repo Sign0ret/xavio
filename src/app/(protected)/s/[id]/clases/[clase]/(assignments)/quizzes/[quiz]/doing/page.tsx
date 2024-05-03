@@ -71,9 +71,6 @@ const quizInfo = [
 export default function QuizDoing( { params }: Props) {
  
   return (
-
     <QuizDo params={params} />
-        
-    
   );
 }

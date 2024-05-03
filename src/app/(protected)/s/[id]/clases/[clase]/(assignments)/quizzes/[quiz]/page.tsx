@@ -69,7 +69,7 @@ const quizInfo = [
 export default function QuizClase( { params }: Props) {
  
   return (        
-    <div>
+    <div className="text-white">
       <p>Haz Click en iniciar para comenzar con tu Quiz.</p>
 
     </div>

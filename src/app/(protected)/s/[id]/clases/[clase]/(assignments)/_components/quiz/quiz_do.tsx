@@ -1,4 +1,3 @@
-
 "use client";
 import React from "react";
 import { BackgroundGradient } from "../ui/background-gradient";
@@ -59,10 +58,10 @@ type Props = {
 
 export function QuizDo({ params }: Props) {
     return (
-        <div className='max-h-[84vh] overflow-y-auto'>
+        <div className='max-h-[84vh] overflow-y-auto pb-20'>
                 <h2 className="mb-4 text-4xl font-bold text-white">Quiz {params.quiz}</h2>
                     {quizInfo.map((question, qIndex) => (
-                        <section key={question.id} className="relative inset-x-0 max-w-2xl mx-auto z-50 w-full lg:min-w-[900px] rounded-md bg-gray-200 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
+                        <section key={question.id} className="relative inset-x-0  mx-auto z-50 w-full min-w-[85vw] lg:min-w-[55vw] rounded-md bg-gray-200 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
                         <h3 className="mb-8 text-3xl font-semibold">Question {qIndex+1}</h3>
                             <p className="mb-8 text-lg">{question.question}</p>
                             <div className="space-y-4">
@@ -75,12 +74,11 @@ export function QuizDo({ params }: Props) {
                                     </label>
                                     </>
                                 ))}
-                                
                                 </div>
                             </div>
                         </section>
                     ))}
-                <Button>
+                <Button className="relative inset-x-0  mx-auto z-50 hover:bg-zinc-700 transition-colors duration-300">
                     Submit
                 </Button>
                 </div>

@@ -1,6 +1,5 @@
 import { Card } from "@/components/components/card";
 import Footer from "@/components/components/landing_footer";
-import { NavbarDemo } from "@/components/components/navbar";
 import { BackgroundGradientDemo1 } from "@/components/components/searchbar";
 import { TypewriterEffectSmoothDemo } from "@/components/components/typperdemo";
 import WelcomeText from "@/components/components/welcome-text";
@@ -15,10 +14,7 @@ const font = Poppins({
 
 export default function Home() {
   return (
-  <div className="bg-zinc-900">
-    <div className="z-1000">
-      <NavbarDemo />
-    </div>
+  <div>
     <br></br>
     <br></br>
     <br></br>

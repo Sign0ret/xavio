@@ -122,6 +122,8 @@ const config = {
     require("tailwindcss-animate"),
     addVariablesForColors,
     require('tailwind-scrollbar'),
+    require('daisyui'),
+    
   ],
 } satisfies Config
 
