@@ -1,5 +1,5 @@
 // server.js
-import Message from './models/Message';
+import Message from './models/Message.js';
 
 export default (io) => {
     io.on('connect', (socket) => {

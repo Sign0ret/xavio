@@ -1,9 +1,9 @@
-import app from './app';
+import app from './app.js';
 import { Server as webSocketServer } from 'socket.io';
 import http from 'http';
-import sockets from './sockets';
+import sockets from './sockets.js';
 import {config} from 'dotenv';
-import { connectDB } from './db';
+import { connectDB } from './db.js';
 config();
 connectDB();
 
