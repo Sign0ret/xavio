@@ -4,6 +4,9 @@ import { Metadata } from 'next';
 import { useState } from 'react';
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import useChatSocket from '../_components/socket/functions';
+import { Message } from '../_components/messages/message';
+
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { 
     DropdownMenuTrigger, 
@@ -64,7 +67,7 @@ import {
   BookOpenIcon,
   CameraIcon,
 } from '@/components/icons';
-import { Boilerplate_mensaje } from '../_components/messages/boilerplate';
+import { Boilerplate_message } from '../_components/messages/boilerplate';
 import { Right_bar } from '../_components/rightbar';
 import { Reply } from '../_components/messages/reply';
 import { PostMedia } from '../_components/forms/post-media';
@@ -72,13 +75,6 @@ import { PostHomework } from '../_components/forms/post-homework';
 import { PostSubject } from '../_components/forms/post-subject';
 import { PostQuiz } from '../_components/forms/post-quiz';
 import { PatchCourse } from '../_components/forms/patch-course';
-
-type Message = {
-    remitente: string,
-    tiempo: string,
-    mensaje: string,
-    bloque: number | null,
-}
 
 type Props = {
   params: { 
@@ -93,6 +89,32 @@ type Props = {
 }  */
   
 export default function ChatClase( { params }: Props) {
+    // start websocket logic
+    const {
+        socket,
+        message,
+        setMessage,
+        messages,
+        selectedMessageId,
+        updatedMessage,
+        sendMessage,
+        selectMessage,
+        updateMessage,
+        deleteMessage
+      } = useChatSocket();
+  
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault(); // Prevent default form submission behavior
+      // Add your logic here to handle the form submission, such as sending the message
+      if (message.trim() !== '') {
+        sendMessage(); // Assuming sendMessage is a function to send the message
+      } else {
+        // Handle the case where the message is empty
+        console.log('Message cannot be empty');
+      }
+    };
+  
+    // end websocket logic
   const [reply, setReply] = useState<Message | null>(null);
   const handleCloseReply = () => {
     // Implement your logic here, such as closing the reply component
@@ -104,69 +126,6 @@ export default function ChatClase( { params }: Props) {
   
   const [openTasks, setOpenTasks] = useState<boolean>(false);
   const [upInput, setUpInput] = useState<boolean>(false);
-  const personas = [
-    { value: 'mikejones', label: 'mikejones' },
-    { value: 'Person 2', label: 'Person 2' },
-    { value: 'Person 3', label: 'Person 3' }
-  ];
-  const status = [
-    { value: 0, label: 'Asignada' },
-    { value: 25, label: 'Haciendo' },
-    { value: 50, label: 'Hecha' },
-    { value: 75, label: 'Revisada' },
-    { value: 100, label: 'Archivada' }
-  ];
-  const mensajes = [
-    {
-      remitente: "adolfo",
-      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-      mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
-      bloque: 1,
-    },
-    {
-      remitente: "User",
-      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-      mensaje: "I need help with my order.",
-      bloque: 4,
-    },
-    {
-      remitente: "John Doe",
-      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-      mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
-      bloque: 2,
-    },
-    {
-      remitente: "adolfo",
-      tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-      mensaje: "Hi there! How can I assist you today?",
-      bloque: 3,
-    },
-    {
-        remitente: "adolfo",
-        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-        mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
-        bloque: 1,
-      },
-      {
-        remitente: "User",
-        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-        mensaje: "I need help with my order.",
-        bloque: 4,
-      },
-      {
-        remitente: "John Doe",
-        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-        mensaje: "Sure, I'd be happy to help.Sure, I'd be happy to help. Could you please provide your order number? Sure, I'd be happy to help. Could you please provide your order number?",
-        bloque: 2,
-      },
-      {
-        remitente: "adolfo",
-        tiempo: "2024-03-30T10:20:00", // Convertir la hora a timestamp Unix
-        mensaje: "Hi there! How can I assist you today?",
-        bloque: 3,
-      },
-    // Los demás mensajes seguirían aquí con la misma estructura
-  ];
   
   return (
     <section >
@@ -199,9 +158,9 @@ export default function ChatClase( { params }: Props) {
                 <>
                     <section className='flex flex-row overflow-y-hidden'>
                         <div className="w-4/5 p-4 overflow-y-auto no-scrollbar ">
-                            {mensajes.map((mensaje, index) => (
-                                <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params} onReply={handleOpenReply}/>
-                            ))}
+                        {messages.map((msg: Message, index) => (
+                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} />
+                        ))}
                         </div>
                         <section className='w-[280px] relative inset-x-0 max-w-2xl mx-auto z-50 '>
                             <Right_bar params={params}  />
@@ -211,8 +170,8 @@ export default function ChatClase( { params }: Props) {
                     
             ) : (
                      <div className='p-4 overflow-y-auto no-scrollbar mr-4'>
-                        {mensajes.map((mensaje, index) => (
-                            <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params}  onReply={handleOpenReply} />
+                        {messages.map((msg: Message, index) => (
+                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} />
                         ))}
                       </div>
             )}
@@ -223,7 +182,7 @@ export default function ChatClase( { params }: Props) {
                     </div>
                 )}
                 
-                <form className="flex items-center gap-4 ">
+                <form className="flex items-center gap-4" onSubmit={handleSubmit}>
                     <DropdownMenu>
                     <DropdownMenuTrigger>
                         <PencilIcon className="h-4 w-4 ml-4 text-white"/>
@@ -318,8 +277,19 @@ export default function ChatClase( { params }: Props) {
                         </Dialog>
                     </DropdownMenuContent>
                     </DropdownMenu>
-                <Input className="flex-1 bg-zinc-200" placeholder="Type a message..." />
-                <Button variant="outline" className='bg-purple-600 text-white'>Send</Button>
+                    <Input 
+                        value={message}
+                        className="flex-1 bg-zinc-200" 
+                        placeholder="Type a message..."
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <Button 
+                        variant="outline" 
+                        className='bg-purple-600 text-white' 
+                        type='submit'
+                        >
+                        Send
+                    </Button>
                 </form>
             </div>
             </main>
@@ -356,15 +326,15 @@ export default function ChatClase( { params }: Props) {
             </header>
             <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-h-full overflow-y-hidden">
                      <div className='p-4 overflow-y-auto no-scrollbar'>
-                        {mensajes.map((mensaje, index) => (
-                            <Boilerplate_mensaje key={`${index}-mensaje`} mensaje={mensaje} params={params} onReply={handleOpenReply} />
+                        {messages.map((msg: Message, index) => (
+                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} />
                         ))}
                       </div>
                     <div className={`mt-auto ${upInput ? 'mb-20' : 'mb-0'}`}>
                         <div className='mb-2 px-5'>
                             {reply && <Reply message={reply} onClose={handleCloseReply} />}
                         </div>
-                        <form className="flex items-center gap-4">
+                        <form className="flex items-center gap-4" onSubmit={handleSubmit}>
                             <DropdownMenu>
                             <DropdownMenuTrigger>
                                 <PencilIcon className="h-4 w-4"/>
@@ -454,8 +424,13 @@ export default function ChatClase( { params }: Props) {
                                 </Drawer>
                             </DropdownMenuContent>
                             </DropdownMenu>
-                            <Input className="flex-1" placeholder="Type a message..." />
-                            <Button variant="outline" className=''>Send</Button>
+                            <Input
+                              value={message}
+                              className="flex-1" 
+                              placeholder="Type a message..."
+                              onChange={(e) => setMessage(e.target.value)}
+                              />
+                            <Button variant="outline" type="submit">Send</Button>
                         </form>
                     </div>
                     </main>
