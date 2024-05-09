@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.js --exec babel-node",
     "start": "node src/index.js --exec babel-node",
-    "build": "npm i cors dotenv express mongodb mongoose socket.io @babel/cli @babel/core @babel/node @babe;/preset-env nodemon"
+    "build": "npm i cors dotenv express mongodb mongoose socket.io @babel/cli @babel/core @babel/node @babel/preset-env nodemon"
   },
   "keywords": [],
   "author": "",
