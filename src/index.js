@@ -4,6 +4,8 @@ import http from 'http';
 import sockets from './sockets.js';
 import {config} from 'dotenv';
 import { connectDB } from './db.js';
+import cors from 'cors';
+app.use(cors())
 config();
 connectDB();
 
