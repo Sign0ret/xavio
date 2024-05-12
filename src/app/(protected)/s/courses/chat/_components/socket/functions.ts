@@ -12,7 +12,7 @@ const useChatSocket = () => {
     const [updatedMessage, setUpdatedMessage] = useState("");
 
   useEffect(() => {
-    const newSocket = io("ws://localhost:3001");
+    const newSocket = io("wss://xavio.onrender.com");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
