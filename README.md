@@ -25,8 +25,8 @@
 - npm i framer-motion clsx tailwind-merge @radix-ui/react-label @tabler/icons-react  @tsparticles/react @tsparticles/engine @tsparticles/slim mini-svg-data-uri
 - npm install --save-dev tailwind-scrollbar
 - npm i -D daisyui@latest 
-
-
+- npm i mongoose
+- npm i --save-dev @types/mongoose
 
 ## Al regresar
 - Chat bloques para enviar
