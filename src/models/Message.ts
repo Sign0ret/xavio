@@ -1,10 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
-
-export interface IMessage extends Document {
-    sender: string;
-    message: string;
-    block: number;
-}
+import { Schema, model, models } from 'mongoose';
 
 export const messageSchema = new Schema({
     sender: {
@@ -23,6 +17,4 @@ export const messageSchema = new Schema({
     timestamps: true
 });
 
-const Message = mongoose.models.Message || model('Message', messageSchema);
-
-export default Message;
+// export default models.Message || model('Message', messageSchema)

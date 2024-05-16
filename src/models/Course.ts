@@ -1,14 +1,6 @@
-import mongoose, { Schema, model } from 'mongoose';
-import { IMessage, messageSchema } from '@/models/Message';
-import { ITopic, topicSchema } from '@/models/Topic';
-
-export interface ICourse extends Document {
-    course: string;
-    description: string;
-    profile_photo: string;
-    messages: IMessage[];
-    topics: ITopic[];
-}
+import { Schema, model, models } from 'mongoose';
+import { messageSchema } from '@/models/Message';
+import { topicSchema } from '@/models/Topic';
 
 const courseSchema = new Schema({
     course: {
@@ -28,6 +20,4 @@ const courseSchema = new Schema({
     timestamps: true
 });
 
-const Course = mongoose.models.Course || model('Course', courseSchema);
-
-export default Course;
+export default models.Course || model('Course', courseSchema)

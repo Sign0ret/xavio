@@ -1,12 +1,6 @@
-import mongoose, { Schema, model } from 'mongoose';
-import { IQuiz, quizSchema } from '@/models/Quiz';
-import { ITask, taskSchema } from '@/models/Task';
-
-export interface ITopic extends Document {
-    topic: string;
-    quizzes: IQuiz;
-    tasks: ITask;
-}
+import { Schema, model, models } from 'mongoose';
+import { quizSchema } from '@/models/Quiz';
+import { taskSchema } from '@/models/Task';
 
 export const topicSchema = new Schema({
     topic: {
@@ -19,6 +13,4 @@ export const topicSchema = new Schema({
     timestamps: true
 });
 
-const Topic = mongoose.models.Topic || model('Topic', topicSchema);
-
-export default Topic;
+// export default models.Topic || model('Topic', topicSchema)

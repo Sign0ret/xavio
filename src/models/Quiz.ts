@@ -1,10 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
-
-interface IQuestion extends Document {
-    question: string;
-    points: Number;
-    options: Object;
-}
+import { Schema, model, models } from 'mongoose';
 
 const questionSchema = new Schema({
     question: {
@@ -36,12 +30,6 @@ function arrayLength(val: any) {
     return val.length >= 2 && val.length <= 5;
 }
 
-interface IAnswer extends Document {
-    question: string;
-    points: Number;
-    options: Object;
-}
-
 const answerSchema = new Schema({
     question: {
         type: String,
@@ -71,12 +59,6 @@ const answerSchema = new Schema({
     timestamps: true
 });
 
-interface ISubmit extends Document {
-    sender: string;
-    grade: Number;
-    answers: IAnswer;
-}
-
 const submitSchema = new Schema({
     sender: {
         type: String,
@@ -91,12 +73,6 @@ const submitSchema = new Schema({
     timestamps: true
 });
 
-export interface IQuiz extends Document {
-    quiz: string;
-    structure: IQuestion[];
-    submits: ISubmit[];
-}
-
 export const quizSchema = new Schema({
     quiz: {
         type: String,
@@ -108,6 +84,4 @@ export const quizSchema = new Schema({
     timestamps: true
 });
 
-const Quiz = mongoose.models.Quiz || model('Quiz', quizSchema);
-
-export default Quiz;
+// export default models.Quiz || model('Quiz', quizSchema)

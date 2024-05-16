@@ -1,8 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose';
-
-export interface ITask extends Document {
-    task: string;
-}
+import { Schema, model, models } from 'mongoose';
 
 export const taskSchema = new Schema({
     task: {
@@ -13,6 +9,4 @@ export const taskSchema = new Schema({
     timestamps: true
 });
 
-const Task = mongoose.models.Task || model('Task', taskSchema);
-
-export default Task;
+// export default models.Task || model('Task', taskSchema)

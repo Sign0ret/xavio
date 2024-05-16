@@ -1,10 +1,10 @@
 import dbConnect from "@/lib/dbConnect";
-import TaskFazt from "@/models/TaskFazt";
+import Course from "@/models/Course";
 import { NextResponse } from "next/server";
 
 type Props = {
     params: { 
-      id:  string,
+      course:  string,
    }
   };
   
@@ -12,7 +12,7 @@ type Props = {
 export async function GET(request: any, { params }: Props)  {
     try {
         dbConnect()
-        const objectFound = await TaskFazt.findById(params.id)
+        const objectFound = await Course.findById(params.course)
 
         if(!objectFound) return NextResponse.json({
             message: 'Task not found',
@@ -30,7 +30,7 @@ export async function GET(request: any, { params }: Props)  {
 
 export async function DELETE(request: any, { params }: Props) {
     try {
-        const objectDeleted = await TaskFazt.findByIdAndDelete(params.id)
+        const objectDeleted = await Course.findByIdAndDelete(params.course)
         if (!objectDeleted)
             return NextResponse.json({
                 message: 'Task not found',
@@ -48,7 +48,7 @@ export async function DELETE(request: any, { params }: Props) {
 export async function PUT(request: any, { params }: Props) {
     try {
         const data = await request.json()
-        const objectUpdated = await TaskFazt.findByIdAndUpdate(params.id, data, {
+        const objectUpdated = await Course.findByIdAndUpdate(params.course, data, {
             new: true
         })
         return NextResponse.json(objectUpdated);
