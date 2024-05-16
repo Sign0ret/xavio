@@ -12,24 +12,26 @@ const font = Poppins({
   weight: ["600"],
 })
 
-export default function Home() {
+
+
+export default async function Home() {
   return (
-  <div>
-    <br></br>
-    <br></br>
-    <br></br>
-        <TypewriterEffectSmoothDemo/>
-        <div className="flex max-w-[300px] mx-auto justify-center items-center">
-          <BackgroundGradientDemo1/>
-        </div>
-        <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
-          <Card/>
-        </div>
-        <BackgroundBeams/>
-        <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
-          <WelcomeText/>
-          <Footer/>
-        </div>
+    <div>
+      <br></br>
+      <br></br>
+      <br></br>
+      <TypewriterEffectSmoothDemo/>
+      <div className="flex max-w-[300px] mx-auto justify-center items-center">
+        <BackgroundGradientDemo1/>
+      </div>
+      <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
+        <Card/>
+      </div>
+      <BackgroundBeams/>
+      <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
+        <WelcomeText/>
+        <Footer/>
+      </div>
     </div>
   );
 }

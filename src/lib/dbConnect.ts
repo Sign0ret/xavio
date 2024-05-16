@@ -8,10 +8,10 @@ async function dbConnect() {
     }
     try {
         const db = await mongoose.connect(process.env.MONGO_URI!, {
-            dbName: 'Chats'
+            dbName: 'Xavio'
         });
         connection.isConnected = db.connections[0].readyState;
-        console.log(connection.isConnected); // Corrected log statement
+        console.log(db.connection.db.databaseName); // Corrected log statement
     } catch (err) {
         console.error('Error connecting to database:', err);
     }

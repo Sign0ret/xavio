@@ -1,9 +1,11 @@
 import mongoose, { Schema, model } from 'mongoose';
 import { IQuiz, quizSchema } from '@/models/Quiz';
+import { ITask, taskSchema } from '@/models/Task';
 
 export interface ITopic extends Document {
     topic: string;
     quizzes: IQuiz;
+    tasks: ITask;
 }
 
 export const topicSchema = new Schema({
@@ -11,7 +13,8 @@ export const topicSchema = new Schema({
         type: String,
         required: true
     },
-    quizzes: [quizSchema]
+    quizzes: [quizSchema],
+    tasks: [taskSchema]
 }, {
     timestamps: true
 });
