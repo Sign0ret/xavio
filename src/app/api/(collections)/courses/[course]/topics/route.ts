@@ -1,20 +1,20 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
 
 type Props = {
     params: { 
-      course:  string,
+      course:  string
    }
   };
 
-export async function GET(request: any, { params }: Props)  {
+export async function GET(request: NextRequest, { params }: Props)  {
 try {
     dbConnect()
     const objectFound = await Course.findById(params.course, { topics: 1 });
 
     if(!objectFound) return NextResponse.json({
-        message: 'Task not found',
+        message: 'Topic not found',
     }, {
         status: 404
     })

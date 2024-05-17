@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 type Props = {
     params: { 
@@ -8,8 +8,7 @@ type Props = {
    }
   };
   
-
-export async function GET(request: any, { params }: Props)  {
+export async function GET(request: NextRequest, { params }: Props)  {
     try {
         dbConnect()
         const objectFound = await Course.findById(params.course)
@@ -28,12 +27,12 @@ export async function GET(request: any, { params }: Props)  {
     }
 }
 
-export async function DELETE(request: any, { params }: Props) {
+export async function DELETE(request: NextRequest, { params }: Props) {
     try {
         const objectDeleted = await Course.findByIdAndDelete(params.course)
         if (!objectDeleted)
             return NextResponse.json({
-                message: 'Task not found',
+                message: 'Course not found',
             }, {
                 status: 404
             })
@@ -45,12 +44,16 @@ export async function DELETE(request: any, { params }: Props) {
     }
 }
 
-export async function PUT(request: any, { params }: Props) {
+export async function PUT(request: NextRequest, { params }: Props) {
     try {
         const data = await request.json()
         const objectUpdated = await Course.findByIdAndUpdate(params.course, data, {
-            new: true
-        })
+            new: true,
+            runValidators: true // Ensure the update respects the schema validation
+        });
+        if (!objectUpdated) {
+            return NextResponse.json({ message: 'Course not found' }, { status: 404 });
+        }
         return NextResponse.json(objectUpdated);
     } catch(error: any) {
         return NextResponse.json(error.message, {
