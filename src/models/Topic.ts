@@ -6,9 +6,7 @@ export const topicSchema = new Schema({
     topic: {
         type: String,
         required: true
-    },
-    quizzes: [quizSchema],
-    tasks: [taskSchema]
+    }
 }, {
     timestamps: true
 });
