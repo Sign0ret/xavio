@@ -7,20 +7,16 @@ export const taskSchema = new Schema({
         required: true
     },
     assigment_date: {
-        type: Date,
-        required: true
+        type: Date
     },
     deadline: {
-        type: Date,
-        required: true
+        type: Date
     },
     instructions: {
-        type : String,
-        required: true
+        type : String
     },
     points: {
-        type: Number,
-        required: true
+        type: Number
     },
     rubric: [criterionSchema]
 }, {

@@ -37,4 +37,50 @@ export async function GET(request: NextRequest, { params }: Props) {
     }
 }
 
-    
+export async function DELETE(request: NextRequest, { params }: Props) {
+    try {
+        await dbConnect();
+
+        const { course, topic } = params;
+
+        const result = await Course.findOneAndUpdate(
+            { _id: course },
+            { $pull: { topics: { _id: topic } } },
+            { new: true }
+        );
+
+        if (!result) {
+            return NextResponse.json({ message: 'Topic not found' }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: 'Topic deleted successfully' });
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+}
+
+// CREO QUE NO FUNCIONA EL PUT
+
+export async function PUT(request: NextRequest, { params }: Props) {
+    try {
+        const data = await request.json();
+
+        await dbConnect();
+
+        const { course, topic } = params;
+
+        const result = await Course.findOneAndUpdate(
+            { _id: course, 'topics._id': topic },
+            { $set: { 'topics.$': data } },
+            { new: true }
+        );
+
+        if (!result) {
+            return NextResponse.json({ message: 'Topic not found' }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: 'Topic updated successfully', data: result });
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+}

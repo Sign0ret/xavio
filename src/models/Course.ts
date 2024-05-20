@@ -1,9 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 import { messageSchema } from '@/models/Message';
 import { topicSchema } from '@/models/Topic';
-import { quizSchema } from '@/models/Quiz';
-import { taskSchema } from '@/models/Task';
-
 
 const courseSchema = new Schema({
     course: {
@@ -19,8 +16,7 @@ const courseSchema = new Schema({
     },
     messages: [messageSchema],
     topics: [topicSchema],
-    quizzes: [quizSchema],
-    tasks: [taskSchema]
+
 }, {
     timestamps: true
 });
