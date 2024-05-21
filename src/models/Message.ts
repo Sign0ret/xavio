@@ -1,6 +1,14 @@
 import { Schema, model, models } from 'mongoose';
 
-export const messageSchema = new Schema({
+export interface IMessage {
+    sender: string;
+    message: string;
+    block: number;
+}
+
+interface IMessageDocument extends IMessage, Document {}
+
+export const messageSchema = new Schema<IMessageDocument>({
     sender: {
         type: String,
         required: true

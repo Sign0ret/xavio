@@ -1,14 +1,18 @@
 import { Schema, model, models } from 'mongoose';
-import { messageSchema } from '@/models/Message';
-import { topicSchema } from '@/models/Topic';
+import { IMessage, messageSchema } from '@/models/Message';
+import { ITopic, topicSchema } from '@/models/Topic';
 
 export interface ICourse {
     course: string;
     description: string;
-    profile_photo: string;
+    profile_photo?: string;
+    messages: IMessage[];
+    topics: ITopic[];
 }
 
-const courseSchema = new Schema({
+interface ICourseDocument extends ICourse, Document {}
+
+const courseSchema = new Schema<ICourseDocument>({
     course: {
         type: String,
         required: true

@@ -1,8 +1,22 @@
 import { Schema, model, models } from 'mongoose';
-import { quizSchema } from '@/models/Quiz';
-import { taskSchema } from '@/models/Task';
+import { IQuiz, quizSchema } from '@/models/Quiz';
+import { ITask, taskSchema } from '@/models/Task';
 
-const contentSchema = new Schema({
+export interface IContent {
+    url: string;
+}
+
+export interface ITopic {
+    topic: string;
+    content: IContent[];
+    quizzes?: IQuiz[];
+    tasks: ITask[];
+}
+
+interface IContentDocument extends IContent, Document {}
+interface ITopicDocument extends ITopic, Document {}
+
+const contentSchema = new Schema<IContentDocument>({
     url: {
         type: String,
         required: true
@@ -11,7 +25,7 @@ const contentSchema = new Schema({
     timestamps: true
 });
 
-export const topicSchema = new Schema({
+export const topicSchema = new Schema<ITopicDocument>({
     topic: {
         type: String,
         required: true

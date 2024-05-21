@@ -1,6 +1,13 @@
 import { Schema, model, models } from 'mongoose';
 
-export const criterionSchema = new Schema({
+export interface ICriterion {
+    criterion: string;
+    points: number;
+}
+
+interface ICriterionDocument extends ICriterion, Document {}
+
+export const criterionSchema = new Schema<ICriterionDocument>({
     criterion: {
         type: String,
         required: true
@@ -10,10 +17,3 @@ export const criterionSchema = new Schema({
         required: true
     }
 });
-
-
-
-
-
-
-
