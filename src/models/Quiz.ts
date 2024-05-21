@@ -1,6 +1,57 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, Document, model } from 'mongoose';
 
-const questionSchema = new Schema({
+export interface IOption {
+    text: string;
+    isCorrect?: boolean;
+    isElected?: boolean;
+}
+
+export interface IQuestion {
+    question: string;
+    points: number;
+    options: IOption[];
+}
+
+export interface IAnswer {
+    question: string;
+    points: number;
+    options: IOption[];
+}
+
+export interface ISubmit {
+    sender: string;
+    grade: number;
+    answers: IAnswer[];
+}
+
+export interface IQuiz {
+    quiz: string;
+    structure: IQuestion[];
+    submits: ISubmit[];
+}
+
+interface IOptionDocument extends IOption, Document {}
+interface IQuestionDocument extends IQuestion, Document {}
+interface IAnswerDocument extends IAnswer, Document {}
+interface ISubmitDocument extends ISubmit, Document {}
+interface IQuizDocument extends IQuiz, Document {}
+
+const optionSchema = new Schema<IOptionDocument>({
+    text: {
+        type: String,
+        required: true
+    },
+    isCorrect: {
+        type: Boolean,
+        default: false
+    },
+    isElected: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const questionSchema = new Schema<IQuestionDocument>({
     question: {
         type: String,
         required: true
@@ -10,28 +61,14 @@ const questionSchema = new Schema({
         required: true
     },
     options: {
-        type: [{
-            
-            text: {
-                type: String,
-                required: true
-            },
-            isCorrect: {
-                type: Boolean,
-                default: false
-            }
-        }],
+        type: [optionSchema],
         validate: [arrayLength, '{PATH} must be between 2 and 5 options']
     }
 }, {
     timestamps: true
 });
 
-function arrayLength(val: any) {
-    return val.length >= 2 && val.length <= 5;
-}
-
-const answerSchema = new Schema({
+const answerSchema = new Schema<IAnswerDocument>({
     question: {
         type: String,
         required: true
@@ -41,26 +78,13 @@ const answerSchema = new Schema({
         required: true
     },
     options: {
-        type: [{
-            text: {
-                type: String,
-                required: true
-            },
-            isCorrect: {
-                type: Boolean,
-                default: false
-            },
-            isElected: {
-                type: Boolean,
-                default: false
-            }
-        }],
+        type: [optionSchema],
     }
 }, {
     timestamps: true
 });
 
-const submitSchema = new Schema({
+const submitSchema = new Schema<ISubmitDocument>({
     sender: {
         type: String,
         required: true
@@ -74,7 +98,7 @@ const submitSchema = new Schema({
     timestamps: true
 });
 
-export const quizSchema = new Schema({
+export const quizSchema = new Schema<IQuizDocument>({
     quiz: {
         type: String,
         required: true
@@ -85,4 +109,6 @@ export const quizSchema = new Schema({
     timestamps: true
 });
 
-// export default models.Quiz || model('Quiz', quizSchema)
+function arrayLength(val: any) {
+    return val.length >= 2 && val.length <= 5;
+}

@@ -1,4 +1,4 @@
-import { QuizSideCard} from "../../../../_components/quiz/quiz-sidecard";
+import { QuizSideCard } from "@/app/(protected)/s/_components/quiz/quiz-sidecard"
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -25,11 +25,12 @@ export default function QuizClaseLayout({
     children: React.ReactNode,
     params: { 
         course: string,
+        topic: string,
         quiz: string,
     }
   }) {
     return (
-      <div className="h-screen w-full pt-20 bg-zinc-900 overflow-y-hidden">
+      <div>
         {/* Large */}
         <div key="1" className="hidden lg:flex">
             <div className="flex w-2/5 flex-col items-start justify-start space-y-2 p-4 relative inset-x-0 max-w-2xl mx-auto z-50">

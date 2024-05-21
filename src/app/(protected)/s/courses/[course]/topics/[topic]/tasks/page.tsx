@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 type Props = {
   params: { 
     course: string,
+    topic: string,
  }
 };
 

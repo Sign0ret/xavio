@@ -3,7 +3,8 @@ import React from 'react'
 
 type Props = {
     params: {
-      course: string;
+      course: string,
+      topic: string,
       quiz: string;
     };
     quizDescription: {

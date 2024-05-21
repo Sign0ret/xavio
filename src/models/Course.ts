@@ -2,6 +2,12 @@ import { Schema, model, models } from 'mongoose';
 import { messageSchema } from '@/models/Message';
 import { topicSchema } from '@/models/Topic';
 
+export interface ICourse {
+    course: string;
+    description: string;
+    profile_photo: string;
+}
+
 const courseSchema = new Schema({
     course: {
         type: String,

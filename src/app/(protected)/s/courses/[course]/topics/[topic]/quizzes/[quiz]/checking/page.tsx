@@ -1,11 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
-
-import { QuizCheck } from '../../../../../_components/quiz/quiz-check';
+import { QuizCheck } from '@/app/(protected)/s/_components/quiz/quiz-check';
 
 type Props = {
   params: { 
     course: string,
+    topic: string,
     quiz: string,
  }
 };

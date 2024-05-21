@@ -4,8 +4,9 @@ import QuizData from './quiz-data';
 
 type Props = {
   params: {
-    course: string;
-    quiz: string;
+    course: string,
+    topic: string,
+    quiz: string,
   };
   quizDescription: {
     topic: string,
