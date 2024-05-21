@@ -34,7 +34,7 @@ interface IOptionDocument extends IOption, Document {}
 interface IQuestionDocument extends IQuestion, Document {}
 interface IAnswerDocument extends IAnswer, Document {}
 interface ISubmitDocument extends ISubmit, Document {}
-interface IQuizDocument extends IQuiz, Document {}
+export interface IQuizDocument extends IQuiz, Document {}
 
 const optionSchema = new Schema<IOptionDocument>({
     text: {

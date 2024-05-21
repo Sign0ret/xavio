@@ -59,7 +59,6 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     }
 }
 
-// CREO QUE NO FUNCIONA EL PUT
 
 export async function PUT(request: NextRequest, { params }: Props) {
     const { course, topic } = params;
