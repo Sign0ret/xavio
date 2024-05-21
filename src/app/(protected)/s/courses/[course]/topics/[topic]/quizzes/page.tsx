@@ -26,7 +26,7 @@ export default async function QuizzesClase( { params }: Props) {
   }
   try {
     const fetchQuizzes = async () => {
-      const res = await fetch(`http://localhost:3000/api/courses/${params.course}/topics/${params.topic}/quizzes`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes`);
       const quizzes = await res.json();
       console.log("quizzes:", quizzes);
       return quizzes;
