@@ -16,11 +16,9 @@ export const generateMetadata = ({ params }: Props): Metadata => {
 } 
 
 export default function QuizCourse( { params }: Props) {
-  
   return (        
     <div className="text-white">
       <p>Haz Click en iniciar para comenzar con tu Quiz.</p>
-
     </div>
   );
 }

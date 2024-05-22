@@ -50,7 +50,6 @@ export default async function QuizzesClase( { params }: Props) {
              const userSubmit = quiz.submits.find((submit:ISubmit) => submit.sender === user.id);
              const now = new Date();
              console.log("now:",now);
-             console.log("date:",quiz.deadline)
              // const dueDate = new Date(quiz.createdAt); 
              return (
               <div key={`quiz-${idx}`} className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-900 dark:shadow-none relative inset-x-0 z-50">
