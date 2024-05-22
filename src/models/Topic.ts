@@ -2,6 +2,19 @@ import { Schema, model, models } from 'mongoose';
 import { IQuiz, quizSchema } from '@/models/Quiz';
 import { ITask, taskSchema } from '@/models/Task';
 
+export interface TContent {
+    _id: string;
+    url: string;
+}
+
+export interface TTopic {
+    _id: string;
+    topic: string;
+    content: IContent[];
+    quizzes?: IQuiz[];
+    tasks: ITask[];
+}
+
 export interface IContent {
     url: string;
 }

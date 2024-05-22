@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { IQuiz, ISubmit } from '@/models/Quiz';
+import { ISubmit, TQuiz, TSubmit } from '@/models/Quiz';
 import Link from 'next/link';
 import { currentUser } from '@/lib/auth';
 
@@ -16,7 +16,7 @@ export const generateMetadata = ({ params }: Props): Metadata => {
     title: `Quiz de ${params.course}`
   }
 } 
-  
+
 export default async function QuizzesClase( { params }: Props) {
   const user = await currentUser();
   if (!user) {
@@ -46,9 +46,11 @@ export default async function QuizzesClase( { params }: Props) {
           </p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {quizzes.map((quiz:IQuiz,idx:Number) =>{
+          {quizzes.map((quiz:TQuiz,idx:Number) =>{
              const userSubmit = quiz.submits.find((submit:ISubmit) => submit.sender === user.id);
              const now = new Date();
+             console.log("now:",now);
+             console.log("date:",quiz.deadline)
              // const dueDate = new Date(quiz.createdAt); 
              return (
               <div key={`quiz-${idx}`} className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-900 dark:shadow-none relative inset-x-0 z-50">
@@ -57,7 +59,7 @@ export default async function QuizzesClase( { params }: Props) {
                   <>
                     <p>Grade: {userSubmit.grade}</p>
                     <Link
-                      href="#"
+                      href={`/s/courses/${params.course}/topics/${params.topic}/quizzes/${quiz._id}/checking`}
                       className="inline-flex items-center justify-center rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-900"
                     >
                       View
@@ -65,9 +67,11 @@ export default async function QuizzesClase( { params }: Props) {
                   </>
                 ) : (
                   <>
-                    <p>Due Date: {now.toLocaleDateString()}</p>
+                    {quiz.deadline && (
+                      <p>Due Date: {now.toLocaleDateString()}</p>
+                    )}
                     <Link
-                      href="#"
+                      href={`/s/courses/${params.course}/topics/${params.topic}/quizzes/${quiz._id}`}
                       className="inline-flex items-center justify-center rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-900"
                     >
                       Start Quiz
@@ -87,5 +91,4 @@ export default async function QuizzesClase( { params }: Props) {
       </div>
     )
   }
-  
 }

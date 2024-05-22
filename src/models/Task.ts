@@ -1,10 +1,20 @@
 import { Schema, model, models } from 'mongoose';
 import {ICriterion, criterionSchema} from '@/models/Rubric_criterion';
 
+export interface TTask {
+    _id: string;
+    task: string;
+    assignment_date: Date;
+    deadline: Date;
+    instructions: string;
+    points: number;
+    rubric: ICriterion[];
+}
+
 export interface ITask {
     task: string;
-    assigment_date?: Date;
-    deadline?: Date;
+    assignment_date: Date;
+    deadline: Date;
     instructions: string;
     points: number;
     rubric: ICriterion[];
@@ -17,7 +27,7 @@ export const taskSchema = new Schema<ITaskDocument>({
         type: String,
         required: true
     },
-    assigment_date: {
+    assignment_date: {
         type: Date
     },
     deadline: {

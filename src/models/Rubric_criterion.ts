@@ -1,5 +1,11 @@
 import { Schema, model, models } from 'mongoose';
 
+export interface TCriterion {
+    _id: string;
+    criterion: string;
+    points: number;
+}
+
 export interface ICriterion {
     criterion: string;
     points: number;

@@ -2,6 +2,15 @@ import { Schema, model, models } from 'mongoose';
 import { IMessage, messageSchema } from '@/models/Message';
 import { ITopic, topicSchema } from '@/models/Topic';
 
+export interface TCourse {
+    _id: string;
+    course: string;
+    description: string;
+    profile_photo?: string;
+    messages: IMessage[];
+    topics: ITopic[];
+}
+
 export interface ICourse {
     course: string;
     description: string;

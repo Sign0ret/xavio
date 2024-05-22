@@ -1,5 +1,42 @@
 import { Schema, Document, model } from 'mongoose';
 
+export interface TOption {
+    _id: string;
+    text: string;
+    isCorrect?: boolean;
+    isElected?: boolean;
+}
+
+export interface TQuestion {
+    _id: string;
+    question: string;
+    points: number;
+    options: IOption[];
+}
+
+export interface TAnswer {
+    _id: string;
+    question: string;
+    points: number;
+    options: IOption[];
+}
+
+export interface TSubmit {
+    _id: string;
+    sender: string;
+    grade: number;
+    answers: IAnswer[];
+}
+
+export interface TQuiz {
+    _id: string;
+    quiz: string;
+    structure: IQuestion[];
+    submits: ISubmit[];
+    assignment_date?: Date;
+    deadline?: Date;
+}
+
 export interface IOption {
     text: string;
     isCorrect?: boolean;
@@ -28,6 +65,8 @@ export interface IQuiz {
     quiz: string;
     structure: IQuestion[];
     submits: ISubmit[];
+    assignment_date?: Date;
+    deadline?: Date;
 }
 
 interface IOptionDocument extends IOption, Document {}
@@ -105,6 +144,14 @@ export const quizSchema = new Schema<IQuizDocument>({
     },
     structure: [questionSchema],
     submits: [submitSchema],
+    assignment_date: {
+        type: Date,
+        //required: true
+    },
+    deadline: {
+        type: Date,
+        //required: true
+    },
 }, {
     timestamps: true
 });
