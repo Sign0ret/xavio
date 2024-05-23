@@ -1,6 +1,9 @@
 import { Schema, model, models } from 'mongoose';
 import { IMessage, messageSchema } from '@/models/Message';
 import { ITopic, topicSchema } from '@/models/Topic';
+import { object } from 'zod';
+
+
 
 export interface TCourse {
     _id: string;
