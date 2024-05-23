@@ -52,7 +52,7 @@ export async function POST(request: NextRequest, { params }: Props) {
       const updatedCourse = await Course.findOneAndUpdate(
         { _id: course, 'topics._id': topic },
         { $push: { 'topics.$.quizzes': data } },
-        { new: true }
+        { new: true, runValidators: true }
       );
   
       if (!updatedCourse) {

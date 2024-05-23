@@ -38,6 +38,7 @@ const useChatSocket = (socket: Socket | null) => {
 
     const deleteMessage = (messageId: string) => {
         if (socket) {
+            console.log("id:", messageId);
             socket.emit("client:deleteMessage", messageId);
         }
     };
