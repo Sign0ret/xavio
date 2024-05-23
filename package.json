@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@radix-ui/react-label": "^2.0.2",
-    "@tabler/icons-react": "^3.4.0",
+    "@tabler/icons-react": "^3.5.0",
     "@tsparticles/engine": "^3.4.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.4.0",
@@ -64,7 +64,7 @@
     "daisyui": "^4.11.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
-    "framer-motion": "^11.2.4",
+    "framer-motion": "^11.2.6",
     "mini-svg-data-uri": "^1.4.4",
     "mongoose": "^8.4.0",
     "postcss": "^8",

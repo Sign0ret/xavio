@@ -12,7 +12,7 @@ export default async function SessionLayout({
   children: React.ReactNode;
 }>) {  
   return (
-    <div>
+    <div className='max-h-full'>
         {children}
     </div>
   );
