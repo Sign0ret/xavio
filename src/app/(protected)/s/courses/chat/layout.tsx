@@ -1,6 +1,5 @@
 'use client'
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
@@ -16,6 +15,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { MessageCircleIcon, BellIcon, XIcon,  } from '@/components/icons';
+import { TCourse } from '@/models/Course';
 
 export default function ClasesLayout({
     children,
@@ -24,24 +24,34 @@ export default function ClasesLayout({
   }) {
     const [selectedChat, setSelectedChat] = useState<number | null>(null);
     const [open, setOpen] = useState<boolean>(true);
-    const chatsInfo = [
-        /* 
-            message should be queried 
-            badge should  be queried
-        */
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'bbbbbb', name: 'fisica', message: 'Lets meet tomorrow at...', badge: 2 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
-        { id: 'aaa', name: 'Mate', message: 'Can you send me the file?...', badge: 5 },
+    const [chatsInfo, setChatsInfo] = useState([]); // State to hold fetched chat data
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState(null); // Error state
 
-      ];
+    useEffect(() => {
+        const fetchCourses = async () => {
+          try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses`);
+            if (!res.ok) {
+              throw new Error('Failed to fetch courses');
+            }
+            const data = await res.json();
+            setChatsInfo(data);
+            setLoading(false);
+          } catch (error:any) {
+            setError(error);
+            setLoading(false);
+          }
+        };
+    
+        fetchCourses();
+    
+        // Cleanup function if needed
+        return () => {
+          // Cleanup code
+        };
+      }, []);
+
       const houses = {
         "Process": [
           { value: "house1", label: "House 1" },
@@ -130,23 +140,23 @@ export default function ClasesLayout({
                     </div>
                     {/* lg */}
                     <nav className="grid items-start px-4 text-sm font-medium ">
-                        {chatsInfo.map((chat, index) => (
+                        {chatsInfo.map((course:TCourse, index) => (
                             <Link
                             key={index}
                             className={`flex items-center gap-3 rounded-lg ${selectedChat === index ? 'bg-zin-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50' : 'px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'}`}
-                            href={`/s/courses/chat/${chat.id}`}
+                            href={`/s/courses/chat/${course._id}`}
                             onClick={() => setSelectedChat(index)}
                             >
                             <Avatar className="z-0"> {/* Change z-[-20] to z-0 */}
-                                <AvatarImage alt={`@${chat.id}`} src="/placeholder-avatar.jpg" />
-                                <AvatarFallback>{chat.name.charAt(0)}</AvatarFallback>
+                                <AvatarImage alt={`@${course._id}`} src="/placeholder-avatar.jpg" />
+                                <AvatarFallback>{course.course.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div>
-                                <div className='text-white hover:text-white-400'>{chat.name}</div>
-                                <div className="text-xs text-white">{chat.message}</div>
+                                <div className='text-white hover:text-white-400'>{course.course}</div>
+                                {/* <div className="text-xs text-white">{course.message}</div> */}
                             </div>
-                            <Badge className="ml-auto bg-purple-600 hover:bg-white hover:text-black">{chat.badge}</Badge>
-                            </Link>
+{/*                             <Badge className="ml-auto bg-purple-600 hover:bg-white hover:text-black">{course.badge}</Badge>
+ */}                            </Link>
                         ))}
                     </nav>
                 </div>
@@ -196,23 +206,23 @@ export default function ClasesLayout({
                         </div>
                         {/* mobile */}
                         <nav className="grid items-start px-4 text-sm font-medium">
-                            {chatsInfo.map((chat, index) => (
+                            {chatsInfo.map((course:TCourse, index) => (
                                 <Link
                                 key={index}
                                 className={`flex items-center gap-3 rounded-lg ${selectedChat === index ? 'bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50' : 'px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'}`}
-                                href={`/s/courses/chat/${chat.id}`}
+                                href={`/s/courses/chat/${course._id}`}
                                 onClick={() => setSelectedChat(index)}
                                 >
                                 <Avatar>
-                                    <AvatarImage alt={`@${chat.id}`} src="/placeholder-avatar.jpg" />
-                                    <AvatarFallback>{chat.name.charAt(0)}</AvatarFallback>
+                                    <AvatarImage alt={`@${course._id}`} src="/placeholder-avatar.jpg" />
+                                    <AvatarFallback>{course.course.charAt(0)}</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <div>{chat.name}</div>
-                                    <div className="text-xs text-gray-400">{chat.message}</div>
+                                    <div>{course.course}</div>
+                                    {/* <div className="text-xs text-gray-400">{course.message}</div> */}
                                 </div>
-                                <Badge className="ml-auto bg-purple-600 hover:bg-white hover:text-black">{chat.badge}</Badge>
-                                </Link>
+{/*                                 <Badge className="ml-auto bg-purple-600 hover:bg-white hover:text-black">{course.badge}</Badge>
+ */}                                </Link>
                             ))}
                         </nav>
                     </div>

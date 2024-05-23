@@ -15,8 +15,9 @@ import QuizCompare from './sidebar/quiz-compare';
 
 type Props = {
   params: {
-    course: string;
-    quiz: string;
+    course: string,
+    topic: string,
+    quiz: string,
   };
   quizDescription: {
     topic: string,

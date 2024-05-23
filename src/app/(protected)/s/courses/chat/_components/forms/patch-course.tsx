@@ -99,13 +99,7 @@ const studentsInfo = [
     // Los demás mensajes seguirían aquí con la misma estructura
   ];
 
-type Props = {
-    params: { 
-      course: string,
-   }
-};
-  
-export function PatchCourse({ params }: Props) {
+export function PatchCourse({ courseName }: { courseName: string }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
     const toggleDropdown = () => {
@@ -122,7 +116,7 @@ export function PatchCourse({ params }: Props) {
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                    <span className="font-semibold text-white">{params.course}</span>
+                    <span className="font-semibold text-white">{courseName}</span>
                     <span className="text-sm text-gray-100 mr-auto">Online</span>
                 </div>
                 </div>

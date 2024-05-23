@@ -52,6 +52,7 @@ const quizInfo = [
 type Props = {
     params: { 
         course: string,
+        topic: string,
         quiz: string,
     }
 };

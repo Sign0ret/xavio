@@ -1,11 +1,27 @@
 import { Schema, model, models } from 'mongoose';
-import { messageSchema } from '@/models/Message';
-import { topicSchema } from '@/models/Topic';
-import { quizSchema } from '@/models/Quiz';
-import { taskSchema } from '@/models/Task';
+import { IMessage, messageSchema } from '@/models/Message';
+import { ITopic, topicSchema } from '@/models/Topic';
 
+export interface TCourse {
+    _id: string;
+    course: string;
+    description: string;
+    profile_photo?: string;
+    messages: IMessage[];
+    topics: ITopic[];
+}
 
-const courseSchema = new Schema({
+export interface ICourse {
+    course: string;
+    description: string;
+    profile_photo?: string;
+    messages: IMessage[];
+    topics: ITopic[];
+}
+
+interface ICourseDocument extends ICourse, Document {}
+
+const courseSchema = new Schema<ICourseDocument>({
     course: {
         type: String,
         required: true
@@ -19,8 +35,7 @@ const courseSchema = new Schema({
     },
     messages: [messageSchema],
     topics: [topicSchema],
-    quizzes: [quizSchema],
-    tasks: [taskSchema]
+
 }, {
     timestamps: true
 });

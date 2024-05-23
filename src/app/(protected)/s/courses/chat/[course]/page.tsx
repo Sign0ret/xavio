@@ -1,11 +1,12 @@
 "use client"
 import React from 'react';
 import { Metadata } from 'next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import useChatSocket from '../_components/socket/functions';
 import { Message } from '../_components/messages/message';
+
 
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { 
@@ -75,6 +76,8 @@ import { PostHomework } from '../_components/forms/post-homework';
 import { PostSubject } from '../_components/forms/post-subject';
 import { PostQuiz } from '../_components/forms/post-quiz';
 import { PatchCourse } from '../_components/forms/patch-course';
+import useWebSocketConnection from '../_components/socket/connection';
+import { TCourse } from '@/models/Course';
 
 type Props = {
   params: { 
@@ -90,18 +93,18 @@ type Props = {
   
 export default function ChatClase( { params }: Props) {
     // start websocket logic
+    const { socket, messages } = useWebSocketConnection(params.course);
+    //console.log(socket);
     const {
-        socket,
-        message,
-        setMessage,
-        messages,
-        selectedMessageId,
-        updatedMessage,
-        sendMessage,
-        selectMessage,
-        updateMessage,
-        deleteMessage
-      } = useChatSocket();
+      message,
+      setMessage,
+      selectedMessageId,
+      updatedMessage,
+      sendMessage,
+      selectMessage,
+      updateMessage,
+      deleteMessage
+    } = useChatSocket(socket);
   
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault(); // Prevent default form submission behavior
@@ -123,10 +126,39 @@ export default function ChatClase( { params }: Props) {
   const handleOpenReply = (message: Message) => {
     setReply(message);
   };
-  
+
   const [openTasks, setOpenTasks] = useState<boolean>(false);
   const [upInput, setUpInput] = useState<boolean>(false);
-  
+  const [course, setCourse] = useState<TCourse | null>(null);
+  const [error, setError] = useState(null); // Error state
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}`);
+        if (!res.ok) {
+          throw new Error('Failed to fetch course');
+        }
+        const data = await res.json();
+        setCourse(data);
+      } catch (error:any) {
+        setError(error);
+      }
+    };
+
+    fetchCourse();
+
+    // Cleanup function if needed
+    return () => {
+      // Cleanup code
+    };
+  }, [params.course]);
+
+  // Handle loading state
+  if (!course) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <section >
         <div className="hidden lg:flex flex-col min-h-screen h-screen pt-[70px]">
@@ -136,7 +168,7 @@ export default function ChatClase( { params }: Props) {
                 <span className="sr-only">Classes</span>
             </Link>
 
-            <PatchCourse params={params} />
+            <PatchCourse courseName={course.course}/>
             <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <PencilIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
@@ -159,7 +191,7 @@ export default function ChatClase( { params }: Props) {
                     <section className='flex flex-row overflow-y-hidden'>
                         <div className="w-4/5 p-4 overflow-y-auto no-scrollbar ">
                         {messages.map((msg: Message, index) => (
-                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} />
+                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket}/>
                         ))}
                         </div>
                         <section className='w-[280px] relative inset-x-0 max-w-2xl mx-auto z-50 '>
@@ -171,7 +203,7 @@ export default function ChatClase( { params }: Props) {
             ) : (
                      <div className='p-4 overflow-y-auto no-scrollbar mr-4'>
                         {messages.map((msg: Message, index) => (
-                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} />
+                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket}/>
                         ))}
                       </div>
             )}
@@ -301,7 +333,7 @@ export default function ChatClase( { params }: Props) {
                     <MessageCircleIcon className="h-6 w-6" />
                     <span className="sr-only">Home</span>
                 </Link>
-            <PatchCourse params={params} />
+            {/* <PatchCourse params={params} /> */}
             <Button className="flex lg:hidden ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <PencilIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
@@ -327,7 +359,7 @@ export default function ChatClase( { params }: Props) {
             <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-h-full overflow-y-hidden">
                      <div className='p-4 overflow-y-auto no-scrollbar'>
                         {messages.map((msg: Message, index) => (
-                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} />
+                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket}/>
                         ))}
                       </div>
                     <div className={`mt-auto ${upInput ? 'mb-20' : 'mb-0'}`}>

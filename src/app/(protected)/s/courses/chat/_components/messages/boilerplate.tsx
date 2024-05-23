@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 type Props = {
   message: {
@@ -26,20 +26,23 @@ type Props = {
     course: string;
   },
   onReply: (message: Message) => void;
+  socket: any;
 };
 
-export function Boilerplate_message({ message, params, onReply }: Props) {
+export function Boilerplate_message({ message, params, onReply, socket}: Props) {
   const user = useCurrentUser();
   const {
-    socket,
     deleteMessage,
     selectMessage,
-    updateMessage: socketUpdateMessage
-  } = useChatSocket();
-
+    updatedMessage,
+    updateMessage,
+    setSelectedMessageId,
+    setUpdatedMessage
+  } = useChatSocket(socket);
+  
+  const [showCopiedMessage, setShowCopiedMessage] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedMessage, setUpdatedMessage] = useState(message.message);
 
   const handleReply = () => {
     // Call the function passed from the parent and pass a string value
@@ -50,16 +53,29 @@ export function Boilerplate_message({ message, params, onReply }: Props) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const isCurrentUser = user?.id ? message.sender === user.id : false;
+  const isCurrentUser = user?.id ? message.sender === user.id : false;
 
   const handleEdit = () => {
     setIsEditing(true);
+    setUpdatedMessage(message.message)
     selectMessage(message._id);
   };
 
   const handleUpdate = () => {
-    socketUpdateMessage();
-    setIsEditing(false);
+    if (message.message != updatedMessage) {
+      updateMessage();
+      setIsEditing(false);
+    }else{
+      setIsEditing(false);
+    }
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message.message);
+    setShowCopiedMessage(true);
+    setTimeout(() => {
+      setShowCopiedMessage(false);
+    }, 600);
   };
 
   return (
@@ -80,32 +96,35 @@ export function Boilerplate_message({ message, params, onReply }: Props) {
             <DropdownMenuLabel>opciones</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleReply}>Contestar</DropdownMenuItem>
-            <DropdownMenuItem>Copiar</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleCopy}>Copiar</DropdownMenuItem>
             <DropdownMenuItem onClick={handleEdit}>Editar</DropdownMenuItem>
             <DropdownMenuItem onClick={() => deleteMessage(message._id)}>Eliminar</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
-      <div className={`flex flex-col w-full max-w-[320px] lg:max-w-[500px] leading-1.5 p-4 border-gray-200 bg-zinc-600 ${isCurrentUser ? 'rounded-s-xl rounded-se-xl' : 'rounded-e-xl rounded-es-xl'} dark:bg-gray-700`}>
-        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-          <span className="text-sm font-semibold text-white dark:text-white">{message.sender}</span>
-        </div>
-        {isEditing ? (
-          <input
-            type="text"
-            value={updatedMessage}
-            onChange={(e) => setUpdatedMessage(e.target.value)}
-            onBlur={handleUpdate}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') handleUpdate();
-            }}
-            className="text-sm font-normal py-2.5 text-white bg-transparent outline-none"
-          />
-        ) : (
-          <p className="text-sm font-normal py-2.5 text-white">{message.message}</p>
-        )}
-        <span className="text-sm font-normal text-gray-300">Delivered</span>
-      </div>
+      <div className={`flex flex-col w-full max-w-[320px] lg:max-w-[500px] leading-1.5 p-4 border-gray-200 bg-zinc-600 ${isCurrentUser ? 'rounded-s-xl rounded-se-xl' : 'rounded-e-xl rounded-es-xl'} dark:bg-gray-700`} style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+  <div className="flex items-center space-x-2 rtl:space-x-reverse">
+    <span className="text-sm font-semibold text-white dark:text-white">{message.sender}</span>
+  </div>
+  {isEditing ? (
+    <input
+      type="text"
+      value={updatedMessage}
+      onChange={(e) => setUpdatedMessage(e.target.value)}
+      onBlur={handleUpdate}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') handleUpdate();
+      }}
+      className="text-sm font-normal py-2.5 text-white bg-transparent outline-none"
+    />
+  ) : (
+    <p className="text-sm font-normal py-2.5 text-white">{message.message}</p>
+  )}
+  <span className="text-sm font-normal text-gray-300">Delivered
+    {message.updatedAt !== message.createdAt ? " (Edited)" : ""}
+  </span>
+</div>
+
       {!isCurrentUser && (
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -119,11 +138,14 @@ export function Boilerplate_message({ message, params, onReply }: Props) {
             <DropdownMenuLabel>opciones</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleReply}>Contestar</DropdownMenuItem>
-            <DropdownMenuItem>Copiar</DropdownMenuItem>
-            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleCopy} >Copiar</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleEdit} >Editar</DropdownMenuItem>
             <DropdownMenuItem onClick={() => deleteMessage(message._id)}>Eliminar</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      )}
+      {showCopiedMessage && (
+        <span className="text-white bg-zinc-600 py-1 px-2 rounded-md">Copied</span>
       )}
     </div>
   );

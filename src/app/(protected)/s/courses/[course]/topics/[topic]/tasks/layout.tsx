@@ -1,4 +1,4 @@
-import { Button } from "../../../_components/ui/moving-border";
+import { Button } from "@/app/(protected)/s/_components/ui/moving-border";
 
 export default function TasksCourseLayout({
   children,
@@ -6,7 +6,8 @@ export default function TasksCourseLayout({
 }: {
   children: React.ReactNode;
   params: {
-    course: string;
+    course: string,
+    topic: string,
   };
 }) {
   return (

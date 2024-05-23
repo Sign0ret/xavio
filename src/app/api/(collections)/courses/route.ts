@@ -10,9 +10,9 @@ export async function GET()  {
 
 export async function POST(request: any) {
     try {
-        const data = await request.json()
-        const newObject = new Course(data)
-        const savedObject = await newObject.save()
+        const data = await request.json();
+        const newObject = new Course(data);
+        const savedObject = await newObject.save();
         return NextResponse.json(savedObject);
     } catch(error: any) {
         return NextResponse.json(error.message, {
