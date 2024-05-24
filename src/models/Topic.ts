@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose';
-import { IQuiz, quizSchema } from '@/models/Quiz';
-import { ITask, taskSchema } from '@/models/Task';
+import { IQuiz, TQuiz, quizSchema } from '@/models/Quiz';
+import { ITask, TTask, taskSchema } from '@/models/Task';
 
 export interface TContent {
     _id: string;
@@ -10,9 +10,9 @@ export interface TContent {
 export interface TTopic {
     _id: string;
     topic: string;
-    content: IContent[];
-    quizzes?: IQuiz[];
-    tasks: ITask[];
+    content: TContent[];
+    quizzes?: TQuiz[];
+    tasks: TTask[];
 }
 
 export interface IContent {

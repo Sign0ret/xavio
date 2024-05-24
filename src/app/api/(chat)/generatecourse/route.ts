@@ -59,7 +59,7 @@ export async function POST(request: Request,res:Response) {
             temperature:0, 
         });
        
-
+        // @ts-ignore
         const functionResponse = JSON.parse(chatCompletion.choices[0].message.function_call.arguments);
 
         return NextResponse.json(functionResponse);

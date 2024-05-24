@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
@@ -21,42 +21,35 @@ import {
   BookOpenIcon,
 } from '@/components/icons';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
-
-type Assignments = {
-  id: string,
-  type: string,
-  title: string,
-  description: string,
-}
+import { TCourse } from '@/models/Course';
+import { ByQuizzes, ByTask, ByTopic, ByContent } from './rightbar-blocks/by';
 
 type Props = {
   params: {
     course: string;
-  };
+  },
+  courseInfo: TCourse,
 };
 
-export function Right_bar({ params }: Props) {
-  const [value, setValue] = React.useState('tareas');
-  const [tareas, setTareas] = React.useState<Assignments[] | null>(null);
-  const [temas, setTemas] = React.useState<Assignments[] | null>(null);
-  const [quizzes, setQuizzes] = React.useState<Assignments[] | null>(null);
+export function Right_bar({ params, courseInfo }: Props) {
+  const [value, setValue] = React.useState('assignments');
   
   let content;
   switch (value) {
     case 'assignments':
-      content = <HoverEffect params={params} items={projects} />;
+      content = <ByTopic params={params} items={courseInfo?.topics} />;
       break;
     case 'temas':
-      content = <HoverEffect params={params} items={projects} />;
+      content = <ByContent params={params} items={courseInfo?.topics} />;
       break;
     case 'tareas':
-      content = <HoverEffect params={params} items={projects} />;
+      content = <ByTask params={params} items={courseInfo?.topics} />;
       break;
       case 'quizzes':
-      content = <HoverEffect params={params} items={projects} />;
-      break;
+        content = <ByQuizzes params={params} items={courseInfo?.topics} />;
+        break;
     default:
-      content = <HoverEffect params={params} items={projects} />;
+      content = <ByTopic params={params} items={courseInfo?.topics} />;
       break;
   }
   return (
@@ -87,47 +80,3 @@ export function Right_bar({ params }: Props) {
     </Card>
   )
 }
-export const projects = [
-  {
-    id: "tema1",
-    type: "topics",
-    title: "Tema 1",
-    description:
-      "A technology company that builds economic infrastructure for the internet.",
-  },
-  {
-    id: "tarea1",
-    type: "tasks",
-    title: "Tarea 1",
-    description:
-      "A streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.",
-  },
-  {
-    id: "quiz1",
-    type: "quizzes",
-    title: "Quiz 1",
-    description:
-      "A multinational technology company that specializes in Internet-related services and products.",
-  },
-  {
-    id: "tema2",
-    type: "topics",
-    title: "Tema 2",
-    description:
-      "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
-  },
-  {
-    id: "tema3",
-    type: "topics",
-    title: "Tema 3",
-    description:
-      "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
-  },
-  {
-    id: "tema4",
-    type: "topics",
-    title: "Tema 4",
-    description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
-  },
-];

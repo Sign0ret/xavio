@@ -15,16 +15,21 @@ type Props = {
       lastUpdated: string,
       contributor: string,
     };
+    onBegin: () => void;
   };
 
-function QuizDescription({ params , quizDescription}: Props) {
+function QuizDescription({ params , quizDescription, onBegin}: Props) {
+  const handleBeginClick = () => {
+    onBegin();
+  };
   return (
     <div>
         <QuizData params={params} quizDescription={quizDescription}/>
         <QuizInstructions params={params} quizDescription={quizDescription}/>
         <Link
-          href={`/s/courses/${params.course}/quizzes/${params.quiz}/doing`}
+          href={`/s/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}/doing`}
           className="flex items-center border-2 border-white text-white font-bold mt-4 rounded-lg px-4 py-2"
+          onClick={handleBeginClick}
         >
           Begin quiz
         </Link>

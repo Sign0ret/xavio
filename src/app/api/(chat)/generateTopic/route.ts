@@ -61,7 +61,7 @@ export async function POST(request: Request,res:Response) {
             messages: [
                 {
                     role: "user",
-                    content: `Generate a detailed topic for a study plan for this course "${course}" , make a PDF of the topic and provide two sources of information for example websites that explains this topic, the level of detail that you need is this ${detail} give me your response in a Json format with this schema ${quizz}`,
+                    content: `Generate a detailed topic for a study plan for this course "${course}" , make a PDF of the topic and provide two sources of information for example websites that explains this topic, the level of detail that you need is this ${detail} give me your response in a Json format with this schema ${topic}`,
                 }
             ],
             model: "gpt-4o",
@@ -72,7 +72,7 @@ export async function POST(request: Request,res:Response) {
             temperature:0, 
         });
        
-
+        // @ts-ignore
         const functionResponse = JSON.parse(chatCompletion.choices[0].message.function_call.arguments);
 
         return NextResponse.json(functionResponse);

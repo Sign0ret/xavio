@@ -1,6 +1,7 @@
 import React from 'react'
 import QuizInstructions from './quiz-instructions'
 import QuizData from './quiz-data';
+import { QuizDo } from '../quiz-do';
 
 type Props = {
   params: {
@@ -14,9 +15,10 @@ type Props = {
     lastUpdated: string,
     contributor: string,
   };
+  onSubmit: () => void;
 };
 
-function QuizDoing({ params , quizDescription}: Props) {
+function QuizDoing({ params , quizDescription, onSubmit }: Props) {
   return (
     <div> 
       <QuizData params={params} quizDescription={quizDescription}/>
@@ -31,6 +33,7 @@ function QuizDoing({ params , quizDescription}: Props) {
         </div>
       </div>
       <QuizInstructions params={params} quizDescription={quizDescription}/>
+      <QuizDo params={params} onSubmit={onSubmit} />
     </div>
   )
 }

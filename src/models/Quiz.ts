@@ -26,15 +26,18 @@ export interface TSubmit {
     sender: string;
     grade: number;
     answers: IAnswer[];
+    open: boolean;
 }
 
 export interface TQuiz {
     _id: string;
     quiz: string;
+    maxpoints: number;
     structure: IQuestion[];
     submits: ISubmit[];
     assignment_date?: Date;
     deadline?: Date;
+    timelimit?: number;
 }
 
 export interface IOption {
@@ -59,14 +62,17 @@ export interface ISubmit {
     sender: string;
     grade: number;
     answers: IAnswer[];
+    open: boolean;
 }
 
 export interface IQuiz {
     quiz: string;
+    maxpoints: number;
     structure: IQuestion[];
     submits: ISubmit[];
     assignment_date?: Date;
     deadline?: Date;
+    timelimit?: number;
 }
 
 interface IOptionDocument extends IOption, Document {}
@@ -132,6 +138,9 @@ const submitSchema = new Schema<ISubmitDocument>({
         type: Number,
         required: true
     },
+    open: {
+        type: Boolean,
+    },
     answers: [answerSchema]
 }, {
     timestamps: true
@@ -141,6 +150,9 @@ export const quizSchema = new Schema<IQuizDocument>({
     quiz: {
         type: String,
         required: true
+    },
+    maxpoints: {
+        type: Number
     },
     structure: [questionSchema],
     submits: [submitSchema],
@@ -152,6 +164,9 @@ export const quizSchema = new Schema<IQuizDocument>({
         type: Date,
         //required: true
     },
+    timelimit: {
+        type: Number,
+    }
 }, {
     timestamps: true
 });

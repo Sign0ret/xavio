@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 import { IMessage, messageSchema } from '@/models/Message';
-import { ITopic, topicSchema } from '@/models/Topic';
+import { ITopic, TTopic, topicSchema } from '@/models/Topic';
 import { object } from 'zod';
 
 
@@ -11,7 +11,7 @@ export interface TCourse {
     description: string;
     profile_photo?: string;
     messages: IMessage[];
-    topics: ITopic[];
+    topics: TTopic[];
 }
 
 export interface ICourse {

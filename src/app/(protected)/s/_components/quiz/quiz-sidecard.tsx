@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 import { 
@@ -12,6 +12,7 @@ import QuizDescription from './sidebar/quiz-description';
 import QuizDoing from './sidebar/quiz-doing';
 import QuizRevision from './sidebar/quiz-revision';
 import QuizCompare from './sidebar/quiz-compare';
+import { QuizDo } from './quiz-do';
 
 type Props = {
   params: {
@@ -28,15 +29,34 @@ type Props = {
 };
 
 export function QuizSideCard({ params, quizDescription }: Props) {
-  
   const [value, setValue] = React.useState('description');
+
+  const [doingActive, setDoingActive] = useState(false);
+  const [descriptionDisabled, setDescriptionDisabled] = useState(false);
+  const [revisionActive, setRevisionActive] = useState(false);
+  const [compareActive, setCompareActive] = useState(false);
+
+
+  const handleBeginClick = () => {
+    setValue('doing');
+    setDoingActive(true);
+    setDescriptionDisabled(true);
+  };
+
+  const handleSubmit = () => {
+    setValue('revision');
+    setDoingActive(false);
+    setRevisionActive(true);
+    setCompareActive(true);
+  };
+
   let content;
   switch (value) {
     case 'description':
-      content = <QuizDescription params={params} quizDescription={quizDescription}/>;
+      content = <QuizDescription params={params} quizDescription={quizDescription} onBegin={handleBeginClick}/>;
       break;
     case 'doing':
-      content = <QuizDoing params={params} quizDescription={quizDescription}/>;
+      content = <QuizDoing params={params} quizDescription={quizDescription}  onSubmit={handleSubmit}/>;
       break;
     case 'revision':
       content = <QuizRevision params={params} quizDescription={quizDescription}/>;
@@ -45,7 +65,7 @@ export function QuizSideCard({ params, quizDescription }: Props) {
       content = <QuizCompare params={params} quizDescription={quizDescription}/>;
       break;
     default:
-      content = <QuizDescription params={params} quizDescription={quizDescription}/>;
+      content = <QuizDescription params={params} quizDescription={quizDescription} onBegin={handleBeginClick}/>;
       break;
   }
 
@@ -60,10 +80,10 @@ export function QuizSideCard({ params, quizDescription }: Props) {
                   if (value) setValue(value);
                 }}
               >
-                <ToggleGroupItem value="description"><ClipboardIcon className="h-4 w-4" /></ToggleGroupItem>
-                <ToggleGroupItem value="doing"><BookOpenIcon className='h-4 w-4' /></ToggleGroupItem>
-                <ToggleGroupItem value="revision"><CheckIcon className='h-4 w-4' /></ToggleGroupItem>
-                <ToggleGroupItem value="compare"><FileQuestionIcon className='h-4 w-4' /></ToggleGroupItem>              
+                <ToggleGroupItem value="description" disabled={descriptionDisabled}><ClipboardIcon className="h-4 w-4" /></ToggleGroupItem>
+                <ToggleGroupItem value="doing" disabled={!doingActive}><BookOpenIcon className='h-4 w-4' /></ToggleGroupItem>
+                <ToggleGroupItem value="revision" disabled={!revisionActive}><CheckIcon className='h-4 w-4' /></ToggleGroupItem>
+                <ToggleGroupItem value="compare" disabled={!compareActive}><FileQuestionIcon className='h-4 w-4' /></ToggleGroupItem>              
               </ToggleGroup>
       </div>
         <div>

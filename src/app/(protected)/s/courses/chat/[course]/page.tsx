@@ -195,7 +195,7 @@ export default function ChatClase( { params }: Props) {
                         ))}
                         </div>
                         <section className='w-[280px] relative inset-x-0 max-w-2xl mx-auto z-50 '>
-                            <Right_bar params={params}  />
+                            <Right_bar params={params} courseInfo={course} />
                         </section>
                     </section>
                 </>
@@ -346,7 +346,7 @@ export default function ChatClase( { params }: Props) {
                     {/* </Button> */}
                 </SheetTrigger>
                 <SheetContent>
-                    <Right_bar params={params} />
+                    <Right_bar params={params} courseInfo={course} />
                     {/* <SheetHeader>
                     <SheetDescription>
                         <p>ajustes</p>

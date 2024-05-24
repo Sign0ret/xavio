@@ -20,6 +20,6 @@ export const generateMetadata = ({ params }: Props): Metadata => {
 export default function QuizDoing( { params }: Props) {
  
   return (
-    <QuizDo params={params} />
+    <QuizDo params={params} onSubmit={() => {}}/>
   );
 }
