@@ -1,6 +1,13 @@
 import { Schema, model, models } from 'mongoose';
 import {ICriterion, criterionSchema} from '@/models/Rubric_criterion';
 
+export interface TSubmitT {
+    _id: string;
+    sender: string;
+    grade: number;
+    updatedAt: Date;
+}
+
 export interface TTask {
     _id: string;
     task: string;
@@ -8,10 +15,15 @@ export interface TTask {
     assignment_date: Date;
     deadline: Date;
     instructions: string;
-    points: number;
+    submits: TSubmitT[];
     maxpoints: number;
     rubric: ICriterion[];
     timeexp: number;
+}
+
+export interface ISubmitT {
+    sender: string;
+    grade: number;
 }
 
 export interface ITask {
@@ -20,13 +32,27 @@ export interface ITask {
     assignment_date: Date;
     deadline: Date;
     instructions: string;
-    points: number;
+    submits: ISubmitT[];
     maxpoints: number;
     rubric: ICriterion[];
     timeexp: number;
 }
 
 interface ITaskDocument extends ITask, Document {}
+interface ISubmitTDocument extends ISubmitT, Document {}
+
+const submitTSchema = new Schema<ISubmitTDocument>({
+    sender: {
+        type: String,
+        required: true
+    },
+    grade: {
+        type: Number,
+        required: true
+    },
+}, {
+    timestamps: true
+});
 
 export const taskSchema = new Schema<ITaskDocument>({
     task: {
@@ -45,9 +71,7 @@ export const taskSchema = new Schema<ITaskDocument>({
     instructions: {
         type : String
     },
-    points: {
-        type: Number
-    },
+    submits: [submitTSchema],
     maxpoints: {
         type: Number
     },

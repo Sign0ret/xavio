@@ -1,10 +1,16 @@
 import { Schema, Document, model } from 'mongoose';
 
-export interface TOption {
+export interface TOptionA {
     _id: string;
-    text: string;
+    option: string;
     isCorrect?: boolean;
     isElected?: boolean;
+}
+
+export interface TOption {
+    _id: string;
+    option: string;
+    isCorrect?: boolean;
 }
 
 export interface TQuestion {
@@ -27,23 +33,29 @@ export interface TSubmit {
     grade: number;
     answers: IAnswer[];
     open: boolean;
+    updatedAt: Date;
 }
 
 export interface TQuiz {
     _id: string;
     quiz: string;
     maxpoints: number;
-    structure: IQuestion[];
-    submits: ISubmit[];
+    structure: TQuestion[];
+    submits: TSubmit[];
     assignment_date?: Date;
     deadline?: Date;
     timelimit?: number;
 }
 
-export interface IOption {
-    text: string;
+export interface IOptionA {
+    option: string;
     isCorrect?: boolean;
     isElected?: boolean;
+}
+
+export interface IOption {
+    option: string;
+    isCorrect?: boolean;
 }
 
 export interface IQuestion {
@@ -75,14 +87,15 @@ export interface IQuiz {
     timelimit?: number;
 }
 
+interface IOptionADocument extends IOptionA, Document {}
 interface IOptionDocument extends IOption, Document {}
 interface IQuestionDocument extends IQuestion, Document {}
 interface IAnswerDocument extends IAnswer, Document {}
 interface ISubmitDocument extends ISubmit, Document {}
 export interface IQuizDocument extends IQuiz, Document {}
 
-const optionSchema = new Schema<IOptionDocument>({
-    text: {
+const optionASchema = new Schema<IOptionADocument>({
+    option: {
         type: String,
         required: true
     },
@@ -91,6 +104,17 @@ const optionSchema = new Schema<IOptionDocument>({
         default: false
     },
     isElected: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const optionSchema = new Schema<IOptionDocument>({
+    option: {
+        type: String,
+        required: true
+    },
+    isCorrect: {
         type: Boolean,
         default: false
     }
@@ -123,7 +147,7 @@ const answerSchema = new Schema<IAnswerDocument>({
         required: true
     },
     options: {
-        type: [optionSchema],
+        type: [optionASchema],
     }
 }, {
     timestamps: true
