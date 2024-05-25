@@ -106,7 +106,7 @@ export default async function TopicCourse({ params }: Props) {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <StarIcon className="h-4 w-4 fill-yellow-500" />
+                    <StarIcon className={`h-4 w-4 ${userSubmit ? 'fill-green-500' : 'fill-yellow-500'}`} />
                     <span>{userSubmit ? userSubmit.grade : task.maxpoints} pts</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
