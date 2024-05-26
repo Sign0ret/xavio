@@ -2,7 +2,6 @@
 import Course from './models/Courses';
 import Message from './models/Messages';
 
-
 export default (io) => {
     io.on('connection', (socket) => {
         console.log('A user connected');
@@ -14,21 +13,12 @@ export default (io) => {
             socket.join(courseId);
             console.log(`User joined course: ${courseId}`);
 
-            try {
-                const course = await Course.findById(courseId);
-                if (course) {
-                    socket.emit('server:loadmessages', course.messages);
-                } else {
-                    console.error('Course not found');
-                }
-            } catch (error) {
-                console.error('Error fetching messages:', error);
-            }
+            await handleFetchMessages({ courseId, page: 1, limit: 10 });
         };
 
         const handleSaveMessage = async (message_data) => {
-            console.log(message_data);
-            console.log(courseId);
+            //console.log(message_data);
+            //console.log(courseId);
             try {
                 const newMessage = new Message({
                     sender: message_data.sender,
@@ -73,7 +63,6 @@ export default (io) => {
 
         const handleDeleteMessage = async (messageId) => {
             try {
-                console.log(messageId)
                 const course = await Course.findByIdAndUpdate(
                     courseId,
                     { $pull: { messages: { _id: messageId } } },
@@ -90,11 +79,17 @@ export default (io) => {
             }
         };
 
-        const handleFetchMessages = async (courseId) => {
+        const handleFetchMessages = async ({ courseId, page = 1, limit = 10 }) => {
             try {
                 const course = await Course.findById(courseId);
                 if (course) {
-                    socket.emit('server:loadmessages', course.messages);
+                    const startIndex = (page - 1) * limit;
+                    const paginatedMessages = course.messages
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort messages by creation date descending
+                        .slice(startIndex, startIndex + limit)
+                        .reverse(); // Reverse to maintain chronological order
+                    console.log(paginatedMessages)
+                    socket.emit('server:loadmessages', { messages: paginatedMessages, page });
                 } else {
                     console.error('Course not found');
                 }
@@ -102,6 +97,7 @@ export default (io) => {
                 console.error('Error fetching messages:', error);
             }
         };
+        
 
         socket.on('joinCourse', handleJoinCourse);
         socket.on('client:saveMessage', handleSaveMessage);
