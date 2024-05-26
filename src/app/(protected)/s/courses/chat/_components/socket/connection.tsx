@@ -1,10 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { Message } from '../messages/message';
+import { useInView } from 'react-intersection-observer';
 
 const useWebSocketConnection = (courseId: string) => {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const { ref: topRef, inView, entry } = useInView({ threshold: [1.0] }); // Ensure threshold is appropriate
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    /* useEffect(() => {
+        console.log('topRef in view:', inView);
+        console.log('Intersection entry:', entry);
+    }, [inView, entry]); */
+
+    const scrollToBottom = () => {
+        setTimeout(() => {
+            scrollContainerRef.current?.scrollTo(0, scrollContainerRef.current.scrollHeight);
+        }, 1);
+    };
 
     useEffect(() => {
         const newSocket = io('ws://localhost:3001');
@@ -12,7 +27,6 @@ const useWebSocketConnection = (courseId: string) => {
 
         newSocket.on('connect', () => {
             console.log('Connected to WebSocket server');
-            // Fetch messages for the specific course
             newSocket.emit('joinCourse', courseId);
         });
 
@@ -20,14 +34,15 @@ const useWebSocketConnection = (courseId: string) => {
             console.log('Disconnected from WebSocket server');
         });
 
-        newSocket.on('server:loadmessages', (messages) => {
-            console.log('Received messages from server:', messages);
-            setMessages(messages);
+        newSocket.on('server:loadmessages', ({ messages: newMessages, page }) => {
+            console.log('Received messages from server:', newMessages);
+            setMessages((prevMessages) => [ ...newMessages, ...prevMessages]);
         });
 
         newSocket.on('server:newMessage', (newMessage) => {
             console.log('Received new message from server:', newMessage);
             setMessages((prevMessages) => [...prevMessages, newMessage]);
+            scrollToBottom();
         });
 
         newSocket.on('server:messageDeleted', (deletedMessageId) => {
@@ -48,11 +63,23 @@ const useWebSocketConnection = (courseId: string) => {
             console.log('Closing WebSocket connection...');
             newSocket.disconnect();
         };
-    }, [courseId]); // Add courseId as a dependency to re-establish connection when courseId changes
+    }, [courseId]);
+
+    useEffect(() => {
+        if (inView) {
+            const nextPage = page + 1;
+            if (socket) {
+                socket.emit('client:fetchMessages', { courseId, page: nextPage, limit: 10 });
+                setPage(nextPage);
+            }
+        }
+    }, [inView, socket, courseId]);
 
     return {
         socket,
         messages,
+        topRef,
+        scrollContainerRef,
     };
 };
 

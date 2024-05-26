@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Socket } from "socket.io-client";
 import { Message } from "../messages/message";
-
 const useChatSocket = (socket: Socket | null) => {
     const [message, setMessage] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
@@ -27,7 +26,6 @@ const useChatSocket = (socket: Socket | null) => {
     const selectMessage = (messageId: string) => {
         setSelectedMessageId(messageId);
     };
-
     const updateMessage = () => {
         if (socket && selectedMessageId) {
             socket.emit("client:updateMessage", { messageId: selectedMessageId, message: updatedMessage });
@@ -42,7 +40,6 @@ const useChatSocket = (socket: Socket | null) => {
             socket.emit("client:deleteMessage", messageId);
         }
     };
-
     return {
         message,
         setMessage,
@@ -57,5 +54,4 @@ const useChatSocket = (socket: Socket | null) => {
         setUpdatedMessage
     };
 };
-
 export default useChatSocket;
