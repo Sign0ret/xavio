@@ -319,7 +319,8 @@ export default function ChatClase({ params }: Props) {
             
             </header>
             <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-h-full overflow-y-hidden">
-                     <div className='p-4 overflow-y-auto no-scrollbar'>
+                     <div className='p-4 overflow-y-auto no-scrollbar' ref={scrollContainerRef}>
+                     <div ref={topRef}></div>
                         {messages.map((msg: Message, index) => (
                             <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket}/>
                         ))}

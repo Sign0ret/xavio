@@ -7,20 +7,20 @@ const useWebSocketConnection = (courseId: string) => {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [page, setPage] = useState<number>(1);
-    const { ref: topRef, inView, entry } = useInView({ threshold: [1.0] }); // Ensure threshold is appropriate
+    const { ref: topRef, inView } = useInView({ threshold: [1.0] });
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-    /* useEffect(() => {
-        console.log('topRef in view:', inView);
-        console.log('Intersection entry:', entry);
-    }, [inView, entry]); */
 
     const scrollToBottom = () => {
         setTimeout(() => {
-            scrollContainerRef.current?.scrollTo(0, scrollContainerRef.current.scrollHeight);
-        }, 1);
+            const scrollContainer = scrollContainerRef.current;
+            if (scrollContainer) {
+                scrollContainer.scrollTo({
+                    top: scrollContainer.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
     };
-
     useEffect(() => {
         const newSocket = io('ws://localhost:3001');
         setSocket(newSocket);
@@ -35,12 +35,26 @@ const useWebSocketConnection = (courseId: string) => {
         });
 
         newSocket.on('server:loadmessages', ({ messages: newMessages, page }) => {
-            console.log('Received messages from server:', newMessages);
-            setMessages((prevMessages) => [ ...newMessages, ...prevMessages]);
+            const scrollContainer = scrollContainerRef.current;
+            let previousScrollHeight = 0;
+            let previousScrollTop = 0;
+            if (scrollContainer) {
+                previousScrollHeight = scrollContainer.scrollHeight;
+                previousScrollTop = scrollContainer.scrollTop;
+            }
+
+            setMessages((prevMessages) => [ ...newMessages, ...prevMessages]); 
+
+            setTimeout(() => {
+                if (scrollContainer) {
+                    const newScrollHeight = scrollContainer.scrollHeight;
+                    const heightDifference = newScrollHeight - previousScrollHeight;
+                    scrollContainer.scrollTop = previousScrollTop + (heightDifference-100);
+                }
+            }, 10); 
         });
 
         newSocket.on('server:newMessage', (newMessage) => {
-            console.log('Received new message from server:', newMessage);
             setMessages((prevMessages) => [...prevMessages, newMessage]);
             scrollToBottom();
         });
