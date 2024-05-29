@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { Proyects } from './_components/profile/proyects';
-import { SparklesPreview } from './_components/profile/spark-bg';
+import { BackgroundBeams } from '@/components/ui/background-gradient-animation';
 import { AnimatedTooltipPreview } from './_components/profile/avatar-circle';
 import { Portafolio } from './_components/profile/portfolio';
 import { currentUser } from '@/lib/auth';
@@ -17,7 +17,7 @@ export default async function Perfil() {
  
   return (
     <div className="relative min-h-[2000px] z-0">
-      <SparklesPreview/>
+      <BackgroundBeams/>
       <section className=' z-10 flex flex-grow m-10 mt-16 absolute inset-0 flex-col justify-center items-center'>
         <div className="flex flex-grow m-14 max-h-96 w-full">
           <div className="flex-1 mr-4">
