@@ -1,8 +1,5 @@
 "use client";
 import React from "react";
-import { BackgroundGradient } from "../ui/background-gradient";
-import { IconAppWindow } from "@tabler/icons-react";
-import Image from "next/image";
 import { Button } from '@/components/ui/button';
 
 const quizInfo = [
@@ -57,11 +54,7 @@ type Props = {
   onSubmit: () => void;
 };
 
-export function QuizDo({ params, onSubmit}: Props) {
-  
-  const handleSubmit = () => {
-    onSubmit();
-  };
+export function QuizDo({ params }: Props) {
   return (
     <div className='max-h-[84vh] overflow-y-auto pb-20'>
       <h2 className="mb-4 text-4xl font-bold text-white">Quiz {params.quiz}</h2>
@@ -84,8 +77,8 @@ export function QuizDo({ params, onSubmit}: Props) {
               </section>
           ))}
       <Button 
-      className="relative inset-x-0  mx-auto z-50 hover:bg-zinc-700 transition-colors duration-300"
-      onClick={handleSubmit}
+        className="relative inset-x-0  mx-auto z-50 hover:bg-zinc-700 transition-colors duration-300"
+        type="submit"
       >
           Submit
       </Button>

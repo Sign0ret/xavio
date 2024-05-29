@@ -2,6 +2,7 @@ import React from 'react'
 import QuizInstructions from './quiz-instructions'
 import QuizData from './quiz-data';
 import { QuizDo } from '../quiz-do';
+import { TQuiz } from '@/models/Quiz';
 
 type Props = {
   params: {
@@ -9,12 +10,7 @@ type Props = {
     topic: string,
     quiz: string,
   };
-  quizDescription: {
-    topic: string,
-    description: string,
-    lastUpdated: string,
-    contributor: string,
-  };
+  quizDescription: TQuiz;
   onSubmit: () => void;
 };
 

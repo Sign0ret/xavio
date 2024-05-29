@@ -11,14 +11,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 
-const quizDescription = {
-  topic: "Algebra",
-  description: "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols.",
-  lastUpdated: "2024-03-30T10:20:00",
-  contributor: "adolfo"
-}
-
-export default function QuizClaseLayout({
+export default async function QuizClaseLayout({
     children,
     params, // will be a page or nested layout
   }: {
@@ -29,6 +22,13 @@ export default function QuizClaseLayout({
         quiz: string,
     }
   }) {
+    const fetchQuiz = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}`);
+      const quiz = await res.json();
+      console.log("quiz:", quiz);
+      return quiz;
+    }
+    const quizDescription = await fetchQuiz();
     return (
       <div>
         {/* Large */}

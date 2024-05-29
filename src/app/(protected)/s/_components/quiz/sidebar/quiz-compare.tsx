@@ -11,6 +11,7 @@ import { BookOpenIcon } from '@/components/icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { TQuiz } from '@/models/Quiz';
 
 const studentsInfo = [
   {
@@ -82,12 +83,7 @@ type Props = {
     topic: string,
     quiz: string,
   };
-  quizDescription: {
-    topic: string,
-    description: string,
-    lastUpdated: string,
-    contributor: string,
-  };
+  quizDescription: TQuiz;
 };
 
 function QuizCompare({ params , quizDescription}: Props) {

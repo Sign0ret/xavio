@@ -8,7 +8,7 @@ export default function QuizClaseLayout({
   }
 }) {
   return (
-    <div className="h-screen w-full pt-20 bg-zinc-900 overflow-y-hidden ">
+    <div className="h-screen w-full bg-zinc-900 overflow-y-hidden ">
       {children}
     </div>
   )

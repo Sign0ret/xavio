@@ -7,6 +7,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { ChevronsUpDownIcon, MessageCircleIcon } from '@/components/icons';
+import { TQuiz } from '@/models/Quiz';
 
 type Props = {
   params: {
@@ -14,12 +15,7 @@ type Props = {
     topic: string,
     quiz: string,
   };
-  quizDescription: {
-    topic: string,
-    description: string,
-    lastUpdated: string,
-    contributor: string,
-  };
+  quizDescription: TQuiz;
 };
 
 function QuizRevision({ params , quizDescription}: Props) {

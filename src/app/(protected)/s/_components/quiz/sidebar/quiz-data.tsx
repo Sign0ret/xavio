@@ -1,3 +1,4 @@
+import { TQuiz } from '@/models/Quiz';
 import Link from 'next/link'
 import React from 'react'
 
@@ -7,22 +8,17 @@ type Props = {
       topic: string,
       quiz: string;
     };
-    quizDescription: {
-      topic: string,
-      description: string,
-      lastUpdated: string,
-      contributor: string,
-    };
+    quizDescription: TQuiz;
   };
 
 function QuizData({ params , quizDescription}: Props) {
+  const numQuestions = quizDescription.structure.length;
   return (
     <div>
         <div className="flex flex-row justify-between mb-5">
-            <p>Duration: 15:30 min</p>
-            <p>10 questions</p>
-            <p>100pts</p>
-            
+            <p>Duration: {quizDescription.timelimit} min</p>
+            <p>{numQuestions} questions</p>
+            <p>{quizDescription.maxpoints}pts</p>
         </div>
     </div>
   )

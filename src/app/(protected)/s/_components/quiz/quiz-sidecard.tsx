@@ -12,7 +12,7 @@ import QuizDescription from './sidebar/quiz-description';
 import QuizDoing from './sidebar/quiz-doing';
 import QuizRevision from './sidebar/quiz-revision';
 import QuizCompare from './sidebar/quiz-compare';
-import { QuizDo } from './quiz-do';
+import { TQuiz } from '@/models/Quiz';
 
 type Props = {
   params: {
@@ -20,12 +20,7 @@ type Props = {
     topic: string,
     quiz: string,
   };
-  quizDescription: {
-    topic: string,
-    description: string,
-    lastUpdated: string,
-    contributor: string,
-  };
+  quizDescription: TQuiz;
 };
 
 export function QuizSideCard({ params, quizDescription }: Props) {
@@ -72,7 +67,7 @@ export function QuizSideCard({ params, quizDescription }: Props) {
   return (
     <section className="w-full rounded-md bg-zinc-700 p-8 my-4 overflow-y-auto max-h-[80vh] text-white"> 
       <div className='flex flex-row justify-between items-center mb-8'>
-        <h3 className="text-3xl font-semibold">Quiz {quizDescription.topic}</h3>
+        <h3 className="text-3xl font-semibold">{quizDescription.quiz}</h3>
         <ToggleGroup
                 type="single" 
                 value={value}

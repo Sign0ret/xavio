@@ -17,21 +17,21 @@ export interface TQuestion {
     _id: string;
     question: string;
     points: number;
-    options: IOption[];
+    options: TOption[];
 }
 
 export interface TAnswer {
     _id: string;
     question: string;
     points: number;
-    options: IOption[];
+    options: TOption[];
 }
 
 export interface TSubmit {
     _id: string;
     sender: string;
     grade: number;
-    answers: IAnswer[];
+    answers: TAnswer[];
     open: boolean;
     updatedAt: Date;
 }
@@ -40,6 +40,7 @@ export interface TQuiz {
     _id: string;
     quiz: string;
     maxpoints: number;
+    instructions: string;
     structure: TQuestion[];
     submits: TSubmit[];
     assignment_date?: Date;
@@ -80,6 +81,7 @@ export interface ISubmit {
 export interface IQuiz {
     quiz: string;
     maxpoints: number;
+    instructions: string;
     structure: IQuestion[];
     submits: ISubmit[];
     assignment_date?: Date;
@@ -177,6 +179,9 @@ export const quizSchema = new Schema<IQuizDocument>({
     },
     maxpoints: {
         type: Number
+    },
+    instructions: {
+        type: String
     },
     structure: [questionSchema],
     submits: [submitSchema],

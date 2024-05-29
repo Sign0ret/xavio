@@ -51,7 +51,7 @@ export default async function TopicsCourseLayout({
     }
     const topics = await fetchTopics();
     return (
-      <div className="w-full flex flex-row">
+      <div className="w-full flex flex-row pt-20 ">
           <div className='w-1/5  my-4 overflow-y-auto max-h-[85vh] text-white p-5 relative inset-x-0 z-50'>
               <div className="flex items-center justify-center ">
                   
