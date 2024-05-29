@@ -5,6 +5,7 @@ import { BackgroundBeams } from '@/components/ui/background-gradient-animation';
 import { AnimatedTooltipPreview } from './_components/profile/avatar-circle';
 import { Portafolio } from './_components/profile/portfolio';
 import { currentUser } from '@/lib/auth';
+import { LogoutButton } from '@/components/auth/logout';
 
 export const generateMetadata = (): Metadata => {
   return {
@@ -47,6 +48,7 @@ export default async function Perfil() {
                     <h1 className='font-bold text-3xl py-'>Jorge Blasquez</h1>
                     <p className='py-'>Ingeniero en Tecnologias Computacionales</p>
                     <p className='py-'>Tecnologico de Monterrey</p>
+                    <LogoutButton>Bye</LogoutButton>
                   </div>
                 </div>
                 <button className="px-16 py-2 rounded-md bg-purple-600 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-purple-600">

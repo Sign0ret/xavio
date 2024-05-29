@@ -74,3 +74,42 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 }
 
 // FALTA EL PUT
+
+export async function PUT(request: NextRequest, { params }: Props) {
+    const { course, topic, quiz } = params;
+  
+    try {
+      const data = await request.json();
+  
+      await dbConnect();
+  
+      try {
+        const updateFields = data; // Use data obtained from request.json()
+  
+        // Construct the $set object dynamically based on the fields provided in the request body
+        const updateObject: { [key: string]: any } = {};
+        for (let key in updateFields) {
+          updateObject[`topics.$.quizzes.$[quiz].${key}`] = updateFields[key];
+        }
+  
+        const result = await Course.findOneAndUpdate(
+          { _id: course, 'topics._id': topic },
+          { $set: updateObject },
+          { new: true, arrayFilters: [{ 'quiz._id': quiz }] }
+        );
+  
+        if (!result) {
+          return NextResponse.json({ message: 'Topic or Quiz not found' }, { status: 404 });
+        }
+  
+        return NextResponse.json({ message: 'Quiz updated successfully', data: result });
+      } catch (error: any) {
+        console.error(error);
+        return NextResponse.json({ error: error.message }, { status: 400 });
+      }
+    } catch (error: any) {
+      console.error(error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+  }
+  

@@ -11,10 +11,9 @@ type Props = {
     quiz: string,
   };
   quizDescription: TQuiz;
-  onSubmit: () => void;
 };
 
-function QuizDoing({ params , quizDescription, onSubmit }: Props) {
+function QuizDoing({ params , quizDescription }: Props) {
   return (
     <div> 
       <QuizData params={params} quizDescription={quizDescription}/>
@@ -29,7 +28,6 @@ function QuizDoing({ params , quizDescription, onSubmit }: Props) {
         </div>
       </div>
       <QuizInstructions params={params} quizDescription={quizDescription}/>
-      <QuizDo params={params} onSubmit={onSubmit} />
     </div>
   )
 }

@@ -1,8 +1,11 @@
-import Link from 'next/link'
-import React from 'react'
+"use client"
+import React, { useEffect } from 'react'
 import QuizInstructions from './quiz-instructions';
 import QuizData from './quiz-data';
-import { TQuiz } from '@/models/Quiz';
+import { ISubmit, TQuiz, TSubmit } from '@/models/Quiz';
+import { Button } from '@/components/ui/button';
+import { currentUser } from '@/lib/auth';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 type Props = {
     params: {
@@ -11,24 +14,51 @@ type Props = {
       quiz: string,
     };
     quizDescription: TQuiz;
-    onBegin: () => void;
   };
 
-function QuizDescription({ params , quizDescription, onBegin}: Props) {
-  const handleBeginClick = () => {
-    onBegin();
-  };
+function QuizDescription({ params , quizDescription}: Props) {
+  const user = useCurrentUser()
+  if (!user) {
+    return (
+      <div>ERROR FETCHING THE USER</div>
+    )
+  }
+  const submitData: ISubmit = {
+    // agregar que esto va dentro de submits
+    sender: user.id,
+    grade: 85,
+    answers: [],
+    open: true
+  };  
+
+  console.log({submitData})
+    const beginQuiz = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(submitData), // Replace `data` with the object containing the quiz fields to update
+        });
+        if (!res.ok) {
+          throw new Error('Failed to fetch course');
+        }
+        const quiz = await res.json();
+      } catch (error: any) {
+        ;
+      }
+    };
   return (
     <div>
         <QuizData params={params} quizDescription={quizDescription}/>
         <QuizInstructions params={params} quizDescription={quizDescription}/>
-        <Link
-          href={`/s/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}/doing`}
+        <Button
           className="flex items-center border-2 border-white text-white font-bold mt-4 rounded-lg px-4 py-2"
-          onClick={handleBeginClick}
+          onClick={() => beginQuiz()}
         >
           Begin quiz
-        </Link>
+        </Button>
     </div>
   )
 }

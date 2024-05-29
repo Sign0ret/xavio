@@ -32,6 +32,7 @@ export default async function QuizzesClase( { params }: Props) {
       return quizzes;
     }
     const quizzes = await fetchQuizzes();
+    console.log({quizzes});
     // for each quiz, go inside submits, then try to find a submit with the sender 
     // that equals the user.session id, if there is one, then render the grade and a 
     // view button. if there is not one, render the due date and a start button. 

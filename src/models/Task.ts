@@ -11,9 +11,9 @@ export interface TSubmitT {
 export interface TTask {
     _id: string;
     task: string;
-    description: string;
-    assignment_date: Date;
-    deadline: Date;
+    brief: string;
+    assignment_date?: Date;
+    deadline?: Date;
     instructions: string;
     submits: TSubmitT[];
     maxpoints: number;
@@ -28,9 +28,9 @@ export interface ISubmitT {
 
 export interface ITask {
     task: string;
-    description: string;
-    assignment_date: Date;
-    deadline: Date;
+    brief: string;
+    assignment_date?: Date;
+    deadline?: Date;
     instructions: string;
     submits: ISubmitT[];
     maxpoints: number;
@@ -59,7 +59,7 @@ export const taskSchema = new Schema<ITaskDocument>({
         type: String,
         required: true
     },
-    description: {
+    brief: {
         type: String
     },
     assignment_date: {

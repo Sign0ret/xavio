@@ -12,7 +12,7 @@ type Props = {
   };
 
 function QuizData({ params , quizDescription}: Props) {
-  const numQuestions = quizDescription.structure.length;
+  const numQuestions = quizDescription?.structure?.length || 0;
   return (
     <div>
         <div className="flex flex-row justify-between mb-5">

@@ -1,5 +1,5 @@
-import React from 'react'
-import { useTransition, useState } from "react";
+"use client";
+import { useState } from "react";
 
 import {
   Collapsible,
