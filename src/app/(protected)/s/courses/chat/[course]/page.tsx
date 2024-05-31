@@ -216,7 +216,7 @@ export default function ChatClase({ params }: Props) {
                                         <p>Media</p>
                                     </DropdownMenuLabel>
                                 </DialogTrigger>
-                                <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                     <DialogHeader>
                                         <DialogTitle>Upload Media</DialogTitle>
                                         <DialogDescription>
@@ -232,7 +232,7 @@ export default function ChatClase({ params }: Props) {
                                         <p>Subject</p>
                                     </DropdownMenuLabel>
                                 </DialogTrigger>
-                                <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                     <DialogHeader>
                                         <DialogTitle>New Subject</DialogTitle>
                                         <DialogDescription>
@@ -248,7 +248,7 @@ export default function ChatClase({ params }: Props) {
                                         <p>Quiz</p>
                                     </DropdownMenuLabel>
                                 </DialogTrigger>
-                                <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                     <DialogHeader>
                                         <DialogTitle>New Quiz</DialogTitle>
                                         <DialogDescription>
@@ -264,7 +264,7 @@ export default function ChatClase({ params }: Props) {
                                         <p>Homework</p>
                                     </DropdownMenuLabel>
                                 </DialogTrigger>
-                                <DialogContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                     <DialogHeader>
                                         <DialogTitle>New Homework</DialogTitle>
                                         <DialogDescription>

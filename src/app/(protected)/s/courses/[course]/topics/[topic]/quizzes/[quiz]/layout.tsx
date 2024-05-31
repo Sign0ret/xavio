@@ -30,7 +30,7 @@ export default async function QuizClaseLayout({
       }
     
       const quizDescription = await fetchQuiz();
-      console.log(quizDescription)
+      console.log(quizDescription.submits[0].answers)
       return (
         <div>
           {/* Large */}

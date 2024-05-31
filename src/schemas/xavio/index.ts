@@ -8,6 +8,9 @@ export const TareasSchema = z.object({
     description: z.string().min(1, {
         message: "A description is required",
     }),
+    context: z.string().min(1, {
+        message: "A context is required",
+    }),
 /*     assignation_date: z.date().safeParse(new Date()), */ 
     delivery_date: z.date({
         required_error: "Please select a date and time",

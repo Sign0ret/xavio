@@ -6,6 +6,7 @@ import { ISubmit, TQuiz, TSubmit } from '@/models/Quiz';
 import { Button } from '@/components/ui/button';
 import { currentUser } from '@/lib/auth';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { useRouter } from "next/navigation";
 
 type Props = {
     params: {
@@ -18,17 +19,20 @@ type Props = {
 
 function QuizDescription({ params , quizDescription}: Props) {
   const user = useCurrentUser()
+  const router = useRouter();
   if (!user) {
     return (
       <div>ERROR FETCHING THE USER</div>
     )
   }
-  const submitData: ISubmit = {
-    // agregar que esto va dentro de submits
-    sender: user.id,
-    grade: 85,
-    answers: [],
-    open: true
+  const submitData = {
+    submits: {  
+      // agregar que esto va dentro de submits
+      sender: user.id,
+      grade: 85,
+      answers: [],
+      open: true
+    }
   };  
 
   console.log({submitData})
@@ -45,6 +49,7 @@ function QuizDescription({ params , quizDescription}: Props) {
           throw new Error('Failed to fetch course');
         }
         const quiz = await res.json();
+        router.refresh();
       } catch (error: any) {
         ;
       }

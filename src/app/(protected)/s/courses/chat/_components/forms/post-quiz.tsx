@@ -48,6 +48,7 @@ export function PostQuiz({ params }: Props) {
       defaultValues: {
           title: "",
           description: "",
+          context: "",
           delivery_date: new Date(),
       }
   })
@@ -114,7 +115,7 @@ export function PostQuiz({ params }: Props) {
                         </div>
                         <FormField 
                               control={form.control}
-                              name="description"
+                              name="context"
                               render={({ field }) => (
                                   <FormItem>
                                       <FormLabel>Context for AI</FormLabel>

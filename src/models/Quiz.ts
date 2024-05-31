@@ -24,7 +24,7 @@ export interface TAnswer {
     _id: string;
     question: string;
     points: number;
-    options: TOption[];
+    options: TOptionA[];
 }
 
 export interface TSubmit {
@@ -68,7 +68,7 @@ export interface IQuestion {
 export interface IAnswer {
     question: string;
     points: number;
-    options: IOption[];
+    options: IOptionA[];
 }
 
 export interface ISubmit {
