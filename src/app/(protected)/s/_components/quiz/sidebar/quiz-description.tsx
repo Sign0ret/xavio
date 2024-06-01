@@ -27,7 +27,6 @@ function QuizDescription({ params , quizDescription}: Props) {
   }
   const submitData = {
     submits: {  
-      // agregar que esto va dentro de submits
       sender: user.id,
       grade: 85,
       answers: [],

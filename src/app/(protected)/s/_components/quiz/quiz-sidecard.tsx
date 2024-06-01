@@ -1,7 +1,6 @@
 "use client"
 import React, { use, useEffect, useState } from 'react';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-
 import { 
   FileQuestionIcon,
   CheckIcon,
@@ -30,10 +29,13 @@ export function QuizSideCard({ params, quizDescription }: Props) {
   if(!user){
     return;
   }
+  console.log("iduser:",user)
   const submit = quizDescription?.submits?.find((submit: TSubmit) => submit.sender === user.id) || null;
+  console.log("submit",submit)
   // Renderizamos Quiz Previo a hacerse
   let content = <QuizDescription params={params} quizDescription={quizDescription}/>;
   if (submit && submit.open){
+
     // Si el quiz est;a abierto, renderizamos quiz doing
     content = <QuizDoing params={params} quizDescription={quizDescription}/>;
   }
@@ -41,13 +43,13 @@ export function QuizSideCard({ params, quizDescription }: Props) {
     // Si el quiz est;a abierto, renderizamos quiz doing
     switch (value) {
       case 'revision':
-        content = <QuizRevision params={params} quizDescription={quizDescription}/>;
+        content = <QuizRevision params={params} quizSubmit={submit}/>;
         break;
         case 'compare':
         content = <QuizCompare params={params} quizDescription={quizDescription}/>;
         break;
       default:
-        content = <QuizRevision params={params} quizDescription={quizDescription}/>;
+        content = <QuizRevision params={params} quizSubmit={submit}/>;
         break;
     }
   }

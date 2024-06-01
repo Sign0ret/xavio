@@ -31,7 +31,30 @@ export default function QuizOpen({params, quizSubmit}: Props) {
         try {
             console.log("hola si me escribo:",actualQuiz);
             const submitData = {
-                submits: { actualQuiz }
+                submits: [{ actualQuiz }]
+              };  
+          const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(submitData), // Replace `data` with the object containing the quiz fields to update
+          });
+          if (!res.ok) {
+            throw new Error('Failed to fetch course');
+          }
+          const quiz = await res.json();
+          console.log("savedQuiz",quiz)
+        } catch (error: any) {
+          ;
+        }
+      };
+
+      const handleRevision = async () => {
+        try {
+            console.log("hola si me escribo:",actualQuiz);
+            const submitData = {
+                submits: { actualQuiz },
               };  
           const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}`, {
             method: 'PUT',
@@ -79,6 +102,12 @@ export default function QuizOpen({params, quizSubmit}: Props) {
           <Button 
             className="relative inset-x-0  mx-auto z-50 hover:bg-zinc-700 transition-colors duration-300"
             onClick={handleSave}
+          >
+              Save
+          </Button>
+          <Button 
+            className="relative inset-x-0  mx-auto z-50 hover:bg-zinc-700 transition-colors duration-300"
+            onClick={handleRevision}
           >
               Submit
           </Button>

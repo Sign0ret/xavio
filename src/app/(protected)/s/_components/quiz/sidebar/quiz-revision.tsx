@@ -1,5 +1,5 @@
 import React from 'react'
-import QuizInstructions from './quiz-instructions'
+// import QuizInstructions from './quiz-instructions'
 
 import {
   Collapsible,
@@ -7,7 +7,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { ChevronsUpDownIcon, MessageCircleIcon } from '@/components/icons';
-import { TQuiz } from '@/models/Quiz';
+import { TQuiz, TSubmit } from '@/models/Quiz';
 
 type Props = {
   params: {
@@ -15,17 +15,17 @@ type Props = {
     topic: string,
     quiz: string,
   };
-  quizDescription: TQuiz;
+  quizSubmit: TSubmit;
 };
 
-function QuizRevision({ params , quizDescription}: Props) {
+function QuizRevision({ params , quizSubmit}: Props) {
+  console.log("updated:",quizSubmit.updatedAt)
   return (
 
     <div>
       <div className="flex flex-row justify-between mb-5">
-        <p>Quizz Time: 15:30 min</p>
-        <p>8/10 questions</p>
-        <p>80/100pts</p>
+        <p>Quizz Time: {quizSubmit.updatedAt ? quizSubmit.updatedAt.toString() : "undefined"} min</p>
+        <p>{quizSubmit.grade} pts</p>
       </div>
       <div className='flex flex-row justify-left items-center pb-5'>
         <MessageCircleIcon className='w-4 h-4 mr-2' />
@@ -37,7 +37,7 @@ function QuizRevision({ params , quizDescription}: Props) {
           <ChevronsUpDownIcon className='h-4 w-4' />
         </CollapsibleTrigger>
         <CollapsibleContent className='bg-zinc-400 bg-opacity-10 rounded-md p-2'>
-          <QuizInstructions params={params} quizDescription={quizDescription}/>
+          {/* <QuizInstructions params={params} quizDescription={quizDescription}/> */}
         </CollapsibleContent>
       </Collapsible>
 
