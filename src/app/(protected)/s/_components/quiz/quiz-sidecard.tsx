@@ -46,7 +46,7 @@ export function QuizSideCard({ params, quizDescription }: Props) {
         content = <QuizRevision params={params} quizSubmit={submit}/>;
         break;
         case 'compare':
-        content = <QuizCompare params={params} quizDescription={quizDescription}/>;
+        content = <QuizCompare params={params} quizSubmits={quizDescription.submits}/>;
         break;
       default:
         content = <QuizRevision params={params} quizSubmit={submit}/>;

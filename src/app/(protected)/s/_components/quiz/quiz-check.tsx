@@ -1,93 +1,66 @@
 "use client";
 import React from "react";
-import { BackgroundGradient } from "../ui/background-gradient";
-import { IconAppWindow } from "@tabler/icons-react";
-import Image from "next/image";
-import { Button } from '@/components/ui/button';
 import { Badge } from "@/components/ui/badge";
-
-const quizInfo = [
-    {
-      id: "question1",
-      question: "What is the capital of France?",
-      weight: 1, // Importance of the question
-      options: [
-        { id: "option1", label: "Paris", isCorrect: true },
-        { id: "option2", label: "London", isCorrect: false },
-        { id: "option3", label: "Berlin", isCorrect: false }
-      ]
-    },
-    {
-      id: "question1",
-      question: "What is the capital of France?",
-      weight: 1, // Importance of the question
-      options: [
-        { id: "option1", label: "Paris", isCorrect: true },
-        { id: "option2", label: "London", isCorrect: false },
-        { id: "option3", label: "Berlin", isCorrect: false }
-      ]
-    },
-    {
-      id: "question1",
-      question: "What is the capital of France?",
-      weight: 1, // Importance of the question
-      options: [
-        { id: "option1", label: "Paris", isCorrect: true },
-        { id: "option2", label: "London", isCorrect: false },
-        { id: "option3", label: "Berlin", isCorrect: false }
-      ]
-    },
-    {
-      id: "question1",
-      question: "What is the capital of France?",
-      weight: 1, // Importance of the question
-      options: [
-        { id: "option1", label: "Paris", isCorrect: true },
-        { id: "option2", label: "London", isCorrect: false },
-        { id: "option3", label: "Berlin", isCorrect: false }
-      ]
-    }
-  ];
+import { TSubmit } from "@/models/Quiz";
 
 type Props = {
     params: { 
         course: string,
         topic: string,
         quiz: string,
-    }
+    },
+    quizSubmit: TSubmit,
 };
 
-export function QuizCheck({ params }: Props) {
+export function QuizCheck({ params, quizSubmit}: Props) {
     return (
-        <div className='max-h-[84vh] overflow-y-auto pb-20'>
-            <div className="flex flex-row justify-between items-center pr-5">
-                <h2 className="mb-4 text-4xl font-bold text-white">Quiz {params.quiz}</h2>
-                <Badge className="bg-gray-200 mb-4 text-3xl font-bold text-zinc-900">80/100</Badge>
-            </div>
-                    {quizInfo.map((question, qIndex) => (
-                        <section key={question.id} className="relative inset-x-0  mx-auto z-50 w-full min-w-[85vw] lg:min-w-[55vw] rounded-md bg-gray-200 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
-                        <div className="flex flex-row justify-between items-center">
-                            <h3 className="mb-8 text-3xl font-semibold">Question {qIndex+1}</h3>
-                            <Badge className="bg-zinc-900 mb-8 text-2xl font-semibold text-gray-200">10/10</Badge>
-                        </div>
-                            <p className="mb-8 text-lg">{question.question}</p>
-                            <div className="space-y-4">
-                                <div className="flex items-center space-x-4 z-100">
-                                {question.options?.map((option, oIndex) => (
-                                    <>
-                                    <input className="h-6 w-6" id={`option${oIndex}`} name={`question${qIndex}`} type="radio" />
-                                    <label className="text-xl" htmlFor="option1">
-                                        {option.label}
-                                    </label>
-                                    </>
-                                ))}
-                                </div>
+        <div className='max-h-full pb-20'>
+            
+            {quizSubmit.answers.map((question, qIndex) => {
+                let points: number = question.points / question.options.length
+                let qGrade: number = 0;
+                question.options.forEach(option => { 
+                    if (option.isElected) {
+                        if (option.isCorrect) {
+                            qGrade += points; // Add points if the option is selected
+                        } else {
+                            qGrade -= points; // Add points if the option is selected
+                        }
+                      } else {
+                        if (option.isCorrect) {
+                            qGrade -= points; // Add points if the option is selected
+                        } else {
+                            qGrade += points; // Add points if the option is selected
+                        }
+                      }
+                })
+                return (
+                    <section key={question._id} className="relative inset-x-0  mx-auto z-50 w-full min-w-[85vw] lg:min-w-[55vw] rounded-md bg-gray-700 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
+                    <div className="flex flex-row justify-between items-center">
+                        <h3 className="mb-8 text-3xl font-semibold">Question {qIndex+1}</h3>
+                        <Badge className="bg-zinc-900 mb-8 text-2xl font-semibold text-gray-200">{qGrade}/{question.points}</Badge>
+                    </div>
+                        <p className="mb-8 text-lg">{question.question}</p>
+                        <div className="space-y-4">
+                            <div className="flex items-center space-x-4 z-100">
+                            {question.options?.map((option, oIndex) => (
+                                <>
+                                <input className="h-6 w-6" id={`option${oIndex}`} name={`question${qIndex}`} type="checkbox" checked={option.isElected} disabled />
+                                <label className="text-xl" htmlFor="option1">
+                                    {option.option}
+                                </label>
+                                {option.isElected && option.isCorrect && <p className="text-green-500">+{points}</p>}
+                                {option.isElected && !option.isCorrect && <p className="text-red-500">-{points}</p>}
+                                {!option.isElected && option.isCorrect && <p className="text-red-500">-{points}</p>}
+                                {!option.isElected && !option.isCorrect && <p className="text-green-500">+{points}</p>}
+                                </>
+                            ))}
                             </div>
-                        </section>
-                    ))}
-                <Button className="relative inset-x-0  mx-auto z-50 hover:bg-zinc-700 transition-colors duration-300">
-                    Submit
-                </Button>
-                </div>
+                        </div>
+                    </section>
+                )
+            } 
+            )}
+        </div>
     );
 }
