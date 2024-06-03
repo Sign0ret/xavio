@@ -29,7 +29,7 @@ function QuizDescription({ params , quizDescription}: Props) {
     submits: {  
       sender: user.id,
       grade: 85,
-      answers: [],
+      answers: quizDescription.structure,
       open: true
     }
   };  

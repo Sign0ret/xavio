@@ -35,7 +35,7 @@ export function QuizCheck({ params, quizSubmit}: Props) {
                       }
                 })
                 return (
-                    <section key={question._id} className="relative inset-x-0  mx-auto z-50 w-full min-w-[85vw] lg:min-w-[55vw] rounded-md bg-gray-700 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
+                    <section key={question._id} className="relative inset-x-0  mx-auto z-50 w-full min-w-[85vw] lg:min-w-[20vw] rounded-md bg-gray-700 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
                     <div className="flex flex-row justify-between items-center">
                         <h3 className="mb-8 text-3xl font-semibold">Question {qIndex+1}</h3>
                         <Badge className="bg-zinc-900 mb-8 text-2xl font-semibold text-gray-200">{qGrade}/{question.points}</Badge>
