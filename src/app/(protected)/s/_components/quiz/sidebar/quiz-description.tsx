@@ -26,19 +26,16 @@ function QuizDescription({ params , quizDescription}: Props) {
     )
   }
   const submitData = {
-    submits: {  
       sender: user.id,
       grade: 85,
       answers: quizDescription.structure,
       open: true
-    }
   };  
-
   console.log({submitData})
     const beginQuiz = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}`, {
-          method: 'PUT',
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}/submits`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },

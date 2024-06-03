@@ -75,16 +75,12 @@ export default function QuizOpen({params, quizSubmit}: Props) {
     };
     const handleSave = async () => {
         try {
-            const submitData = {
-                submits
-              };  
-              console.log("yolointento:",JSON.stringify(submitData))
-          const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}/submits/${submits._id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(submitData), // Replace `data` with the object containing the quiz fields to update
+            body: JSON.stringify(submits), // Replace `data` with the object containing the quiz fields to update
           });
           if (!res.ok) {
             throw new Error('Failed to fetch course');
