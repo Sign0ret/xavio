@@ -9,11 +9,15 @@ const quizz ={
             type: "string",
             description: "Name of the Quizz"
         },
+        maxpoints:{
+            type:"number",
+            description: "Give the total points of this quizz based on the difficulty and the the number of questions, the default value is 100"
+        },
         instructions: {
             type: "string",
             description: "Descripition of the quizz based on the topic"
         },
-        questions:{
+        structure:{
             type: "array",
             description: "Get all the questions and their possible options of the quizz based on the number of questions and topic",
             items:{
@@ -23,25 +27,33 @@ const quizz ={
                         type:"string",
                         description: "The question"
                     },
-                    answer_options:{
+                    points:{
+                        type:"number",
+                        description:"The points of this question based on the total points of the task"
+                    },
+                    options:{
                         type:"array",
                         description: "All the possible answe options",
                         items:{
                             type:"object",
                             properties:{
-                                answer:{
+                                option:{
                                     type:"string",
                                     description: "One of the possible answer"
                                 },
-                                correct:{
-                                    type:"string",
-                                    description:"The correct answer"
+                                iscorrect:{
+                                    type:"boolean",
+                                    description:"This parameter  indicates if this option it the correct answer or not"
                                 }
                             }
                         }
                     }
                 }
             }
+        },
+        timelimit:{
+            type:"number",
+            description: "The max minutes that th user has to response the quizz"
         }
     }
 }

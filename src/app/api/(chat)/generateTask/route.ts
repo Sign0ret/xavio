@@ -1,6 +1,7 @@
 import { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
 import OpenAI from "openai";
+import { number } from 'zod';
 const openaiApiKey = process.env.OPENAI_API_KEY;
 const task ={
     type: "object",
@@ -9,13 +10,38 @@ const task ={
             type: "string",
             description: "Name of the Task"
         },
+        brief: {
+            type:"string",
+            description: "A short resume of the task"
+        },
         instructions: {
             type: "string",
             description: "Descripition of the task based on the topic"
         },
+        maxpoints:{
+            type: "number",
+            description: "The default value is 100"
+        },
         rubric: {
-            type: "string",
-            description: "Make a rubric of the tast to evaluete the submit of the users."
+            type: "array",
+            description: "Make a rubric of the tast to evaluete the submit of the users.",
+            items:{
+                type:"object",
+                properties:{
+                    criterion:{
+                        type:"string",
+                        description: "One of the criterions to evaluate the task"
+                    },
+                    points:{
+                        type:"number",
+                        description: "The points for this criterion of the total points of the task"
+                    }
+                }
+            }
+        },
+        timeexp: {
+            type: "number",
+            descrition: "Time in minutes to do and submit the task"
         }    
             }
     }

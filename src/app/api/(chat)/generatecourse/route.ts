@@ -8,11 +8,11 @@ const course_advance_schema ={
     properties:{
         course: {
             type: "string",
-            description: "Name of the course"
+            description: "Name of the course this is given in the cbody of the request"
         },
         description_course: {
             type: "string",
-            description: "Descripition of the course based on the topics"
+            description: "Descripition of the course based on the topics in english"
         },
         topics:{
             type: "array",
@@ -24,7 +24,7 @@ const course_advance_schema ={
                         type:"string",
                         description: "The name of the topics"
                     },
-                    content:{
+                    brief:{
                         type:"string",
                         description: "A resume of the most important things of the topic"
                     }
