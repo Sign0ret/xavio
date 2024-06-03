@@ -42,13 +42,13 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: Request,res:Response) {
-    const { courseName, numTopics, numQuizzes, numTasks, relevantTopics } = await request.json();
+    const { courseName, numTopics, relevantTopics } = await request.json();
     try {
         const chatCompletion = await openai.chat.completions.create({
             messages: [
                 {
                     role: "user",
-                    content: `Generate a detailed course plan for "${courseName}" with ${numTopics} topics, ${numQuizzes} quizzes, and ${numTasks} tasks. The topics should cover: ${relevantTopics}. and give me your response in a Json format with this schema ${course_advance_schema}`,
+                    content: `Generate a detailed course plan for "${courseName}" with ${numTopics} topics. The topics should cover: ${relevantTopics}. and give me your response in a Json format with this schema ${course_advance_schema}`,
                 }
             ],
             model: "gpt-4o",
