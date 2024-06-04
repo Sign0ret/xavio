@@ -59,8 +59,12 @@ export const MemberSchema = z.object({
 })
 
 export const CourseSchema = z.object({
+    id: z.string().optional(),
     course: z.string().min(1, {
         message: "A course name is required",
+    }),
+    password: z.string().min(8, {
+        message: "A Password with at least 8 characters is required",
     }),
     description: z.string().min(1, {
         message: "A description is required",

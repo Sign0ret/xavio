@@ -43,77 +43,13 @@ type Props = {
   courseDescription: TCourse | null;
 };
 
-const studentsInfo = [
-    {
-      nombre: "adolfo",
-      id: "12345",
-    },
-    {
-      nombre: "Bryan",
-      id: "12345",
-    },
-    {
-      nombre: "Jorge",
-      id: "12345",
-    },
-    {
-      nombre: "Carlos",
-      id: "12345",
-    },
-    {
-      nombre: "Arturo",
-      id: "12345",
-    },
-    {
-        nombre: "adolfo",
-        id: "12345",
-      },
-      {
-        nombre: "Bryan",
-        id: "12345",
-      },
-      {
-        nombre: "Jorge",
-        id: "12345",
-      },
-      {
-        nombre: "Carlos",
-        id: "12345",
-      },
-      {
-        nombre: "Arturo",
-        id: "12345",
-      },
-      {
-        nombre: "adolfo",
-        id: "12345",
-      },
-      {
-        nombre: "Bryan",
-        id: "12345",
-      },
-      {
-        nombre: "Jorge",
-        id: "12345",
-      },
-      {
-        nombre: "Carlos",
-        id: "12345",
-      },
-      {
-        nombre: "Arturo",
-        id: "12345",
-      },
-    // Los demás mensajes seguirían aquí con la misma estructura
-  ];
-
 export function PatchCourse({ params, courseDescription }:Props) {
   console.log("courseDescription:",courseDescription)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     if (!courseDescription) {
       return;
     }
-
+    
     const toggleDropdown = () => {
       setIsDropdownOpen(!isDropdownOpen);
     };

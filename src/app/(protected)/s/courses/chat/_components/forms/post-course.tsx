@@ -1,5 +1,5 @@
 "use client";
-
+import bcrypt from "bcryptjs";
 import * as z from "zod";
 import { useTransition, useState } from "react";
 import { useForm } from "react-hook-form"
@@ -44,19 +44,42 @@ export function PostCourse() {
     ? "Email already in use with different provider!" 
     : "";
     
-    const form = useForm<z.infer<typeof CourseSchema>>({
+    const formCreate = useForm<z.infer<typeof CourseSchema>>({
       resolver: zodResolver(CourseSchema),
       defaultValues: {
         course: "",
+        password: "",
         description: "",
         members: [{"member": user?.id ?? "", "admin": true}] // Ensure to provide default value for member ID
+      }
+    })
+
+    const formSubscribe = useForm<z.infer<typeof CourseSchema>>({
+      resolver: zodResolver(CourseSchema),
+      defaultValues: {
+        id: "",
+        password: "",
       }
     })
     
     if(!user) {
       return;
     }
+
   const onSubmit = async (values: z.infer<typeof CourseSchema>) => {
+    const validatedFields = CourseSchema.safeParse(values);
+    if (!validatedFields.success) {
+        return {error: "Invalid fields!"};
+    }
+    const { course, password, description, members } = validatedFields.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const sendData = {
+      course,
+      password: hashedPassword,
+      description,
+      members
+    }
+    console.log("sendData:",sendData)
     setError("");
     setSuccess("");
   
@@ -68,7 +91,7 @@ export function PostCourse() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(values),
+            body: JSON.stringify(sendData),
           });
   
           if (!res.ok) {
@@ -82,63 +105,170 @@ export function PostCourse() {
           // Handle error here
         }
       }
-  
+      submitData();
+    });
+  };
+
+  const onSubscribe = async (values: z.infer<typeof CourseSchema>) => {
+    console.log("lo intento")
+    const validatedFields = CourseSchema.safeParse(values);
+    if (!validatedFields.success) {
+        return {error: "Invalid fields!"};
+    }
+    const { id, password } = validatedFields.data;
+    setError("");
+    setSuccess("");
+    const newMember = {
+      "member": "jonas",
+      "admin": false
+    }
+    console.log("newMember:",newMember)
+    startTransition(() => {
+      async function submitData() {
+        try {
+          const send = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${id}/members`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newMember),
+          });
+          if (!send.ok) {
+            throw new Error('Failed to fetch course');
+          }
+          router.refresh();
+        } catch (error) {
+          console.error('Error:', error);
+          // Handle error here
+        }
+      }
       submitData();
     });
   };
   
   return (
-          <Form {...form}>
-              <form 
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4"
+    <>
+      <Form {...formCreate}>
+          <form 
+              onSubmit={formCreate.handleSubmit(onSubmit)}
+              className="space-y-4"
+          >
+              <div className="space-y-4">
+                <FormField 
+                    control={formCreate.control}
+                    name="course"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Course</FormLabel>
+                            <FormControl>
+                                <Input
+                                    {...field}
+                                    disabled={isPending}
+                                    placeholder="Course"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField 
+                    control={formCreate.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                                <Input
+                                    {...field}
+                                    disabled={isPending}
+                                    placeholder="********"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField 
+                    control={formCreate.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                                <Input 
+                                    {...field}
+                                    disabled={isPending}
+                                    placeholder="Description"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+              </div>
+              <FormError message={error || urlError} />
+              <FormSuccess message={success} />
+              <Button
+                  disabled={isPending}
+                  type="submit"
+                  className="w-full"
               >
-                  <div className="space-y-4">
-                    <FormField 
-                        control={form.control}
-                        name="course"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Course</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        disabled={isPending}
-                                        placeholder="Course"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField 
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Description</FormLabel>
-                                <FormControl>
-                                    <Input 
-                                        {...field}
-                                        disabled={isPending}
-                                        placeholder="Description"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                  </div>
-                  <FormError message={error || urlError} />
-                  <FormSuccess message={success} />
-                  <Button
-                      disabled={isPending}
-                      type="submit"
-                      className="w-full"
-                  >
-                      {showTwoFactor ? "Confirm" : "Submit"} 
-                  </Button>
-              </form>
-          </Form>    
+                  {showTwoFactor ? "Confirm" : "Submit"} 
+              </Button>
+          </form>
+      </Form>   
+      <Form {...formSubscribe}>
+        <form 
+            onSubmit={formSubscribe.handleSubmit(onSubscribe)}
+            className="space-y-4"
+        >
+            <div className="space-y-4">
+              <FormField 
+                  control={formSubscribe.control}
+                  name="id"
+                  render={({ field }) => (
+                      <FormItem>
+                          <FormLabel>Course ID</FormLabel>
+                          <FormControl>
+                              <Input
+                                  {...field}
+                                  disabled={isPending}
+                                  placeholder="id"
+                              />
+                          </FormControl>
+                          <FormMessage />
+                      </FormItem>
+                  )}
+              />
+              <FormField 
+                  control={formSubscribe.control}
+                  name="password"
+                  render={({ field }) => (
+                      <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                              <Input
+                                  {...field}
+                                  disabled={isPending}
+                                  placeholder="********"
+                              />
+                          </FormControl>
+                          <FormMessage />
+                      </FormItem>
+                  )}
+              />
+            </div>
+            <FormError message={error || urlError} />
+            <FormSuccess message={success} />
+            <Button
+                disabled={isPending}
+                type="submit"
+                className="w-full"
+            >
+                {showTwoFactor ? "Confirm" : "Submit"} 
+            </Button>
+        </form>
+    </Form>     
+    </>
   )
 }
