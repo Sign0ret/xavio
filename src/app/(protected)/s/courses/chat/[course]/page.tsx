@@ -152,7 +152,7 @@ export default function ChatClase({ params }: Props) {
                 <MessageCircleIcon className="h-6 w-6"/>
                 <span className="sr-only">Classes</span>
             </Link>
-            <PatchCourse courseName={course.course}/>
+            <PatchCourse params={params} courseDescription={course}/>
             <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <PencilIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>

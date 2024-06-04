@@ -26,11 +26,11 @@ export default async function QuizClaseLayout({
         const fetchQuiz = async () => {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}`);
         const quiz = await res.json();
+        console.log('quiz:',quiz)
         return quiz;
       }
-    
+      
       const quizDescription = await fetchQuiz();
-      console.log(quizDescription.submits[0].answers)
       return (
         <div>
           {/* Large */}

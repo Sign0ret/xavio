@@ -14,8 +14,28 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { MessageCircleIcon, BellIcon, XIcon,  } from '@/components/icons';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { MessageCircleIcon, BellIcon, XIcon, PlusIcon, BookOpenIcon,  } from '@/components/icons';
 import { TCourse } from '@/models/Course';
+import { DropdownMenuLabel } from '@/components/ui/dropdown-menu';
+import { PostCourse } from './_components/forms/post-course';
 
 export default function ClasesLayout({
     children,
@@ -91,10 +111,23 @@ export default function ClasesLayout({
                     <MessageCircleIcon className="h-6 w-6" />
                     <span className="">Clases</span>
                     </Link>
-                    <Button className="ml-auto h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline">
-                        <BellIcon className="h-4 w-4" />
-                        <span className="sr-only">Toggle notifications</span>
-                    </Button>
+                    <Dialog>
+                        <DialogTrigger className='ml-auto'>
+                          <Button className=" h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline">
+                            <PlusIcon className="h-4 w-4" />
+                            <span className="sr-only">Add course</span>
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                            <DialogHeader>
+                                <DialogTitle>New Course</DialogTitle>
+                                <DialogDescription>
+                                  <PostCourse />
+                                </DialogDescription>
+                            </DialogHeader>
+                        </DialogContent>
+                    </Dialog>
+                    
                     <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpen(false)}>
                         <XIcon className="h-4 w-4" />
                         <span className="sr-only">Hide sidebar</span>
@@ -190,10 +223,23 @@ export default function ClasesLayout({
                         <MessageCircleIcon className="h-6 w-6" />
                         <span className="">JMO</span>
                         </Link>
-                        <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
-                            <BellIcon className="h-4 w-4" />
-                            <span className="sr-only">Toggle notifications</span>
-                        </Button>
+                        <Drawer>
+                            <DrawerTrigger>
+                              <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
+                                <BellIcon className="h-4 w-4" />
+                                <span className="sr-only">Toggle notifications</span>
+                              </Button>
+                            </DrawerTrigger>
+                            <DrawerContent>
+                            <DrawerHeader>
+                                <DrawerTitle>Add Course</DrawerTitle>
+                                <DrawerDescription>
+                                  <PostCourse />
+                                </DrawerDescription>
+                            </DrawerHeader>
+                            </DrawerContent>
+                        </Drawer>
+                        
                         <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setOpen(false)}>
                             <XIcon className="h-4 w-4" />
                             <span className="sr-only">Hide sidebar</span>

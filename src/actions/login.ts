@@ -91,7 +91,6 @@ export const login = async (
                 twoFactorToken.email,
                 twoFactorToken.token,
             );
-
         return { twoFactor: true };
     }
    
