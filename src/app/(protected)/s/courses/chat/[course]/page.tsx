@@ -250,9 +250,9 @@ export default function ChatClase({ params }: Props) {
                                 </DialogTrigger>
                                 <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
                                     <DialogHeader>
-                                        <DialogTitle>New Quiz</DialogTitle>
+                                        <DialogTitle>New Quiz AI</DialogTitle>
                                         <DialogDescription>
-                                            <PostQuiz params={params}/>
+                                            <PostQuiz params={params}/*  topics={course.topics} *//>
                                         </DialogDescription>
                                     </DialogHeader>
                                 </DialogContent>
@@ -394,7 +394,7 @@ export default function ChatClase({ params }: Props) {
                                     </DrawerTrigger>
                                     <DrawerContent>
                                         <DrawerHeader>
-                                        <DrawerTitle>New Quiz</DrawerTitle>
+                                        <DrawerTitle>New Quiz AI</DrawerTitle>
                                         <DrawerDescription>
                                             <PostQuiz params={params} />
                                         </DrawerDescription>

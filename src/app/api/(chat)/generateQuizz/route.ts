@@ -5,7 +5,7 @@ const openaiApiKey = process.env.OPENAI_API_KEY;
 const quizz ={
     type: "object",
     properties:{
-        quizz: {
+        quiz: {
             type: "string",
             description: "Name of the Quizz"
         },
@@ -82,7 +82,6 @@ export async function POST(request: Request,res:Response) {
             function_call:{name:"get-course-data"},
             temperature:0, 
         });
-       
         // @ts-ignore
         const functionResponse = JSON.parse(chatCompletion.choices[0].message.function_call.arguments);
 

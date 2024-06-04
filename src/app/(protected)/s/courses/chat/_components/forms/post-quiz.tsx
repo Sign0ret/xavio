@@ -2,13 +2,14 @@
 
 import * as z from "zod";
 import { useTransition, useState } from "react";
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { TareasSchema } from "@/schemas/xavio";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { QuizzSchema } from "@/schemas/xavio";
 import { useSearchParams } from "next/navigation";
-import { Label } from "@/components/ui/label"
-import Image from "next/image"
-import { XIcon, UploadIcon, FileIcon} from '@/components/icons';
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
+import { XIcon, UploadIcon, FileIcon } from '@/components/icons';
+import axios from 'axios';
 
 import {
     Form,
@@ -17,21 +18,23 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
   
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import Link from "next/link";
+import { TTopic } from "@/models/Topic";
 
 type Props = {
     params: {
       course: string;
-    };
-  };
+    },
+/*     topics: TTopic[] | null; */
+};
 
-export function PostQuiz({ params }: Props) {
+export function PostQuiz({ params}: Props) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked" 
@@ -39,43 +42,62 @@ export function PostQuiz({ params }: Props) {
       : "";
 
   const [showTwoFactor, setShowTwoFactor] = useState(false);
-  const [error, setError] = useState<string | undefined>("")
-  const [success, setSuccess] = useState<string | undefined>("")
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof TareasSchema>>({
-      resolver: zodResolver(TareasSchema),
+  const form = useForm<z.infer<typeof QuizzSchema>>({
+      resolver: zodResolver(QuizzSchema),
       defaultValues: {
           title: "",
-          description: "",
-          context: "",
-          delivery_date: new Date(),
+          difficulty: "",
+          numQuestions: "",
       }
-  })
+  });
 
-  const onSubmit = (values: z.infer<typeof TareasSchema>) => {
-      setError("");
-      setSuccess("");
+  const onSubmit = async (values: z.infer<typeof QuizzSchema>) => {
+    setError("");
+    setSuccess("");
 
-      /* startTransition(() => {
-          login(values, callbackUrl)
-              .then((data) => {
-                  if (data?.error) {
-                      form.reset();
-                      setError(data.error);
-                  }
-                  if (data?.success) {
-                      form.reset();
-                      setSuccess(data.success);
-                  }
-                  if (data?.twoFactor) {
-                      setShowTwoFactor(true);
-                  }
-              })
-              .catch(() => setError("Something went wrong"));
-      }) */
-      
-  }
+    try {
+        // Call the API to generate the quiz
+        const response = await fetch('http://localhost:3000/api/generateQuizz', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                topic: values.title,
+                numQuestions: values.numQuestions,
+                difficulty: values.difficulty,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to generate quiz");
+        }
+
+        const quizData = await response.json();
+        console.log("gg", quizData);
+        // Call the API to save the quiz to MongoDB
+        const saveResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/665e6fb0e3c2f87ecc4443c1/quizzes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(quizData),
+        });
+
+        if (!saveResponse.ok) {
+            throw new Error("Failed to save quiz");
+        }
+
+        setSuccess("Quiz created and saved successfully");
+        form.reset();
+    } catch (error: any) {
+        setError(error.message);
+    }
+};
 
   return (
           <Form {...form}>
@@ -85,51 +107,6 @@ export function PostQuiz({ params }: Props) {
               >
                   <div className="space-y-6">
                     <FormLabel>Resources to generate Quiz</FormLabel>
-                    <div key="1" className="border-dashed border-2 rounded-md p-6 w-full max-w-md mx-auto relative">
-                        <Button className="absolute top-2 right-2" variant="ghost">
-                            <XIcon className="h-4 w-4" />
-                        </Button>
-                        <div className="flex flex-col items-center space-y-4">
-                            <UploadIcon className="h-8 w-8 text-gray-400" />
-                            <p className="text-gray-500 dark:text-gray-400">Drag & drop your files here, or</p>
-                            <Label className="cursor-pointer" htmlFor="file-upload">
-                            <Button variant="outline">Browse</Button>
-                            </Label>
-                            <Input className="sr-only" id="file-upload" multiple type="file" />
-                        </div>
-                        <div className="mt-6 border-t pt-6">
-                            <h3 className="text-lg font-semibold">Selected Files:</h3>
-                            <div className="mt-4 space-y-2">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                <FileIcon className="h-6 w-6 text-gray-400" />
-                                <span className="font-medium">file.pdf</span>
-                                <span className="text-sm text-gray-500 ml-2">(500 KB)</span>
-                                </div>
-                                <Button size="sm" variant="ghost">
-                                Remove
-                                </Button>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                        <FormField 
-                              control={form.control}
-                              name="context"
-                              render={({ field }) => (
-                                  <FormItem>
-                                      <FormLabel>Context for AI</FormLabel>
-                                      <FormControl>
-                                          <Input 
-                                              {...field}
-                                              disabled={isPending}
-                                              placeholder="Context"
-                                          />
-                                      </FormControl>
-                                      <FormMessage />
-                                  </FormItem>
-                              )}
-                          />
                           <FormField 
                               control={form.control}
                               name="title"
@@ -149,15 +126,15 @@ export function PostQuiz({ params }: Props) {
                           />
                           <FormField 
                               control={form.control}
-                              name="description"
+                              name="difficulty"
                               render={({ field }) => (
                                   <FormItem>
-                                      <FormLabel>Description for student</FormLabel>
+                                      <FormLabel>Difficulty of the Quiz</FormLabel>
                                       <FormControl>
                                           <Input 
                                               {...field}
                                               disabled={isPending}
-                                              placeholder="Description"
+                                              placeholder="Difficulty"
                                           />
                                       </FormControl>
                                       <FormMessage />
@@ -166,15 +143,17 @@ export function PostQuiz({ params }: Props) {
                           />
                           <FormField 
                               control={form.control}
-                              name="delivery_date"
+                              name="numQuestions"
                               render={({ field }) => (
                                   <FormItem>
-                                      <FormLabel>Deadline</FormLabel>
+                                      <FormLabel>Number of questions of the Quiz</FormLabel>
                                       <FormControl>
                                           <Input 
-/*                                                 {...field}
-*/                                                disabled={isPending}
-                                              type="date"
+                                              {...field}
+                                              disabled={isPending}
+                                              placeholder="Number of Questions"
+                                              type="number"
+                                              max={10}
                                           />
                                       </FormControl>
                                       <FormMessage />
@@ -193,5 +172,5 @@ export function PostQuiz({ params }: Props) {
                   </Button>
               </form>
           </Form>    
-  )
+  );
 }
