@@ -11,7 +11,7 @@ type Props = {
       submit: string,
     }
 };
-export async function PUT(request: NextRequest, { params }: Props) {
+export async function PATCH(request: NextRequest, { params }: Props) {
     const { course, topic, quiz, submit } = params;
   
     try {
