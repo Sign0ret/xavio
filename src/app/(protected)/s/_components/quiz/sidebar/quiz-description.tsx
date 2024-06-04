@@ -20,6 +20,7 @@ type Props = {
 function QuizDescription({ params , quizDescription}: Props) {
   const user = useCurrentUser()
   const router = useRouter();
+  console.log("quizDescription:",quizDescription)
   if (!user) {
     return (
       <div>ERROR FETCHING THE USER</div>

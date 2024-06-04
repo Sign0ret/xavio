@@ -34,6 +34,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { TCourse } from "@/models/Course";
+
+type Props = {
+  params: { 
+    course: string,
+  },
+  courseDescription: TCourse | null;
+};
 
 const studentsInfo = [
     {
@@ -99,9 +107,13 @@ const studentsInfo = [
     // Los demás mensajes seguirían aquí con la misma estructura
   ];
 
-export function PatchCourse({ courseName }: { courseName: string }) {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+export function PatchCourse({ params, courseDescription }:Props) {
+  console.log("courseDescription:",courseDescription)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    if (!courseDescription) {
+      return;
+    }
+
     const toggleDropdown = () => {
       setIsDropdownOpen(!isDropdownOpen);
     };
@@ -116,7 +128,7 @@ export function PatchCourse({ courseName }: { courseName: string }) {
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                    <span className="font-semibold text-white">{courseName}</span>
+                    <span className="font-semibold text-white">{courseDescription.course}</span>
                     <span className="text-sm text-gray-100 mr-auto">Online</span>
                 </div>
                 </div>
@@ -126,47 +138,49 @@ export function PatchCourse({ courseName }: { courseName: string }) {
                 <SheetDescription>
                     <div className="flex items-center justify-center">
                     <Avatar className="w-[150px] h-[150px] mb-5">
-                        <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
-                        <AvatarFallback className="text-2xl text-center">JD</AvatarFallback>
+                        <AvatarImage alt="@janedoe" src={`${courseDescription.profile_photo}`} />
+                        <AvatarFallback className="text-2xl text-center">{courseDescription.course}</AvatarFallback>
                     </Avatar>
                     </div>
                     <div className="flex items-center justify-center">
-                        <p className="text-2xl text-center">Basic math</p>
+                        <p className="text-2xl text-center">{courseDescription.course}</p>
                         <button className="flex items-center py-2 px-4 rounded">
                             <PencilIcon className="mr-2" />
                         </button>
                     </div>
                     <div className="rounded-md my-2 font-mono text-sm flex flex-row justify-between items-center">
                         <div className="flex flex-row items-center justify-start">
-                            <p className="">Description of the matter that describes what it is words words words words</p>
+                            <p className="">{courseDescription.description}</p>
                         </div>
                     </div>
                     <Collapsible>
                         <div className="flex flex-row justify-between items-center ">
                             <CollapsibleTrigger className="flex flex-row mt-5" >
-                                <p>Students</p>
+                                <p>Members</p>
                                 {/* Icono de despliegue */}
                                 <span><ChevronsUpDownIcon className="w-4 h-4"/></span>
                             </CollapsibleTrigger>
                             <button className="flex items-center text-gray-450 font-bold mt-4 rounded">
                                 <BookOpenIcon className="mr-2" />
-                                Resources
+                                Topics
                             </button>
                         </div>
                         
                         <CollapsibleContent>
                             {/* Paticipantes */}
-                            {studentsInfo.map((student, index) => (
+                            {courseDescription.members.map((member) => (
                                 <div 
-                                    key={`${student.id}-s`} 
-                                    className="rounded-md border px-4 py-3 my-2 font-mono text-sm flex flex-row justify-between items-center hover:bg-gray-100 transition-colors duration-300"
+                                    key={member._id} 
+                                    className={`rounded-md border px-4 py-3 my-2 font-mono text-sm flex flex-row justify-between items-center hover:bg-gray-100 transition-colors duration-300 ${
+                                      member.admin ? 'bg-zinc-200 hover:bg-zinc-400' : ''
+                                    }`}
                                 >
                                     <div className="flex flex-row items-center justify-start">
                                         <Avatar>
                                             <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
                                             <AvatarFallback>JD</AvatarFallback>
                                         </Avatar>
-                                        <p className="mx-4">{student.nombre}</p>
+                                        <p className="mx-4">{member.member}</p>
                                     </div>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger>

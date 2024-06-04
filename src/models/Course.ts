@@ -1,15 +1,24 @@
 import { Schema, model, models } from 'mongoose';
 import { IMessage, messageSchema } from '@/models/Message';
 import { ITopic, TTopic, topicSchema } from '@/models/Topic';
-import { object } from 'zod';
 
+export interface TMember {
+    _id: string;
+    member: string;
+    admin: boolean;
+}
 
+export interface IMember {
+    member: string;
+    admin: boolean;
+}
 
 export interface TCourse {
     _id: string;
     course: string;
     description: string;
     profile_photo?: string;
+    members: TMember[];
     messages: IMessage[];
     topics: TTopic[];
 }
@@ -18,11 +27,26 @@ export interface ICourse {
     course: string;
     description: string;
     profile_photo?: string;
+    members: IMember[];
     messages: IMessage[];
     topics: ITopic[];
 }
 
+interface IMemberDocument extends IMember, Document {}
 interface ICourseDocument extends ICourse, Document {}
+
+const memberSchema = new Schema<IMemberDocument>({
+    member: {
+        type: String,
+        required: true
+    },
+    admin: {
+        type: Boolean,
+        default: false
+    }
+}, {
+    timestamps: true
+});
 
 const courseSchema = new Schema<ICourseDocument>({
     course: {
@@ -36,6 +60,7 @@ const courseSchema = new Schema<ICourseDocument>({
     profile_photo: {
         type: String,
     },
+    members: [memberSchema],
     messages: [messageSchema],
     topics: [topicSchema],
 
