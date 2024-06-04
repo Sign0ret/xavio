@@ -29,6 +29,10 @@ export const QuizzSchema = z.object({
     numQuestions: z.string().min(1, {
         message: "A number of questions is required",
     }),
+    topic: z.string().min(1, {
+        message: "Please select a topic",
+    }),
+
 /*     assignation_date: z.date().safeParse(new Date()), */ 
 /*     delivery_date: z.date({
         required_error: "Please select a date and time",

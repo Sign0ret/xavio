@@ -26,6 +26,8 @@ model User {
   accounts      Account[]
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  courses       String[]
+  advances      String[]
 }
 
 model Account {

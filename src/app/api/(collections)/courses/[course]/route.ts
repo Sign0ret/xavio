@@ -44,7 +44,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     }
 }
 
-export async function PUT(request: NextRequest, { params }: Props) {
+export async function PATCH(request: NextRequest, { params }: Props) { // This endpoint handles partial updates
     try {
         const data = await request.json()
         const objectUpdated = await Course.findByIdAndUpdate(params.course, data, {

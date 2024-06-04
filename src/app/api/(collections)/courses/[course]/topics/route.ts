@@ -18,7 +18,6 @@ try {
     }, {
         status: 404
     })
-
     return NextResponse.json(objectFound);
 } catch(error: any) {
     return NextResponse.json(error.message, {
@@ -37,7 +36,8 @@ export async function POST(request: any, { params }: Props) {
             status: 404
         })
         objectFound.topics.push(data);
-        const savedObject = await objectFound.save()
+        //console.log(data)
+        const savedObject = await objectFound.save();
         return NextResponse.json(savedObject);
     } catch(error: any) {
         return NextResponse.json(error.message, {
