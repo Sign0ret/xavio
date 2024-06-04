@@ -229,14 +229,14 @@ export default function ChatClase({ params }: Props) {
                                 <DialogTrigger>
                                     <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                         <span><BookOpenIcon className='h-4 w-4 mr-2' /></span>
-                                        <p>Subject</p>
+                                        <p>Task</p>
                                     </DropdownMenuLabel>
                                 </DialogTrigger>
-                                <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
                                     <DialogHeader>
-                                        <DialogTitle>New Subject</DialogTitle>
+                                        <DialogTitle>New Task AI</DialogTitle>
                                         <DialogDescription>
-                                            <PostSubject params={params}/>
+                                            <PostSubject params={params} topics={course.topics}/>
                                         </DialogDescription>
                                     </DialogHeader>
                                 </DialogContent>
@@ -248,11 +248,11 @@ export default function ChatClase({ params }: Props) {
                                         <p>Quiz</p>
                                     </DropdownMenuLabel>
                                 </DialogTrigger>
-                                <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b] '>
                                     <DialogHeader>
                                         <DialogTitle>New Quiz AI</DialogTitle>
                                         <DialogDescription>
-                                            <PostQuiz params={params}/*  topics={course.topics} *//>
+                                            <PostQuiz params={params} topics={course.topics} />
                                         </DialogDescription>
                                     </DialogHeader>
                                 </DialogContent>
@@ -373,14 +373,14 @@ export default function ChatClase({ params }: Props) {
                                 <Drawer>
                                     <DrawerTrigger>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Subject
+                                            Task
                                         </DropdownMenuLabel>
                                     </DrawerTrigger>
-                                    <DrawerContent>
+                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
                                         <DrawerHeader>
-                                        <DrawerTitle>New Subject</DrawerTitle>
+                                        <DrawerTitle>New Task AI</DrawerTitle>
                                         <DrawerDescription>
-                                            <PostSubject params={params} />
+                                            <PostSubject params={params} topics={course.topics}/>
                                         </DrawerDescription>
                                         </DrawerHeader>
                                     </DrawerContent>
@@ -392,11 +392,11 @@ export default function ChatClase({ params }: Props) {
                                             Quiz
                                         </DropdownMenuLabel>
                                     </DrawerTrigger>
-                                    <DrawerContent>
+                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
                                         <DrawerHeader>
                                         <DrawerTitle>New Quiz AI</DrawerTitle>
                                         <DrawerDescription>
-                                            <PostQuiz params={params} />
+                                            <PostQuiz params={params} topics={course.topics} />
                                         </DrawerDescription>
                                         </DrawerHeader>
                                     </DrawerContent>

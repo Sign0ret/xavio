@@ -25,9 +25,10 @@ type Props = {
     params: {
         course: string;
     },
+    topics: TTopic[],
 };
 
-export function PostQuiz({ params }: Props) {
+export function PostQuiz({ params, topics }: Props) {
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl");
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
@@ -37,8 +38,8 @@ export function PostQuiz({ params }: Props) {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, setIsPending] = useState(false);
-    const [topics, setTopics] = useState<TTopic[]>([]);
-
+/*     const [topics, setTopics] = useState<TTopic[]>([]);
+ */
     const form = useForm<z.infer<typeof QuizzSchema>>({
         resolver: zodResolver(QuizzSchema),
         defaultValues: {
@@ -49,18 +50,19 @@ export function PostQuiz({ params }: Props) {
         }
     });
 
-    useEffect(() => {
+    /* useEffect(() => {
         fetchTopics();
     }, []);
 
     const fetchTopics = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/courses/${params.course}/topics`);
-            setTopics(response.data.topics || []); // Ensure topics is initialized as an array
+            const response = await axios.get(`http://localhost:5000/api/courses/${params.course}/topics`);
+            setTopics(response.data.topics || []);
+            console.log("fetchTopics:",) // Ensure topics is initialized as an array
         } catch (error) {
             console.error("Error fetching topics:", error);
         }
-    };
+    }; */
 
     const onSubmit = async (values: z.infer<typeof QuizzSchema>) => {
         setError("");
@@ -69,7 +71,7 @@ export function PostQuiz({ params }: Props) {
 
         try {
             // Call the API to generate the quiz
-            const response = await axios.post('http://localhost:3000/api/generateQuizz', {
+            const response = await axios.post('http://localhost:5000/api/generateQuizz', {
                 topic: values.title,
                 numQuestions: values.numQuestions,
                 difficulty: values.difficulty,
@@ -102,7 +104,7 @@ export function PostQuiz({ params }: Props) {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
+                className="space-y-6 bg-[#18181b] text-white"
             >
                 <div className="space-y-6">
                     <FormLabel>Resources to generate Quiz</FormLabel>
@@ -117,6 +119,7 @@ export function PostQuiz({ params }: Props) {
                                         {...field}
                                         disabled={isPending}
                                         placeholder="Title"
+                                        className='rounded-full hover:border-purple-500     focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -134,6 +137,7 @@ export function PostQuiz({ params }: Props) {
                                         {...field}
                                         disabled={isPending}
                                         placeholder="Difficulty"
+                                        className='rounded-full  hover:border-purple-500   focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -153,6 +157,7 @@ export function PostQuiz({ params }: Props) {
                                         placeholder="Number of Questions"
                                         type="number"
                                         max={10}
+                                        className='rounded-full hover:border-purple-500     focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -164,12 +169,12 @@ export function PostQuiz({ params }: Props) {
                         name="topic"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Select Topic</FormLabel>
+                                <FormLabel>Select Topic     </FormLabel>
                                 <FormControl>
-                                    <select {...field} disabled={isPending}>
-                                        <option value="">Select a topic...</option>
+                                    <select {...field} disabled={isPending} className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>
+                                        <option value="" className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>Select a topic...</option>
                                         {topics.map((topic) => (
-                                            <option key={topic._id} value={topic._id}>
+                                            <option key={topic._id} value={topic._id} className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>
                                                 {topic.topic}
                                             </option>
                                         ))}
@@ -182,13 +187,15 @@ export function PostQuiz({ params }: Props) {
                 </div>
                 <FormError message={error || urlError} />
                 <FormSuccess message={success} />
-                <Button
-                    disabled={isPending}
-                    type="submit"
-                    className="w-full"
-                >
-                    Submit
-                </Button>
+                <div className='w-full flex justify-center'>
+                    <button
+                        disabled={isPending}
+                        type="submit"
+                        className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500  border-white  focus:border-purple-500"
+                    >
+                        Submit
+                    </button>
+                </div>
             </form>
         </Form>
     );

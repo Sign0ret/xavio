@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TareasSchema } from "@/schemas/xavio";
 import { useSearchParams } from "next/navigation";
+import { TTopic } from "@/models/Topic";
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import { TextIcon, MessageCircleIcon, PencilIcon, XIcon, UploadIcon, FileIcon} from '@/components/icons';
@@ -24,17 +25,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-
+import axios from 'axios';
 import { login } from "@/actions/login";
 import Link from "next/link";
 
 type Props = {
     params: {
       course: string;
-    };
+    },
+    topics: TTopic[],
   };
 
-export function PostSubject({ params }: Props) {
+export function PostSubject({ params ,topics}: Props) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked" 
@@ -43,22 +45,21 @@ export function PostSubject({ params }: Props) {
 
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState<string | undefined>("")
+  const [isPending, setIsPending] = useState(false);
   const [success, setSuccess] = useState<string | undefined>("")
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof TareasSchema>>({
       resolver: zodResolver(TareasSchema),
       defaultValues: {
           title: "",
-          description: "",
-          delivery_date: new Date(),
+          difficulty: "",
       }
   })
 
-  const onSubmit = (values: z.infer<typeof TareasSchema>) => {
+  const onSubmit = async (values: z.infer<typeof TareasSchema>) => {
       setError("");
       setSuccess("");
-
+      setIsPending(true);
       /* startTransition(() => {
           login(values, callbackUrl)
               .then((data) => {
@@ -76,14 +77,40 @@ export function PostSubject({ params }: Props) {
               })
               .catch(() => setError("Something went wrong"));
       }) */
-      
-  }
+      try {
+        // Call the API to generate the quiz
+        const response = await axios.post('http://localhost:5000/api/generateTask', {
+            topic: values.title,
+            difficulty: values.difficulty,
+        });
 
+        if (response.status !== 200) {
+            throw new Error("Failed to generate Task");
+        }
+
+        const quizData = response.data;
+
+        // Call the API to save the quiz to MongoDB
+        console.log("id: ", values.topic)
+        const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/quizzes`, quizData);
+
+        if (saveResponse.status !== 200) {
+            throw new Error("Failed to save Task");
+        }
+
+        setSuccess("Task created and saved successfully");
+        form.reset();
+    } catch (error: any) {
+        setError(error.message);
+    } finally {
+        setIsPending(false);
+    }
+  }
   return (
           <Form {...form}>
               <form 
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4"
+                  className="space-y-4 bg-[#18181b] text-white"
               >
                   <div className="space-y-4">
                     <FormField 
@@ -97,6 +124,7 @@ export function PostSubject({ params }: Props) {
                                         {...field}
                                         disabled={isPending}
                                         placeholder="Title"
+                                        className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -105,7 +133,7 @@ export function PostSubject({ params }: Props) {
                     />
                     <FormField 
                         control={form.control}
-                        name="description"
+                        name="difficulty"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Description</FormLabel>
@@ -113,111 +141,47 @@ export function PostSubject({ params }: Props) {
                                     <Input 
                                         {...field}
                                         disabled={isPending}
-                                        placeholder="Description"
+                                        placeholder="Difficulty"
+                                        className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <div className="space-y-2">
-                    <FormLabel>Resources</FormLabel>
-                    <div key="1" className="border-dashed border-2 rounded-md p-6 w-full max-w-md mx-auto relative">
-                        <Button className="absolute top-2 right-2" variant="ghost">
-                            <XIcon className="h-4 w-4" />
-                        </Button>
-                        <div className="flex flex-col items-center space-y-4">
-                            <UploadIcon className="h-8 w-8 text-gray-400" />
-                            <p className="text-gray-500 dark:text-gray-400">Drag & drop your files here, or</p>
-                            <Label className="cursor-pointer" htmlFor="file-upload">
-                            <Button variant="outline">Browse</Button>
-                            </Label>
-                            <Input className="sr-only" id="file-upload" multiple type="file" />
-                        </div>
-                        <div className="mt-6 border-t pt-6">
-                            <h3 className="text-lg font-semibold">Selected Files:</h3>
-                            <div className="mt-4 space-y-2">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                <img
-                                    alt="file1"
-                                    className="object-cover rounded-full hover:scale-150 transition-transform duration-200"
-                                    height={24}
-                                    src="/placeholder.svg"
-                                    style={{
-                                    aspectRatio: "24/24",
-                                    objectFit: "cover",
-                                    }}
-                                    width={24}
-                                />
-                                <span className="font-medium">file1.jpg</span>
-                                <span className="text-sm text-gray-500 ml-2">(1.2 MB)</span>
-                                </div>
-                                <Button size="sm" variant="ghost">
-                                Remove
-                                </Button>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                <img
-                                    alt="file2"
-                                    className="object-cover rounded-full"
-                                    height={24}
-                                    src="/placeholder.svg"
-                                    style={{
-                                    aspectRatio: "24/24",
-                                    objectFit: "cover",
-                                    }}
-                                    width={24}
-                                />
-                                <span className="font-medium">file2.png</span>
-                                <span className="text-sm text-gray-500 ml-2">(2.5 MB)</span>
-                                </div>
-                                <Button size="sm" variant="ghost">
-                                Remove
-                                </Button>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                <FileIcon className="h-6 w-6 text-gray-400" />
-                                <span className="font-medium">file3.pdf</span>
-                                <span className="text-sm text-gray-500 ml-2">(500 KB)</span>
-                                </div>
-                                <Button size="sm" variant="ghost">
-                                Remove
-                                </Button>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                      </div>
-                      <FormField 
+                    <FormField
                         control={form.control}
-                        name="delivery_date"
+                        name="topic"
                         render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Discussion date</FormLabel>
-                              <FormControl>
-                                <Input 
-                               /* {...field}*/ 
-                               disabled={isPending}
-                                  type="date"
-                                />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                      )}
-                    />                 
+                                <FormLabel>Select Topic     </FormLabel>
+                                <FormControl>
+                                    <select {...field} disabled={isPending} className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>
+                                        <option value="" className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>Select a topic...</option>
+                                        {topics.map((topic) => (
+                                            <option key={topic._id} value={topic._id} className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>
+                                                {topic.topic}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                   </div>
                   <FormError message={error || urlError} />
                   <FormSuccess message={success} />
-                  <Button
-                      disabled={isPending}
-                      type="submit"
-                      className="w-full"
-                  >
-                      {showTwoFactor ? "Confirm" : "Submit"} 
-                  </Button>
+                  <div className='w-full flex justify-center'>
+                    <button
+                        disabled={isPending}
+                        type="submit"
+                        className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500  border-white  focus:border-purple-500"
+                    >
+                        Submit
+                    </button>
+                </div>
               </form>
           </Form>    
   )
