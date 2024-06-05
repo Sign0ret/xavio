@@ -38,7 +38,6 @@ export async function GET(request: NextRequest, { params }: Props) {
     }
 }
 
-// FALTA EL POST
 export async function POST(request: NextRequest, { params }: Props) {
     try {
       await dbConnect();
@@ -60,6 +59,6 @@ export async function POST(request: NextRequest, { params }: Props) {
       return NextResponse.json({ message: 'Task added successfully', data: updatedCourse });
     } catch (error: any) {
       console.error(error);
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
-}
+  }

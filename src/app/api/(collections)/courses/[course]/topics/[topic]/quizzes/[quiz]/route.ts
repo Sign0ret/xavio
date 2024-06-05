@@ -75,7 +75,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
 // FALTA EL PUT
 
-export async function PUT(request: NextRequest, { params }: Props) {
+export async function PATCH(request: NextRequest, { params }: Props) {
     const { course, topic, quiz } = params;
   
     try {
