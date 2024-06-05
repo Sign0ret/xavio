@@ -71,7 +71,7 @@ export function PostQuiz({ params, topics }: Props) {
 
         try {
             // Call the API to generate the quiz
-            const response = await axios.post('http://localhost:5000/api/generateQuizz', {
+            const response = await axios.post('http://localhost:3000/api/generateQuizz', {
                 topic: values.title,
                 numQuestions: values.numQuestions,
                 difficulty: values.difficulty,

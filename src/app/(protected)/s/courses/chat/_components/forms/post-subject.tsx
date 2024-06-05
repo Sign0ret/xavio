@@ -79,7 +79,7 @@ export function PostSubject({ params ,topics}: Props) {
       }) */
       try {
         // Call the API to generate the quiz
-        const response = await axios.post('http://localhost:5000/api/generateTask', {
+        const response = await axios.post('http://localhost:3000/api/generateTask', {
             topic: values.title,
             difficulty: values.difficulty,
         });
@@ -88,11 +88,11 @@ export function PostSubject({ params ,topics}: Props) {
             throw new Error("Failed to generate Task");
         }
 
-        const quizData = response.data;
+        const taskData = response.data;
 
         // Call the API to save the quiz to MongoDB
         console.log("id: ", values.topic)
-        const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/quizzes`, quizData);
+        const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/tasks`, taskData);
 
         if (saveResponse.status !== 200) {
             throw new Error("Failed to save Task");

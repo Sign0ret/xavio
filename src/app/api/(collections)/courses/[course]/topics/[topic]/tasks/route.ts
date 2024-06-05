@@ -39,3 +39,27 @@ export async function GET(request: NextRequest, { params }: Props) {
 }
 
 // FALTA EL POST
+export async function POST(request: NextRequest, { params }: Props) {
+    try {
+      await dbConnect();
+  
+      const { course, topic } = params;
+      const data = await request.json();
+  
+      // Find the course and update the topics array with the new quiz
+      const updatedCourse = await Course.findOneAndUpdate(
+        { _id: course, 'topics._id': topic },
+        { $push: { 'topics.$.tasks': data } },
+        { new: true, runValidators: true }
+      );
+  
+      if (!updatedCourse) {
+        return NextResponse.json({ message: 'Course or topic not found' }, { status: 404 });
+      }
+  
+      return NextResponse.json({ message: 'Task added successfully', data: updatedCourse });
+    } catch (error: any) {
+      console.error(error);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+}
