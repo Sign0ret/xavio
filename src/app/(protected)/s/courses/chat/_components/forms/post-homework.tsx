@@ -37,14 +37,14 @@ export const PostHomework = () => {
     const [success, setSuccess] = useState<string | undefined>("")
     const [isPending, startTransition] = useTransition();
 
-    const form = useForm<z.infer<typeof TareasSchema>>({
-        resolver: zodResolver(TareasSchema),
-        defaultValues: {
-            title: "",
-            description: "",
-            delivery_date: new Date(),
-        }
-    })
+    // const form = useForm<z.infer<typeof TareasSchema>>({
+    //     resolver: zodResolver(TareasSchema),
+    //     defaultValues: {
+    //         title: "",
+    //         description: "",
+    //         delivery_date: new Date(),
+    //     }
+    // })
 
     const onSubmit = (values: z.infer<typeof TareasSchema>) => {
         setError("");
@@ -71,74 +71,75 @@ export const PostHomework = () => {
     }
 
     return (
-            <Form {...form}>
-                <form 
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-6"
-                >
-                    <div className="space-y-4">
-                            <FormField 
-                                control={form.control}
-                                name="title"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Title</FormLabel>
-                                        <FormControl>
-                                            <Input 
-                                                {...field}
-                                                disabled={isPending}
-                                                placeholder="Title"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField 
-                                control={form.control}
-                                name="description"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Description</FormLabel>
-                                        <FormControl>
-                                            <Input 
-                                                {...field}
-                                                disabled={isPending}
-                                                placeholder="Description"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField 
-                                control={form.control}
-                                name="delivery_date"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Deadline</FormLabel>
-                                        <FormControl>
-                                            <Input 
-/*                                                 {...field}
- */                                                disabled={isPending}
-                                                type="date"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                    </div>
-                    <FormError message={error || urlError} />
-                    <FormSuccess message={success} />
-                    <Button
-                        disabled={isPending}
-                        type="submit"
-                        className="w-full"
-                    >
-                       {showTwoFactor ? "Confirm" : "Submit"} 
-                    </Button>
-                </form>
-            </Form>    
+        <div></div>
+//             <Form {...form}>
+//                 <form 
+//                     onSubmit={form.handleSubmit(onSubmit)}
+//                     className="space-y-6"
+//                 >
+//                     <div className="space-y-4">
+//                             <FormField 
+//                                 control={form.control}
+//                                 name="title"
+//                                 render={({ field }) => (
+//                                     <FormItem>
+//                                         <FormLabel>Title</FormLabel>
+//                                         <FormControl>
+//                                             <Input 
+//                                                 {...field}
+//                                                 disabled={isPending}
+//                                                 placeholder="Title"
+//                                             />
+//                                         </FormControl>
+//                                         <FormMessage />
+//                                     </FormItem>
+//                                 )}
+//                             />
+//                             <FormField 
+//                                 control={form.control}
+//                                 name="description"
+//                                 render={({ field }) => (
+//                                     <FormItem>
+//                                         <FormLabel>Description</FormLabel>
+//                                         <FormControl>
+//                                             <Input 
+//                                                 {...field}
+//                                                 disabled={isPending}
+//                                                 placeholder="Description"
+//                                             />
+//                                         </FormControl>
+//                                         <FormMessage />
+//                                     </FormItem>
+//                                 )}
+//                             />
+//                             <FormField 
+//                                 control={form.control}
+//                                 name="delivery_date"
+//                                 render={({ field }) => (
+//                                     <FormItem>
+//                                         <FormLabel>Deadline</FormLabel>
+//                                         <FormControl>
+//                                             <Input 
+// /*                                                 {...field}
+//  */                                                disabled={isPending}
+//                                                 type="date"
+//                                             />
+//                                         </FormControl>
+//                                         <FormMessage />
+//                                     </FormItem>
+//                                 )}
+//                             />
+//                     </div>
+//                     <FormError message={error || urlError} />
+//                     <FormSuccess message={success} />
+//                     <Button
+//                         disabled={isPending}
+//                         type="submit"
+//                         className="w-full"
+//                     >
+//                        {showTwoFactor ? "Confirm" : "Submit"} 
+//                     </Button>
+//                 </form>
+//             </Form>    
     )
 }

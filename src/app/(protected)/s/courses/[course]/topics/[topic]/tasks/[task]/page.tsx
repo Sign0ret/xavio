@@ -31,11 +31,14 @@ export default async function QuizClase({ params }: Props) {
   }
   
   async function postTask(formData: FormData) {
+    "use server"
+    console.log("si entro mi panaaaa")
     const text = formData.get("text")?.toString();
     const url = formData.get("url")?.toString();
     const comments = formData.get("comments")?.toString();
 
-    if (!text || !url || !comments || !user ){
+    if ((!text && !url) || !user ){
+      console.log("hey")
         return;
     }
     const submitData = {
@@ -43,13 +46,14 @@ export default async function QuizClase({ params }: Props) {
         sender: user.id,
         grade: 85,
         text: text,
-        url: url,
+        // url: url,
         comments: comments
       }
     };  
+    console.log("submitData:",submitData)
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/tasks/${params.task}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -99,7 +103,7 @@ export default async function QuizClase({ params }: Props) {
           >
             <div className="flex justify-end mb-4 text-right">
               <h1 className="text-white">
-                Calificacion: {submit ? (submit.grade !== null ? `${submit.grade}/${taskDescription.maxpoints }` : '--/100') : '--/100'}
+                Grade: {submit ? (submit.grade !== null ? `${submit.grade}/${taskDescription.maxpoints }` : '--/100') : '--/100'}
               </h1>
             </div>
             {submit ? (
@@ -133,7 +137,7 @@ export default async function QuizClase({ params }: Props) {
               </section>
             ) : (
               <form className="space-y-4" action={postTask}>
-                <h1 className="text-white">Respuesta por entrada de texto o URL</h1>
+                <h1 className="text-white">Answer through text or File</h1>
                 <div className="flex items-center space-x-4">
                   <textarea
                     name="text"
@@ -142,11 +146,11 @@ export default async function QuizClase({ params }: Props) {
                   ></textarea>
                 </div>
                 <div>
-                  <h1 className="text-white">Archivos de la entrega</h1>
+                  <h1 className="text-white">Delivery files</h1>
                   <input name="url" type="file" className="border rounded-lg p-2 bg-white" />
                 </div>
                 <div>
-                  <h1 className="text-white">Comentarios de la entrega</h1>
+                  <h1 className="text-white">Delivery comments</h1>
                   <input
                     name="comments"
                     type="text"
@@ -159,7 +163,7 @@ export default async function QuizClase({ params }: Props) {
                     className="hover:bg-slate-900 text-white font-semibold py-2 px-4 rounded-3xl bg-slate-900"
                     type="submit"
                   >
-                    Enviar
+                    Send
                   </button>
                 </div>
               </form>

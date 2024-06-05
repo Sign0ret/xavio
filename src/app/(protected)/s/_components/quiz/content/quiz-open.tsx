@@ -76,7 +76,7 @@ export default function QuizOpen({params, quizSubmit}: Props) {
     const handleSave = async () => {
         try {
           const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/quizzes/${params.quiz}/submits/${submits._id}`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
             },
