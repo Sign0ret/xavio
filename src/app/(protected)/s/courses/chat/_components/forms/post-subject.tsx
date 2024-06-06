@@ -28,6 +28,7 @@ import { FormSuccess } from "@/components/form-success";
 import axios from 'axios';
 import { login } from "@/actions/login";
 import Link from "next/link";
+import Spinner from "@/components/components/Spinner";
 
 type Props = {
     params: {
@@ -91,7 +92,6 @@ export function PostSubject({ params ,topics}: Props) {
         const taskData = response.data;
 
         // Call the API to save the quiz to MongoDB
-        console.log("id: ", values.topic)
         const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/tasks`, taskData);
 
         if (saveResponse.status !== 200) {
@@ -174,13 +174,17 @@ export function PostSubject({ params ,topics}: Props) {
                   <FormError message={error || urlError} />
                   <FormSuccess message={success} />
                   <div className='w-full flex justify-center'>
-                    <button
-                        disabled={isPending}
-                        type="submit"
-                        className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500  border-white  focus:border-purple-500"
-                    >
-                        Submit
-                    </button>
+                  {isPending ? (
+                        <Spinner /> // Render the spinner when isPending is true
+                    ) : (
+                        <button
+                            disabled={isPending}
+                            type="submit"
+                            className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500 border-white focus:border-purple-500"
+                        >
+                            Submit
+                        </button>
+                    )}
                 </div>
               </form>
           </Form>    

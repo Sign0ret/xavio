@@ -48,29 +48,35 @@ export default function ClasesLayout({
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
 
+    const fetchCourses = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses`);
+        if (!res.ok) {
+          throw new Error('Failed to fetch courses');
+        }
+        const data = await res.json();
+        setChatsInfo(data);
+        setLoading(false);
+      } catch (error: any) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+  
     useEffect(() => {
-        const fetchCourses = async () => {
-          try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses`);
-            if (!res.ok) {
-              throw new Error('Failed to fetch courses');
-            }
-            const data = await res.json();
-            setChatsInfo(data);
-            setLoading(false);
-          } catch (error:any) {
-            setError(error);
-            setLoading(false);
-          }
-        };
-    
+      fetchCourses(); // Fetch courses when component mounts
+  
+      // Cleanup function if needed
+      return () => {
+        // Cleanup code if any
+      };
+    }, []);
+
+      const handleCourseCreated = () => {
+        // Fetch courses again to update the list after a new course is created
         fetchCourses();
-    
-        // Cleanup function if needed
-        return () => {
-          // Cleanup code
-        };
-      }, []);
+         // Assuming fetchCourses is defined in the scope of ClasesLayout
+      };
 
       const houses = {
         "Process": [
@@ -122,7 +128,7 @@ export default function ClasesLayout({
                             <DialogHeader>
                                 <DialogTitle>New Course</DialogTitle>
                                 <DialogDescription>
-                                  <PostCourse />
+                                  <PostCourse onSuccess={handleCourseCreated} />
                                 </DialogDescription>
                             </DialogHeader>
                         </DialogContent>
@@ -234,7 +240,7 @@ export default function ClasesLayout({
                             <DrawerHeader>
                                 <DrawerTitle>Add Course</DrawerTitle>
                                 <DrawerDescription>
-                                  <PostCourse />
+                                <PostCourse onSuccess={handleCourseCreated} />
                                 </DrawerDescription>
                             </DrawerHeader>
                             </DrawerContent>

@@ -22,7 +22,7 @@ export const ByTopic = ({
   params: {
     course: string,
   }
-  items:TTopic[];
+  items?:TTopic[];
   className?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -104,7 +104,7 @@ export const ByContent = ({
     params: {
       course: string,
     }
-    items: TTopic[];
+    items?: TTopic[];
     className?: string;
   }) => {
     let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -176,7 +176,7 @@ export const ByContent = ({
     params: {
       course: string,
     }
-    items: TTopic[];
+    items?: TTopic[];
     className?: string;
   }) => {
     let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -248,7 +248,7 @@ export const ByContent = ({
     params: {
       course: string,
     }
-    items: TTopic[];
+    items?: TTopic[];
     className?: string;
   }) => {
     let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

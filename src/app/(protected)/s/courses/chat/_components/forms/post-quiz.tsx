@@ -15,11 +15,12 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-  
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import Spinner from '@/components/components/Spinner';  // Import the spinner component
 
 type Props = {
     params: {
@@ -27,6 +28,7 @@ type Props = {
     },
     topics: TTopic[],
 };
+
 
 export function PostQuiz({ params, topics }: Props) {
     const searchParams = useSearchParams();
@@ -38,8 +40,7 @@ export function PostQuiz({ params, topics }: Props) {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, setIsPending] = useState(false);
-/*     const [topics, setTopics] = useState<TTopic[]>([]);
- */
+
     const form = useForm<z.infer<typeof QuizzSchema>>({
         resolver: zodResolver(QuizzSchema),
         defaultValues: {
@@ -49,20 +50,6 @@ export function PostQuiz({ params, topics }: Props) {
             topic: "", // Added for form control
         }
     });
-
-    /* useEffect(() => {
-        fetchTopics();
-    }, []);
-
-    const fetchTopics = async () => {
-        try {
-            const response = await axios.get(`http://localhost:5000/api/courses/${params.course}/topics`);
-            setTopics(response.data.topics || []);
-            console.log("fetchTopics:",) // Ensure topics is initialized as an array
-        } catch (error) {
-            console.error("Error fetching topics:", error);
-        }
-    }; */
 
     const onSubmit = async (values: z.infer<typeof QuizzSchema>) => {
         setError("");
@@ -84,13 +71,11 @@ export function PostQuiz({ params, topics }: Props) {
             const quizData = response.data;
 
             // Call the API to save the quiz to MongoDB
-            console.log("id: ", values.topic)
             const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/quizzes`, quizData);
 
             if (saveResponse.status !== 200) {
                 throw new Error("Failed to save quiz");
             }
-
             setSuccess("Quiz created and saved successfully");
             form.reset();
         } catch (error: any) {
@@ -119,7 +104,7 @@ export function PostQuiz({ params, topics }: Props) {
                                         {...field}
                                         disabled={isPending}
                                         placeholder="Title"
-                                        className='rounded-full hover:border-purple-500     focus:border-purple-500'
+                                        className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -137,7 +122,7 @@ export function PostQuiz({ params, topics }: Props) {
                                         {...field}
                                         disabled={isPending}
                                         placeholder="Difficulty"
-                                        className='rounded-full  hover:border-purple-500   focus:border-purple-500'
+                                        className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -157,7 +142,7 @@ export function PostQuiz({ params, topics }: Props) {
                                         placeholder="Number of Questions"
                                         type="number"
                                         max={10}
-                                        className='rounded-full hover:border-purple-500     focus:border-purple-500'
+                                        className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -169,12 +154,12 @@ export function PostQuiz({ params, topics }: Props) {
                         name="topic"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Select Topic     </FormLabel>
+                                <FormLabel>Select Topic</FormLabel>
                                 <FormControl>
-                                    <select {...field} disabled={isPending} className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>
-                                        <option value="" className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>Select a topic...</option>
+                                    <select {...field} disabled={isPending} className='h-30px rounded-full hover:border-purple-500 focus:border-purple-500'>
+                                        <option value="" className='h-30px rounded-full hover:border-purple-500 focus:border-purple-500'>Select a topic...</option>
                                         {topics.map((topic) => (
-                                            <option key={topic._id} value={topic._id} className='h-30px rounded-full hover:border-purple-500   focus:border-purple-500'>
+                                            <option key={topic._id} value={topic._id} className='h-30px rounded-full hover:border-purple-500 focus:border-purple-500'>
                                                 {topic.topic}
                                             </option>
                                         ))}
@@ -188,13 +173,17 @@ export function PostQuiz({ params, topics }: Props) {
                 <FormError message={error || urlError} />
                 <FormSuccess message={success} />
                 <div className='w-full flex justify-center'>
-                    <button
-                        disabled={isPending}
-                        type="submit"
-                        className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500  border-white  focus:border-purple-500"
-                    >
-                        Submit
-                    </button>
+                    {isPending ? (
+                        <Spinner /> // Render the spinner when isPending is true
+                    ) : (
+                        <button
+                            disabled={isPending}
+                            type="submit"
+                            className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500 border-white focus:border-purple-500"
+                        >
+                            Submit
+                        </button>
+                    )}
                 </div>
             </form>
         </Form>
