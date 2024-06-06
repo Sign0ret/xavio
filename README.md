@@ -22,7 +22,7 @@
 
 ## COMMANDS USED IN TERMINAL
 - npm i
-- npm i framer-motion clsx tailwind-merge @radix-ui/react-label @tabler/icons-react  @tsparticles/react @tsparticles/engine @tsparticles/slim mini-svg-data-uri --save-dev tailwind-scrollbar -D daisyui@latest mongoose --save-dev @types/mongoose openai
+- npm i framer-motion clsx tailwind-merge @radix-ui/react-label @tabler/icons-react  @tsparticles/react @tsparticles/engine @tsparticles/slim mini-svg-data-uri --save-dev tailwind-scrollbar -D daisyui@latest mongoose --save-dev @types/mongoose openai @aws-sdk/client-s3 uuid
 
 ## Al regresar
 - Chat bloques para enviar

@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import PostTask from "@/app/(protected)/s/_components/task/post-task";
 
 type Props = {
   params: { 
@@ -30,49 +31,11 @@ export default async function QuizClase({ params }: Props) {
     )
   }
   
-  async function postTask(formData: FormData) {
-    "use server"
-    console.log("si entro mi panaaaa")
-    const text = formData.get("text")?.toString();
-    const url = formData.get("url")?.toString();
-    const comments = formData.get("comments")?.toString();
-
-    if ((!text && !url) || !user ){
-      console.log("hey")
-        return;
-    }
-    const submitData = {
-      submits: {  
-        sender: user.id,
-        grade: 85,
-        text: text,
-        // url: url,
-        comments: comments
-      }
-    };  
-    console.log("submitData:",submitData)
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/tasks/${params.task}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submitData), // Replace `data` with the object containing the quiz fields to update
-      });
-      if (!res.ok) {
-        throw new Error('Failed to fetch course');
-      }
-      const task = await res.json();
-      console.log({task})      
-    } catch (error: any) {
-      ;
-    }
-  }
   try {
     const fetchTask = async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/tasks/${params.task}`);
       const task = await res.json();
-      console.log(task.rubric)
+      // console.log(task.rubric)
       return task;
     }
     const taskDescription: TTask = await fetchTask();
@@ -134,39 +97,15 @@ export default async function QuizClase({ params }: Props) {
                     </TableRow>
                   </TableFooter>
                 </Table>
+                {submit.url && (
+                  <>
+                    <p>{submit.url}</p>
+                    <img className="w-1/3" src={submit.url}></img>
+                  </>
+                )}
               </section>
             ) : (
-              <form className="space-y-4" action={postTask}>
-                <h1 className="text-white">Answer through text or File</h1>
-                <div className="flex items-center space-x-4">
-                  <textarea
-                    name="text"
-                    className="w-full h-32 px-3 py-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline bg-white"
-                    placeholder="Escribe aquí tu respuesta"
-                  ></textarea>
-                </div>
-                <div>
-                  <h1 className="text-white">Delivery files</h1>
-                  <input name="url" type="file" className="border rounded-lg p-2 bg-white" />
-                </div>
-                <div>
-                  <h1 className="text-white">Delivery comments</h1>
-                  <input
-                    name="comments"
-                    type="text"
-                    className="w-[40%] p-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline"
-                    placeholder="Escribe aquí tu comentario"
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <button 
-                    className="hover:bg-slate-900 text-white font-semibold py-2 px-4 rounded-3xl bg-slate-900"
-                    type="submit"
-                  >
-                    Send
-                  </button>
-                </div>
-              </form>
+              <PostTask params={params}/>
             )}
           </div>
         </div>
