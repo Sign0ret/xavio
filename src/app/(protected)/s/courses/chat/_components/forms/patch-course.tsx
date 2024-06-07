@@ -4,7 +4,8 @@ import { useTransition, useState } from "react";
 import { 
     ChevronsUpDownIcon, 
     PencilIcon,
-    BookOpenIcon
+    BookOpenIcon,
+    CheckIcon
 } from '@/components/icons';
 
 import {
@@ -35,6 +36,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { TCourse } from "@/models/Course";
+import { patchDescription } from "@/actions/patch-description";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 type Props = {
   params: { 
@@ -44,6 +47,8 @@ type Props = {
 };
 
 export function PatchCourse({ params, courseDescription }:Props) {
+    const user = useCurrentUser();
+    const [onEditing, setOnEditing] = useState<boolean>(false)
   console.log("courseDescription:",courseDescription)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     if (!courseDescription) {
@@ -53,6 +58,14 @@ export function PatchCourse({ params, courseDescription }:Props) {
     const toggleDropdown = () => {
       setIsDropdownOpen(!isDropdownOpen);
     };
+
+    if(!user) {
+        return;
+    }
+
+    // Find the role of the user in the course
+    const matchingMember = courseDescription.members.find((member) => member._id === user.id);
+
     return (
         <div className="w-full flex-1 ">
         <Sheet>
@@ -78,16 +91,39 @@ export function PatchCourse({ params, courseDescription }:Props) {
                         <AvatarFallback className="text-2xl text-center">{courseDescription.course}</AvatarFallback>
                     </Avatar>
                     </div>
-                    <div className="flex items-center justify-center">
-                        <p className="text-2xl text-center">{courseDescription.course}</p>
-                        <button className="flex items-center py-2 px-4 rounded">
-                            <PencilIcon className="mr-2" />
-                        </button>
-                    </div>
-                    <div className="rounded-md my-2 font-mono text-sm flex flex-row justify-between items-center">
-                        <div className="flex flex-row items-center justify-start">
-                            <p className="">{courseDescription.description}</p>
-                        </div>
+                    <div>
+                        {onEditing ? (
+                            <form className="grid items-center justify-center grid-4" action={patchDescription}>
+                                <input name="id" type="hidden" value={courseDescription._id} className="text-xl text-left bg-white"/>
+                                <input name="course" type="text" defaultValue={courseDescription.course} className="text-xl text-left bg-white mb-2"/>
+                                <input name="description" type="text" defaultValue={courseDescription.description} className="text-xl text-left bg-white"/>
+                                <button 
+                                    className="flex items-center py-2 rounded"
+                                    type="submit"
+                                >
+                                    Done
+                                    {/* <CheckIcon className="mr-2" /> */}
+                                </button>                            
+                            </form>
+                        ) : (
+                            <>
+                            <div className="flex items-center justify-center">
+                                <p className="text-2xl text-center">{courseDescription.course}</p>
+                                <button 
+                                    className="flex items-center py-2 px-4 rounded"
+                                    onClick={() => setOnEditing(true)}
+                                    >
+                                    <PencilIcon className="mr-2" />
+                                </button>
+                            </div>
+                            <div className="rounded-md my-2 font-mono text-sm flex flex-row justify-between items-center">
+                             <div className="flex flex-row items-center justify-start">
+                                 <p className="">{courseDescription.description}</p>
+                             </div>
+                            </div>
+                            </>
+                        )}
+                        
                     </div>
                     <Collapsible>
                         <div className="flex flex-row justify-between items-center ">
@@ -118,6 +154,7 @@ export function PatchCourse({ params, courseDescription }:Props) {
                                         </Avatar>
                                         <p className="mx-4">{member.member}</p>
                                     </div>
+                                    {member.admin && (
                                     <DropdownMenu>
                                         <DropdownMenuTrigger>
                                             <button id="dropdownMenuIconButton" onClick={toggleDropdown} className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
@@ -129,10 +166,11 @@ export function PatchCourse({ params, courseDescription }:Props) {
                                         <DropdownMenuContent>
                                             <DropdownMenuLabel>Manage</DropdownMenuLabel>
                                             <DropdownMenuSeparator />
+
                                             <DropdownMenuItem>Kick out</DropdownMenuItem>
-                                            <DropdownMenuItem>Statistics</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
+                                    )}
                                 </div>
                             ))}
                         </CollapsibleContent>

@@ -36,21 +36,34 @@ import { MessageCircleIcon, BellIcon, XIcon, PlusIcon, BookOpenIcon,  } from '@/
 import { TCourse } from '@/models/Course';
 import { DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 import { PostCourse } from './_components/forms/post-course';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 export default function ClasesLayout({
     children,
   }: {
     children: React.ReactNode,
   }) {
+    const user = useCurrentUser()
     const [selectedChat, setSelectedChat] = useState<number | null>(null);
     const [open, setOpen] = useState<boolean>(true);
     const [chatsInfo, setChatsInfo] = useState([]); // State to hold fetched chat data
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
-
+    useEffect(() => {
+      fetchCourses(); // Fetch courses when component mounts
+  
+      // Cleanup function if needed
+      return () => {
+        // Cleanup code if any
+      };
+    }, []);
+    ` `
+    if (!user) {
+      return;
+    }
     const fetchCourses = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/user/${user.id}`);
         if (!res.ok) {
           throw new Error('Failed to fetch courses');
         }
@@ -63,48 +76,11 @@ export default function ClasesLayout({
       }
     };
   
-    useEffect(() => {
-      fetchCourses(); // Fetch courses when component mounts
-  
-      // Cleanup function if needed
-      return () => {
-        // Cleanup code if any
-      };
-    }, []);
 
       const handleCourseCreated = () => {
         // Fetch courses again to update the list after a new course is created
         fetchCourses();
          // Assuming fetchCourses is defined in the scope of ClasesLayout
-      };
-
-      const houses = {
-        "Process": [
-          { value: "house1", label: "House 1" },
-          { value: "house2", label: "House 2" },
-          { value: "house3", label: "House 3" },
-          { value: "house4", label: "House 4" }
-        ],
-        "Done": [
-          { value: "house5", label: "House 5" },
-          { value: "house6", label: "House 6" },
-          { value: "house7", label: "House 7" },
-          { value: "house8", label: "House 8" }
-        ],
-        "Pending": [
-          { value: "house9", label: "House 9" },
-          { value: "house10", label: "House 10" },
-          { value: "house11", label: "House 11" }
-        ]
-      };
-      const roles = {
-        "Roles": [
-          { value: "admin", label: "Admin" },
-          { value: "moderator", label: "Moderator" },
-          { value: "user", label: "User" },
-          { value: "guest", label: "Guest" },
-          { value: "developer", label: "Developer" }
-        ]
       };
     return (
       <section>
@@ -138,45 +114,8 @@ export default function ClasesLayout({
                         <XIcon className="h-4 w-4" />
                         <span className="sr-only">Hide sidebar</span>
                     </Button>
-    
                 </div>
                 <div className="flex-1 scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll py-2">
-                    <div className="px-4 mb-4 flex items-center gap-2 ">
-                        <Input placeholder="Buscar clases..." className='bg-purple-100 text-gray-950' />
-                    </div>
-                    <div className="px-4 mb-4 flex items-center gap-2 lg:max-w-[280px]">
-
-                        <Select>
-                            <SelectTrigger className='max-w-[150px] lg:max-w-[120px] bg-purple-100'>
-                                <SelectValue placeholder="filtrar tema" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {Object.entries(houses).map(([status, options]) => (
-                                    <SelectGroup key={status}>
-                                    <SelectLabel>{status}</SelectLabel>
-                                    {options.map(option => (
-                                        <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                                    ))}
-                                    </SelectGroup>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Select>
-                            <SelectTrigger className='max-w-[150px] lg:max-w-[120px] bg-purple-100'>
-                                <SelectValue placeholder="filtrar status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {Object.entries(roles).map(([group, options]) => (
-                                    <SelectGroup key={group}>
-                                    <SelectLabel>{group}</SelectLabel>
-                                    {options.map(option => (
-                                        <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                                    ))}
-                                    </SelectGroup>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
                     {/* lg */}
                     <nav className="grid items-start px-4 text-sm font-medium ">
                         {chatsInfo.map((course:TCourse, index) => (

@@ -34,6 +34,18 @@ export const QuizzSchema = z.object({
     }), */
 })
 
+export const TemaSchema = z.object({
+    course: z.string().min(1, {
+        message: "A course name is required",
+    }),
+    detail: z.string().min(1, {
+        message: "A detail is required",
+    }),
+    topic: z.string().min(1, {
+        message: "A topic is required",
+    })
+})
+
 export const TopicSchema = z.object({
     topic: z.string().min(1, {
         message: "A topic name is required",
