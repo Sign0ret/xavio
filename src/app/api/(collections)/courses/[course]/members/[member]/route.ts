@@ -23,8 +23,8 @@ export async function DELETE(request: NextRequest, { params }: Props) {
         }
         
         // Remove the member from the members array
-// @ts-ignore
-        course.members = course.members.filter(member => member.member.toString() !== params.member);
+        // @ts-ignore
+        course.members = course.members.filter(member => member.member !== params.member);
 
         // Save the updated course
         await course.save();

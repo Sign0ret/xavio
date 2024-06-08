@@ -119,6 +119,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
     };
 
     const onSubscribe = async (values: z.infer<typeof CourseSchema>) => {
+        console.log("entro")
         console.log("Attempting to subscribe");
         const validatedFields = CourseSchema.safeParse(values);
         if (!validatedFields.success) {

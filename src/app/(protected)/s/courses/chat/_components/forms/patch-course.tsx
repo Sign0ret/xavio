@@ -35,9 +35,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { TCourse } from "@/models/Course";
+import { TCourse, TMember } from "@/models/Course";
 import { patchDescription } from "@/actions/patch-description";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { Button } from "@/components/ui/button";
+import { deleteMember } from "@/actions/delete-member";
 
 type Props = {
   params: { 
@@ -64,8 +66,8 @@ export function PatchCourse({ params, courseDescription }:Props) {
     }
 
     // Find the role of the user in the course
-    const matchingMember = courseDescription.members.find((member) => member._id === user.id);
-
+    const matchingMember: TMember | null = courseDescription.members.find((member) => member.member === user.id) ?? null;
+    console.log("matching:",matchingMember)
     return (
         <div className="w-full flex-1 ">
         <Sheet>
@@ -154,7 +156,7 @@ export function PatchCourse({ params, courseDescription }:Props) {
                                         </Avatar>
                                         <p className="mx-4">{member.member}</p>
                                     </div>
-                                    {member.admin && (
+                                    {matchingMember?.admin && (
                                     <DropdownMenu>
                                         <DropdownMenuTrigger>
                                             <button id="dropdownMenuIconButton" onClick={toggleDropdown} className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
@@ -164,10 +166,15 @@ export function PatchCourse({ params, courseDescription }:Props) {
                                             </button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
-                                            <DropdownMenuLabel>Manage</DropdownMenuLabel>
-                                            <DropdownMenuSeparator />
-
-                                            <DropdownMenuItem>Kick out</DropdownMenuItem>
+                                            <form action={deleteMember}>
+                                                <input name="member" type="hidden" value={member.member} />
+                                                <input name="course" type="hidden" value={params.course} />
+                                                <DropdownMenuLabel>Manage</DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>
+                                                    <Button type="submit">Kick out</Button>
+                                                </DropdownMenuItem>
+                                            </form>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                     )}
