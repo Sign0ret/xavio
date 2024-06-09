@@ -20,7 +20,7 @@ const course_advance_schema ={
             items:{
                 type:"object",
                 properties:{
-                    name_topic:{
+                    topic:{
                         type:"string",
                         description: "The name of the topics"
                     },
