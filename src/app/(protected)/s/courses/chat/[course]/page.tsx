@@ -72,7 +72,7 @@ import { Boilerplate_message } from '../_components/messages/boilerplate';
 import { Right_bar } from '../_components/rightbar';
 import { Reply } from '../_components/messages/reply';
 import { PostMedia } from '../_components/forms/post-media';
-import { PostHomework } from '../_components/forms/post-homework';
+import { PostTopic } from '../_components/forms/post-topic';
 import { PostSubject } from '../_components/forms/post-subject';
 import { PostQuiz } from '../_components/forms/post-quiz';
 import { PatchCourse } from '../_components/forms/patch-course';
@@ -261,14 +261,14 @@ export default function ChatClase({ params }: Props) {
                                 <DialogTrigger>
                                     <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                         <span><CheckIcon className='h-4 w-4 mr-2' /></span>
-                                        <p>Homework</p>
+                                        <p>Topic</p>
                                     </DropdownMenuLabel>
                                 </DialogTrigger>
-                                <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b] '>
                                     <DialogHeader>
-                                        <DialogTitle>New Homework</DialogTitle>
+                                        <DialogTitle>New Topic</DialogTitle>
                                         <DialogDescription>
-                                            <PostHomework />
+                                            <PostTopic params={params} courseName={course.course} />
                                         </DialogDescription>
                                     </DialogHeader>
                                 </DialogContent>
@@ -405,14 +405,14 @@ export default function ChatClase({ params }: Props) {
                                 <Drawer>
                                     <DrawerTrigger>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Homework
+                                            Topic
                                         </DropdownMenuLabel>
                                     </DrawerTrigger>
-                                    <DrawerContent>
+                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
                                     <DrawerHeader>
-                                        <DrawerTitle>New Homework</DrawerTitle>
+                                        <DrawerTitle>New Topic</DrawerTitle>
                                         <DrawerDescription>
-                                            <PostHomework />
+                                            <PostTopic params={params} courseName={course.course} />
                                         </DrawerDescription>
                                     </DrawerHeader>
                                     </DrawerContent>

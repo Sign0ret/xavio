@@ -19,7 +19,7 @@ export interface TContent {
 export interface TTopic {
     _id: string;
     topic: string;
-    brief: string;
+    brief?: string;
     content: TContent[];
     extra: TExtra[];
     quizzes?: TQuiz[];
@@ -40,7 +40,7 @@ export interface IContent {
 
 export interface ITopic {
     topic: string;
-    brief: string;
+    brief?: string;
     content: IContent[];
     extra: IExtra[];
     quizzes?: IQuiz[];
@@ -92,8 +92,7 @@ export const topicSchema = new Schema<ITopicDocument>({
         required: true
     },
     brief: {
-        type: String,
-        required: true
+        type: String
     },
     content: [contentSchema],
     extra: [extraSchema],

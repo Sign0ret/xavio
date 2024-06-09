@@ -29,6 +29,7 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 import Link from "next/link";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { DialogTitle } from "@/components/ui/dialog";
 
 type PostCourseProps = {
   onSuccess: () => void; // Callback function to notify parent on success
@@ -118,6 +119,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
     };
 
     const onSubscribe = async (values: z.infer<typeof CourseSchema>) => {
+        console.log("entro")
         console.log("Attempting to subscribe");
         const validatedFields = CourseSchema.safeParse(values);
         if (!validatedFields.success) {
@@ -225,7 +227,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                     </Button>
                 </form>
             </Form>   
-
+            <DialogTitle className="pt-10 pb-2 text-black">Subscribe to existing course</DialogTitle>
             <Form {...formSubscribe}>
                 <form 
                     onSubmit={formSubscribe.handleSubmit(onSubscribe)}
