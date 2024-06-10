@@ -67,6 +67,7 @@ import {
   ClipboardIcon,
   BookOpenIcon,
   CameraIcon,
+  ChevronsUpDownIcon,
 } from '@/components/icons';
 import { Boilerplate_message } from '../_components/messages/boilerplate';
 import { Right_bar } from '../_components/rightbar';
@@ -77,7 +78,8 @@ import { PostSubject } from '../_components/forms/post-subject';
 import { PostQuiz } from '../_components/forms/post-quiz';
 import { PatchCourse } from '../_components/forms/patch-course';
 import useWebSocketConnection from '../_components/socket/connection';
-import { TCourse } from '@/models/Course';
+import { TCourse, TMember } from '@/models/Course';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 type Props = {
   params: { 
@@ -87,6 +89,7 @@ type Props = {
 
 export default function ChatClase({ params }: Props) {
     const { socket, messages, topRef, scrollContainerRef } = useWebSocketConnection(params.course);
+    const user = useCurrentUser();
 
   const {
     message,
@@ -115,22 +118,33 @@ export default function ChatClase({ params }: Props) {
 
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}`);
-        if (!res.ok) {
-          throw new Error('Failed to fetch course');
-        }
-        const data = await res.json();
-        setCourse(data);
-        setShouldScrollToBottom(true);
-      } catch (error: any) {
-        setError(error);
-      }
-    };
+    fetchCourse(); // Fetch courses when component mounts
 
-    fetchCourse();
-  }, [params.course]);
+    // Cleanup function if needed
+    return () => {
+      // Cleanup code if any
+    };
+  }, []);
+
+  const fetchCourse = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch course');
+      }
+      const data = await res.json();
+      setCourse(data);
+      setShouldScrollToBottom(true);
+    } catch (error: any) {
+      setError(error);
+    }
+    }
+
+    const handleCourseUpdated = () => {
+        // Fetch courses again to update the list after a new course is created
+        fetchCourse();
+         // Assuming fetchCourses is defined in the scope of ClasesLayout
+      };
 
     // Effect to scroll to bottom when messages update or shouldScrollToBottom is true
     useEffect(() => {
@@ -140,9 +154,14 @@ export default function ChatClase({ params }: Props) {
         }
     }, [messages, shouldScrollToBottom]);
 
+    if (!user) {
+        return <p>No User</p>;
+      }
   if (!course) {
     return <p>Loading...</p>;
   }
+
+  const matchingMember: TMember | null = course.members.find((member) => member.member === user.id) ?? null;
 
   return (
     <section>
@@ -152,9 +171,9 @@ export default function ChatClase({ params }: Props) {
                 <MessageCircleIcon className="h-6 w-6"/>
                 <span className="sr-only">Classes</span>
             </Link>
-            <PatchCourse params={params} courseDescription={course}/>
+            <PatchCourse params={params} courseDescription={course} onSuccess={handleCourseUpdated} />
             <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
-                <PencilIcon className="h-4 w-4"/>
+                <ChevronsUpDownIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
             </Button>
             {openTasks ? (
@@ -225,54 +244,58 @@ export default function ChatClase({ params }: Props) {
                                     </DialogHeader>
                                 </DialogContent>
                             </Dialog>
-                            <Dialog>
-                                <DialogTrigger>
-                                    <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                        <span><BookOpenIcon className='h-4 w-4 mr-2' /></span>
-                                        <p>Task</p>
-                                    </DropdownMenuLabel>
-                                </DialogTrigger>
-                                <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                    <DialogHeader>
-                                        <DialogTitle>New Task AI</DialogTitle>
-                                        <DialogDescription>
-                                            <PostSubject params={params} topics={course.topics}/>
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                </DialogContent>
-                            </Dialog>
-                            <Dialog>
-                                <DialogTrigger>
-                                    <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                        <span><FileQuestionIcon className='h-4 w-4 mr-2' /></span>
-                                        <p>Quiz</p>
-                                    </DropdownMenuLabel>
-                                </DialogTrigger>
-                                <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b] '>
-                                    <DialogHeader>
-                                        <DialogTitle>New Quiz AI</DialogTitle>
-                                        <DialogDescription>
-                                            <PostQuiz params={params} topics={course.topics} />
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                </DialogContent>
-                            </Dialog>
-                            <Dialog>
-                                <DialogTrigger>
-                                    <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                        <span><CheckIcon className='h-4 w-4 mr-2' /></span>
-                                        <p>Topic</p>
-                                    </DropdownMenuLabel>
-                                </DialogTrigger>
-                                <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b] '>
-                                    <DialogHeader>
-                                        <DialogTitle>New Topic</DialogTitle>
-                                        <DialogDescription>
-                                            <PostTopic params={params} courseName={course.course} />
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                </DialogContent>
-                            </Dialog>
+                            {matchingMember?.admin && (
+                            <>
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            <span><BookOpenIcon className='h-4 w-4 mr-2' /></span>
+                                            <p>Task</p>
+                                        </DropdownMenuLabel>
+                                    </DialogTrigger>
+                                    <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                        <DialogHeader>
+                                            <DialogTitle>New Task AI</DialogTitle>
+                                            <DialogDescription>
+                                                <PostSubject params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                    </DialogContent>
+                                </Dialog>
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            <span><FileQuestionIcon className='h-4 w-4 mr-2' /></span>
+                                            <p>Quiz</p>
+                                        </DropdownMenuLabel>
+                                    </DialogTrigger>
+                                    <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b] '>
+                                        <DialogHeader>
+                                            <DialogTitle>New Quiz AI</DialogTitle>
+                                            <DialogDescription>
+                                                <PostQuiz params={params} topics={course.topics} onSuccess={handleCourseUpdated} />
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                    </DialogContent>
+                                </Dialog>
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            <span><CheckIcon className='h-4 w-4 mr-2' /></span>
+                                            <p>Topic</p>
+                                        </DropdownMenuLabel>
+                                    </DialogTrigger>
+                                    <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b] '>
+                                        <DialogHeader>
+                                            <DialogTitle>New Topic</DialogTitle>
+                                            <DialogDescription>
+                                                <PostTopic params={params} courseName={course.course} onSuccess={handleCourseUpdated}/>
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                    </DialogContent>
+                                </Dialog>
+                            </>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                     <Input 
@@ -289,15 +312,15 @@ export default function ChatClase({ params }: Props) {
         </main>
     </div>
         {/* mobile */}
-        <div className="flex lg:hidden flex-col fixed inset-0 scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll pt-[70px] min-h-screen h-screen bg-background z-40">
+        <div className="flex lg:hidden flex-col fixed inset-0 scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll pt-[70px] min-h-screen h-screen bg-[#18181b] z-40">
             <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
                 <Link className="lg:hidden" href={`/s/courses/chat`}>
                     <MessageCircleIcon className="h-6 w-6" />
                     <span className="sr-only">Home</span>
                 </Link>
-            {/* <PatchCourse params={params} /> */}
+                <PatchCourse params={params} courseDescription={course} onSuccess={handleCourseUpdated} />
             <Button className="flex lg:hidden ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
-                <PencilIcon className="h-4 w-4"/>
+                <ChevronsUpDownIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
             </Button>
             <Sheet>
@@ -332,9 +355,9 @@ export default function ChatClase({ params }: Props) {
                         <form className="flex items-center gap-4" onSubmit={handleSubmit}>
                             <DropdownMenu>
                             <DropdownMenuTrigger>
-                                <PencilIcon className="h-4 w-4"/>
+                                <PencilIcon className="h-4 w-4 ml-4 text-white"/>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className='flex flex-col ml-2 mb-2 items-start'>
+                            <DropdownMenuContent className='flex flex-col ml-2 mb-2 items-start bg-[#18181b] text-white'>
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 {/* Nueva Foto/Video/Documeto Mobil */}
@@ -353,79 +376,66 @@ export default function ChatClase({ params }: Props) {
                                         </DrawerHeader>
                                     </DrawerContent>
                                 </Drawer>
-                                {/* Nuevo Documento Mobil */}
-{/*                                 <Drawer>
-                                    <DrawerTrigger>
-                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Documento
-                                        </DropdownMenuLabel>
-                                    </DrawerTrigger>
-                                    <DrawerContent>
-                                        <DrawerHeader>
-                                        <DrawerTitle>Nuevo Documento</DrawerTitle>
-                                        <DrawerDescription>
-                                            {/* <Documento_nuevo params={params} /> *
-                                        </DrawerDescription>
-                                        </DrawerHeader>
-                                    </DrawerContent>
-                                </Drawer> */}
-                                {/* Nuevo Tema Mobil */}
-                                <Drawer>
-                                    <DrawerTrigger>
-                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Task
-                                        </DropdownMenuLabel>
-                                    </DrawerTrigger>
-                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                        <DrawerHeader>
-                                        <DrawerTitle>New Task AI</DrawerTitle>
-                                        <DrawerDescription>
-                                            <PostSubject params={params} topics={course.topics}/>
-                                        </DrawerDescription>
-                                        </DrawerHeader>
-                                    </DrawerContent>
-                                </Drawer>
-                                {/* Nuevo Quiz Mobil */}
-                                <Drawer>
-                                    <DrawerTrigger>
-                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Quiz
-                                        </DropdownMenuLabel>
-                                    </DrawerTrigger>
-                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                        <DrawerHeader>
-                                        <DrawerTitle>New Quiz AI</DrawerTitle>
-                                        <DrawerDescription>
-                                            <PostQuiz params={params} topics={course.topics} />
-                                        </DrawerDescription>
-                                        </DrawerHeader>
-                                    </DrawerContent>
-                                </Drawer>
-                                {/* Nueva Tarea Mobil */}
-                                <Drawer>
-                                    <DrawerTrigger>
-                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Topic
-                                        </DropdownMenuLabel>
-                                    </DrawerTrigger>
-                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                    <DrawerHeader>
-                                        <DrawerTitle>New Topic</DrawerTitle>
-                                        <DrawerDescription>
-                                            <PostTopic params={params} courseName={course.course} />
-                                        </DrawerDescription>
-                                    </DrawerHeader>
-                                    </DrawerContent>
-                                </Drawer>
+                                {matchingMember?.admin && (
+                                    <>
+                                        <Drawer>
+                                            <DrawerTrigger>
+                                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                                    Task
+                                                </DropdownMenuLabel>
+                                            </DrawerTrigger>
+                                            <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                                <DrawerHeader>
+                                                <DrawerTitle>New Task AI</DrawerTitle>
+                                                <DrawerDescription>
+                                                    <PostSubject params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
+                                                </DrawerDescription>
+                                                </DrawerHeader>
+                                            </DrawerContent>
+                                        </Drawer>
+                                        {/* Nuevo Quiz Mobil */}
+                                        <Drawer>
+                                            <DrawerTrigger>
+                                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                                    Quiz
+                                                </DropdownMenuLabel>
+                                            </DrawerTrigger>
+                                            <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                                <DrawerHeader>
+                                                <DrawerTitle>New Quiz AI</DrawerTitle>
+                                                <DrawerDescription>
+                                                    <PostQuiz params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
+                                                </DrawerDescription>
+                                                </DrawerHeader>
+                                            </DrawerContent>
+                                        </Drawer>
+                                        {/* Nueva Tarea Mobil */}
+                                        <Drawer>
+                                            <DrawerTrigger>
+                                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                                    Topic
+                                                </DropdownMenuLabel>
+                                            </DrawerTrigger>
+                                            <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                            <DrawerHeader>
+                                                <DrawerTitle>New Topic</DrawerTitle>
+                                                <DrawerDescription>
+                                                    <PostTopic params={params} courseName={course.course} onSuccess={handleCourseUpdated}/>
+                                                </DrawerDescription>
+                                            </DrawerHeader>
+                                            </DrawerContent>
+                                        </Drawer>
+                                    </>
+                                )}
                             </DropdownMenuContent>
                             </DropdownMenu>
                             <Input
                               value={message}
-                              className="flex-1" 
+                              className="flex-1 bg-zinc-200" 
                               placeholder="Type a message..."
                               onChange={(e) => setMessage(e.target.value)}
                               />
-                            <Button variant="outline" type="submit">Send</Button>
+                            <Button variant="outline" type="submit" className='bg-purple-600 text-white'>Send</Button>
                         </form>
                     </div>
                     </main>

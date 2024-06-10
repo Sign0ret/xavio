@@ -35,9 +35,10 @@ type Props = {
       course: string;
     },
     topics: TTopic[],
+    onSuccess: () => void // Callback function to notify parent on success
   };
 
-export function PostSubject({ params ,topics}: Props) {
+export function PostSubject({ params ,topics, onSuccess}: Props) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked" 
@@ -99,6 +100,7 @@ export function PostSubject({ params ,topics}: Props) {
         }
 
         setSuccess("Task created and saved successfully");
+        onSuccess(); //callback to update the course page
         form.reset();
     } catch (error: any) {
         setError(error.message);

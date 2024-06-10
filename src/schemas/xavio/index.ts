@@ -35,9 +35,6 @@ export const QuizzSchema = z.object({
 })
 
 export const TemaSchema = z.object({
-    course: z.string().min(1, {
-        message: "A course name is required",
-    }),
     detail: z.string().min(1, {
         message: "A detail is required",
     }),
@@ -64,6 +61,15 @@ export const MemberSchema = z.object({
         message: "A member id is required",
     }),
     admin: z.boolean(),
+})
+
+export const SubscribeSchema = z.object({
+    id: z.string().min(1, {
+        message: "An id is required",
+    }),
+    password: z.string().min(8, {
+        message: "A Password with at least 8 characters is required",
+    })
 })
 
 export const CourseSchema = z.object({

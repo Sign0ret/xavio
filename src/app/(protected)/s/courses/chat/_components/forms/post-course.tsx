@@ -4,7 +4,7 @@ import * as z from "zod";
 import { useTransition, useState } from "react";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CourseSchema, TareasSchema } from "@/schemas/xavio";
+import { CourseSchema, SubscribeSchema, TareasSchema } from "@/schemas/xavio";
 import { useSearchParams } from "next/navigation";
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
@@ -30,6 +30,7 @@ import { login } from "@/actions/login";
 import Link from "next/link";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { DialogTitle } from "@/components/ui/dialog";
+import Spinner from "@/components/components/Spinner";
 
 type PostCourseProps = {
   onSuccess: () => void; // Callback function to notify parent on success
@@ -62,8 +63,8 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
       }
     });
 
-    const formSubscribe = useForm<z.infer<typeof CourseSchema>>({
-      resolver: zodResolver(CourseSchema),
+    const formSubscribe = useForm<z.infer<typeof SubscribeSchema>>({
+      resolver: zodResolver(SubscribeSchema),
       defaultValues: {
         id: "",
         password: "",
@@ -118,10 +119,10 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
         });
     };
 
-    const onSubscribe = async (values: z.infer<typeof CourseSchema>) => {
+    const onSubscribe = async (values: z.infer<typeof SubscribeSchema>) => {
         console.log("entro")
         console.log("Attempting to subscribe");
-        const validatedFields = CourseSchema.safeParse(values);
+        const validatedFields = SubscribeSchema.safeParse(values);
         if (!validatedFields.success) {
             return setSubscribeError("Invalid fields!");
         }
@@ -146,8 +147,9 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                     if (!send.ok) {
                         throw new Error('Failed to fetch course');
                     }
-                    router.refresh();
                     setSubscribeSuccess("Successfully subscribed to course");
+                    onSuccess(); //callback to update the courses layout 
+                    router.refresh();
                 } catch (error: any) {
                     setSubscribeError(error.message);
                 }
@@ -161,10 +163,10 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
             <Form {...formCreate}>
                 <form 
                     onSubmit={formCreate.handleSubmit(onSubmit)}
-                    className="space-y-4"
-                >
-                    <div className="space-y-4">
-                        <FormField 
+                    className="space-y-6 bg-[#18181b] text-white border-b pb-7"
+                    >
+                    <div className="space-y-6">
+                    <FormField 
                             control={formCreate.control}
                             name="course"
                             render={({ field }) => (
@@ -175,6 +177,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                                             {...field}
                                             disabled={isPending}
                                             placeholder="Course"
+                                            className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -192,6 +195,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                                             {...field}
                                             disabled={isPending}
                                             placeholder="********"
+                                            className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -209,6 +213,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                                             {...field}
                                             disabled={isPending}
                                             placeholder="Description"
+                                            className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -218,22 +223,28 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                     </div>
                     <FormError message={createError || urlError} />
                     <FormSuccess message={createSuccess} />
-                    <Button
-                        disabled={isPending}
-                        type="submit"
-                        className="w-full"
-                    >
-                        {showTwoFactor ? "Confirm" : "Submit"} 
-                    </Button>
+                    <div className='w-full flex justify-center'>
+                        {isPending ? (
+                            <Spinner /> // Render the spinner when isPending is true
+                        ) : (
+                            <button
+                                disabled={isPending}
+                                type="submit"
+                                className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500 border-white focus:border-purple-500"
+                            >
+                                {showTwoFactor ? "Confirm" : "Submit"} 
+                            </button>
+                        )}
+                    </div>
                 </form>
             </Form>   
-            <DialogTitle className="pt-10 pb-2 text-black">Subscribe to existing course</DialogTitle>
+            <DialogTitle className="pt-10 pb-2 text-white">Subscribe to existing course</DialogTitle>
             <Form {...formSubscribe}>
                 <form 
                     onSubmit={formSubscribe.handleSubmit(onSubscribe)}
-                    className="space-y-4"
+                    className="space-y-6 bg-[#18181b] text-white"
                 >
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         <FormField 
                             control={formSubscribe.control}
                             name="id"
@@ -245,6 +256,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                                             {...field}
                                             disabled={isPending}
                                             placeholder="id"
+                                            className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -262,6 +274,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                                             {...field}
                                             disabled={isPending}
                                             placeholder="********"
+                                            className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -271,13 +284,19 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                     </div>
                     <FormError message={subscribeError || urlError} />
                     <FormSuccess message={subscribeSuccess} />
-                    <Button
-                        disabled={isPending}
-                        type="submit"
-                        className="w-full"
-                    >
-                        {showTwoFactor ? "Confirm" : "Submit"} 
-                    </Button>
+                    <div className='w-full flex justify-center'>
+                        {isPending ? (
+                            <Spinner /> // Render the spinner when isPending is true
+                        ) : (
+                            <button
+                                disabled={isPending}
+                                type="submit"
+                                className="w-3/5 rounded-3xl h-[30px] hover:border-purple-400 border hover:bg-purple-500 border-white focus:border-purple-500"
+                            >
+                                {showTwoFactor ? "Confirm" : "Submit"} 
+                            </button>
+                        )}
+                    </div>
                 </form>
             </Form>     
         </>

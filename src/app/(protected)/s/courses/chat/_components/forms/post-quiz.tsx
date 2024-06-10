@@ -27,10 +27,11 @@ type Props = {
         course: string;
     },
     topics: TTopic[],
+    onSuccess: () => void // Callback function to notify parent on success
 };
 
 
-export function PostQuiz({ params, topics }: Props) {
+export function PostQuiz({ params, topics, onSuccess }: Props) {
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl");
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
@@ -77,6 +78,7 @@ export function PostQuiz({ params, topics }: Props) {
                 throw new Error("Failed to save quiz");
             }
             setSuccess("Quiz created and saved successfully");
+            onSuccess(); //callback to update the course page
             form.reset();
         } catch (error: any) {
             setError(error.message);

@@ -100,8 +100,8 @@ export default function ClasesLayout({
                             <span className="sr-only">Add course</span>
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className='max-h-screen min-h-[90vh] scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
-                            <DialogHeader>
+                        <DialogContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b] '>
+                        <DialogHeader>
                                 <DialogTitle>New Course</DialogTitle>
                                 <DialogDescription>
                                   <PostCourse onSuccess={handleCourseCreated} />
@@ -147,19 +147,19 @@ export default function ClasesLayout({
             </div>
         ) : (
             <section>
-            <div className="hidden lg:grid max-h-full h-4/5 lg:min-h-screen w-full lg:grid-cols-[40px_1fr]  ">
-                <div className="flex h-full max-h-screen flex-col gap-2 ">
-                <div className="flex h-[60px] items-center border-b bg-gray-100/40 dark:bg-gray-800/40">
+              <div className="hidden lg:grid max-h-full h-4/5 lg:min-h-screen w-full lg:grid-cols-[40px_1fr]  ">
+                <div className="flex h-full max-h-screen flex-col gap-2 pt-[70px]">
+                  <div className="flex h-[60px] items-center border-b relative inset-x-0 z-50">
                     <Button className="ml-auto h-8 w-8" size="icon" variant="outline" onClick={() => setOpen(true)}>
                         <MessageCircleIcon className="h-4 w-4" />
                         <span className="sr-only">Toggle notifications</span>
                     </Button>
+                  </div>
                 </div>
-                </div>
-            <section >
-              {children}
-            </section>
-            </div>
+                <section >
+                  {children}
+                </section>
+              </div>
             <div className="grid lg:hidden max-h-full h-4/5 lg:min-h-screen w-full lg:grid-cols-[280px_1fr] pt-[70px]  ">
                 <div className="border-r bg-gray-100/40 lg:block dark:bg-gray-800/40 ">
                     <div className="flex h-full max-h-screen flex-col gap-2">

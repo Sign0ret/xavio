@@ -10,39 +10,9 @@ const topic ={
             type: "string",
             description: "Name of the Topic"
         },
-        explanation: {
+        brief: {
             type: "string",
             description: "Description and explanation of the topic"
-        },
-        questions:{
-            type: "array",
-            description: "Get all the questions and their possible options of the quizz based on the number of questions and topic",
-            items:{
-                type:"object",
-                properties:{
-                    question:{
-                        type:"string",
-                        description: "The question"
-                    },
-                    answer_options:{
-                        type:"array",
-                        description: "All the possible answe options",
-                        items:{
-                            type:"object",
-                            properties:{
-                                answer:{
-                                    type:"string",
-                                    description: "One of the possible answer"
-                                },
-                                correct:{
-                                    type:"string",
-                                    description:"The correct answer"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -55,13 +25,13 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: Request,res:Response) {
-    const { course, detail, topic} = await request.json();
+    const { course, detail, topicPassed} = await request.json();
     try {
         const chatCompletion = await openai.chat.completions.create({
             messages: [
                 {
                     role: "user",
-                    content: `Generate a detailed topic for a study plan for this course "${course}" , make a PDF of the topic and provide two sources of information for example websites that explains this topic, the level of detail that you need is this ${detail} give me your response in a Json format with this schema ${topic}`,
+                    content: `Generate a detailed topic for a study plan for this course "${course}" , make a PDF of the topic and provide two sources of information for example websites that explains this topic, the level of detail that you need is this ${detail} give me your response in a Json format with this schema ${topicPassed}`,
                 }
             ],
             model: "gpt-4o",

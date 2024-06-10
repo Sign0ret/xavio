@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TareasSchema, TemaSchema, TopicSchema } from "@/schemas/xavio";
 import { useSearchParams } from "next/navigation";
-import { TTopic } from "@/models/Topic";
+import { ITopic } from "@/models/Topic";
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import { TextIcon, MessageCircleIcon, PencilIcon, XIcon, UploadIcon, FileIcon} from '@/components/icons';
@@ -35,9 +35,11 @@ type Props = {
       course: string;
     },
     courseName: string;
+    onSuccess: () => void; // Callback function to notify parent on success
+
   };
 
-export function PostTopic({ params, courseName }: Props) {
+export function PostTopic({ params, courseName, onSuccess }: Props) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked" 
@@ -52,7 +54,6 @@ export function PostTopic({ params, courseName }: Props) {
   const form = useForm<z.infer<typeof TemaSchema>>({
       resolver: zodResolver(TemaSchema),
       defaultValues: {
-          course: "",
           detail: "",
           topic: "",
       }
@@ -83,24 +84,27 @@ export function PostTopic({ params, courseName }: Props) {
         // Call the API to generate the quiz
         const response = await axios.post('http://localhost:3000/api/generateTopic', {
             course: courseName,
-            topic: values.topic,
+            topicPassed: values.topic,
             detail: values.detail
         });
+        console.log("response:",response);
 
         if (response.status !== 200) {
             throw new Error("Failed to generate Task");
         }
 
-        const taskData = response.data;
+        const submitData = response.data;
+        console.log("submitData:",submitData);
 
         // Call the API to save the quiz to MongoDB
-        const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/tasks`, taskData);
+        const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics`, submitData);
 
         if (saveResponse.status !== 200) {
             throw new Error("Failed to save Task");
         }
 
-        setSuccess("Task created and saved successfully");
+        setSuccess("Topic created and saved successfully");
+        onSuccess(); //callback to update the course page
         form.reset();
     } catch (error: any) {
         setError(error.message);

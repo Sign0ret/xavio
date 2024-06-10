@@ -16,7 +16,7 @@ export interface TOption {
 export interface TQuestion {
     _id: string;
     question: string;
-    points: number;
+    points?: number;
     options: TOption[];
 }
 
@@ -61,7 +61,7 @@ export interface IOption {
 
 export interface IQuestion {
     question: string;
-    points: number;
+    points?: number;
     options: IOption[];
 }
 
@@ -129,7 +129,7 @@ const questionSchema = new Schema<IQuestionDocument>({
     },
     points: {
         type: Number,
-        required: true
+        default: 0
     },
     options: {
         type: [optionSchema],
