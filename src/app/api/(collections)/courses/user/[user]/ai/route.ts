@@ -15,7 +15,7 @@ export async function GET(request: NextRequest, { params }: Props)  {
         
         const objectsFound = await Course.find({
             'members.member': user,
-            'courseAI': false, // Assuming user ID is stored in `_id` field
+            'courseAI': true, // Assuming user ID is stored in `_id` field
         });
 
         if (!objectsFound || objectsFound.length === 0) {
