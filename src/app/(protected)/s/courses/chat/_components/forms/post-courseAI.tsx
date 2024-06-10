@@ -32,7 +32,7 @@ const CourseSchema = z.object({
             message: "At least one topic is required",
         }),
     relevantTopics: z.array(z.string().nonempty("Topic is required")),
-    members: z.array(MemberSchema).optional(),
+
 });
 
 export function CreateCourseForm() {
@@ -46,8 +46,7 @@ export function CreateCourseForm() {
         defaultValues: {
             courseName: "",
             numTopics: 1,
-            relevantTopics: [],
-            members: [{"member": user?.id ?? ""}]
+            relevantTopics: []
         }
     });
     if(!user) return;
