@@ -6,7 +6,6 @@ import WelcomeText from "@/components/components/welcome-text";
 import { BackgroundBeams } from "@/components/ui/background-gradient-animation";
 import { currentUser } from "@/lib/auth";
 import { TCourse } from "@/models/Course";
-import Course_Ai from "@/models/Course_Ai";
 
 import { Poppins } from "next/font/google";
 

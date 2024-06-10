@@ -30,6 +30,17 @@ export default function Avances() {
           <Card/>
         </div>
       </div> */
-      <CreateCourseForm/>
+      <div>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+              <CreateCourseForm/>
+      </div>
+
   );
 }

@@ -36,20 +36,22 @@ const CourseSchema = z.object({
 });
 
 export function CreateCourseForm() {
-    const user = useCurrentUser()
+    const user = useCurrentUser();
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, setIsPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const form = useForm<z.infer<typeof CourseSchema>>({
         resolver: zodResolver(CourseSchema),
         defaultValues: {
             courseName: "",
             numTopics: 1,
-            relevantTopics: []
-        }
+            relevantTopics: [],
+        },
     });
-    if(!user) return;
+
+    if (!user) return null;
 
     const onSubmit = async (values: z.infer<typeof CourseSchema>) => {
         setError("");
@@ -57,6 +59,9 @@ export function CreateCourseForm() {
         setIsPending(true);
 
         try {
+            // Add the current user to the members field
+            const members = [{ member: user.id }];
+
             // Call the API to generate the course
             const generateResponse = await axios.post('http://localhost:3000/api/generateCourse', {
                 courseName: values.courseName,
@@ -69,7 +74,10 @@ export function CreateCourseForm() {
             }
 
             const courseData = generateResponse.data;
-            
+
+            // Add members to the course data
+            courseData.members = members;
+
             // Call the API to save the course to MongoDB
             const saveResponse = await axios.post('http://localhost:3000/api/courseAI', courseData);
 
