@@ -70,7 +70,7 @@ export function PostQuiz({ params, topics, onSuccess }: Props) {
             }
 
             const quizData = response.data;
-
+            console.log("quizData:",quizData)
             // Call the API to save the quiz to MongoDB
             const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/quizzes`, quizData);
 

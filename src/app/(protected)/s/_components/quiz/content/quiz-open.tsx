@@ -25,20 +25,19 @@ export default function QuizOpen({params, quizSubmit}: Props) {
     const handleGrade = () => {
       let totalGrade = 0;
       submits.answers.forEach(answer => {
-        let points: number =  answer.points / answer.options.length 
+        let correctOptions: number = answer.options.filter(option => option.isCorrect).length;
+        let points: number =  answer.points / correctOptions;
         answer.options.forEach(option => {
+          let lPoints: number = 0;
           if (option.isElected) {
-            if (option.isCorrect) {
-              totalGrade += points; // Add points if the option is selected
-            } else {
-              totalGrade -= points; // Add points if the option is selected
+              if (option.isCorrect) {
+                  lPoints += points; // Add points if the option is selected
+              } else {
+                  lPoints -= points; // Add points if the option is selected
+              }
             }
-          } else {
-            if (option.isCorrect) {
-              totalGrade -= points; // Add points if the option is selected
-            } else {
-              totalGrade += points; // Add points if the option is selected
-            }
+          if (lPoints > 0) {
+            totalGrade += lPoints;
           }
         });
       });
@@ -106,15 +105,15 @@ export default function QuizOpen({params, quizSubmit}: Props) {
     return (
         <div className='max-h-full'>
               {submits.answers.map((question: TQuestion, qIndex: number) => (
-                  <section key={question._id} className="relative inset-x-0  mx-auto z-50 w-full min-w-[85vw] lg:min-w-[55vw] rounded-md bg-gray-700 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
+                  <section key={question._id} className="relative inset-x-0  mx-auto z-50 max-w-4/5 min-w-[85vw] lg:min-w-[55vw] rounded-md bg-gray-700 p-8 my-4 overflow-y-auto max-h-[80vh]"> 
                   <h3 className="mb-8 text-3xl font-semibold">Question {qIndex+1}</h3>
                     <p className="mb-8 text-lg">{question.question}</p>
                     <div className="space-y-4">
-                        <div className="flex items-center space-x-4 z-100">
+                        <div className="flex flex-col items-left z-100">
                         {question.options?.map((option: TOptionA, oIndex: number) => (
-                            <div key={option._id}>
+                            <div key={option._id} className='items-center'>
                             <input 
-                                className="h-6 w-6" 
+                                className="h-6 w-6 mr-1" 
                                 id={`option${oIndex}`} 
                                 name={`question${qIndex}`} 
                                 type="checkbox" 

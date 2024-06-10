@@ -44,6 +44,7 @@ export async function POST(request: NextRequest, { params }: Props) {
   
       const { course, topic } = params;
       const data = await request.json();
+      console.log("dataQuiz:",data.structure[0].options)
   
       // Validate data structure here if needed
       /* const { quiz, structure, submits } = data; */

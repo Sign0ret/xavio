@@ -33,7 +33,7 @@ const quizz ={
                     },
                     options:{
                         type:"array",
-                        description: "All the possible answe options",
+                        description: "All the possible answer options, 1 or more correct, random order",
                         items:{
                             type:"object",
                             properties:{
@@ -41,7 +41,7 @@ const quizz ={
                                     type:"string",
                                     description: "One of the possible answer"
                                 },
-                                iscorrect:{
+                                isCorrect:{
                                     type:"boolean",
                                     description:"This parameter  indicates if this option it the correct answer or not"
                                 }
