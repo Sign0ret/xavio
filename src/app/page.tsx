@@ -6,6 +6,7 @@ import WelcomeText from "@/components/components/welcome-text";
 import { BackgroundBeams } from "@/components/ui/background-gradient-animation";
 import { currentUser } from "@/lib/auth";
 import { TCourse } from "@/models/Course";
+import Course_Ai from "@/models/Course_Ai";
 
 import { Poppins } from "next/font/google";
 
@@ -18,7 +19,15 @@ const font = Poppins({
 
 export default async function Home() {
   const user = await currentUser();
-  let content = <></>;
+  try {
+    const fetchCourses_ai = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/user/ai`);
+      const courses_ai = await res.json();
+      console.log(courses_ai)
+      return courses_ai;
+    }
+    const course_ai: TCourse[] = await fetchCourses_ai();
+    console.log({course_ai})
   if (!user) {
     return (
       <div>
@@ -28,6 +37,9 @@ export default async function Home() {
         <TypewriterEffectSmoothDemo/>
         <div className="flex max-w-[300px] mx-auto justify-center items-center">
           <BackgroundGradientDemo1/>  
+        </div>
+        <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
+          <Card courses={course_ai}/>
         </div>
         <BackgroundBeams/>
         <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
@@ -63,24 +75,10 @@ export default async function Home() {
         <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
           <Card courses={courses}/>
         </div>
-        <div>
-            {user?.id ? (
-              <>
-               <BackgroundBeams/>
-               <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
-                  <Footer/>
-               </div>
-              </>
-            ) : (
-              <>
-              <BackgroundBeams/>
-               <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
-                  <WelcomeText/>
-                  <Footer/>
-               </div>
-              </>
-            )}
-          </div>
+        <BackgroundBeams/>
+        <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
+          <Footer/>
+        </div>
       </div>
     );
   } catch(err:any) {
@@ -90,5 +88,11 @@ export default async function Home() {
       </div>
     )
   }
-  
+}catch(err:any) {
+  return (
+    <div>
+      Error Fetching Courses
+    </div>
+  )
+}
 }
