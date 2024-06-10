@@ -47,11 +47,24 @@ export default async function Home() {
         <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
           <Card courses={courses}/>
         </div>
-        <BackgroundBeams/>
-        <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
-          <WelcomeText/>
-          <Footer/>
-        </div>
+        <div >
+            {user?.id ? (
+              <>
+               <BackgroundBeams/>
+               <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
+                  <Footer/>
+               </div>
+              </>
+            ) : (
+              <>
+                <BackgroundBeams/>
+               <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
+                  <WelcomeText/>
+                  <Footer/>
+               </div>
+              </>
+            )}
+          </div>
       </div>
     );
   } catch(err:any) {
