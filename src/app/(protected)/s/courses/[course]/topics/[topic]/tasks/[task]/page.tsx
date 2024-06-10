@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import PostTask from "@/app/(protected)/s/_components/task/post-task";
+import { TaskSideCard } from "@/app/(protected)/s/_components/task/task-sidecard";
 
 type Props = {
   params: { 
@@ -48,17 +49,24 @@ export default async function QuizClase({ params }: Props) {
     return (
       <div className="h-screen w-full">
       <div className="flex flex-col lg:flex-row">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex w-full lg:w-2/5 flex-col items-start justify-end space-y-2 p-[40px] lg:p-0 h-screen">
-            <br/>
-            <br/>
-            <br/>   
-        <div className="pl-14 w-full max-h-[90vh] h-full">
-          <Button className="p-20 flex flex-col">
-            <h2>{taskDescription.task}</h2>
-            <p>{taskDescription.instructions}</p>
-          </Button>
+        {/* left */}
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex w-full lg:w-2/5 flex-col items-start justify-end space-y-2 p-[40px] lg:p-0 h-screen"> 
+          <div className="pl-14 w-full max-h-[90vh] h-full">
+            <Button className="p-20 flex flex-col">
+              {submit ? (
+                <>
+                  <TaskSideCard params={params} taskDescription={taskDescription} submit={submit}/>
+                </>
+            ) : (
+              <>
+                <h2>{taskDescription.task}</h2>
+                <p>{taskDescription.instructions}</p>
+              </>
+            )}
+            </Button>
+          </div>
         </div>
-        </div>
+      {/* right */}
         <div className="flex w-full lg:w-3/5 flex-col items-center justify-center p-8">
         <div>
           <div

@@ -41,7 +41,6 @@ export function CreateCourseForm() {
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, setIsPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    if(!user) return;
     const form = useForm<z.infer<typeof CourseSchema>>({
         resolver: zodResolver(CourseSchema),
         defaultValues: {
@@ -51,6 +50,7 @@ export function CreateCourseForm() {
             members: [{"member": user?.id ?? ""}]
         }
     });
+    if(!user) return;
 
     const onSubmit = async (values: z.infer<typeof CourseSchema>) => {
         setError("");

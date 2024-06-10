@@ -44,7 +44,7 @@ export default async function PostTask({ params }: Props) {
             }
             const result = await s3client.send(new PutObjectCommand(bucketParams))
             console.log('result>',result)
-            url = `${endpoint}/${bucketParams.Bucket}/${bucketParams.Key}`
+            url = `${endpoint}/${bucketParams.Bucket}/${bucketParams.Key}`;
         } catch (err: any) {
 
         }
@@ -52,18 +52,16 @@ export default async function PostTask({ params }: Props) {
     console.log('urlupdated:',url)
 
     const submitData = {
-      submits: {  
         sender: user.id,
         grade: 85,
         text: text,
-        url: url,
+        url: url ? url.toString() : "",
         comments: comments
-      }
     };  
     console.log("submitData:",submitData)
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/tasks/${params.task}`, {
-        method: 'PATCH',
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}/tasks/${params.task}/submits`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
