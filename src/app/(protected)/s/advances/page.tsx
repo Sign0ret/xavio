@@ -5,6 +5,7 @@ import { Card } from "@/components/components/card";
 import { BackgroundGradientDemo1 } from "@/components/components/searchbar";
 import { TypewriterEffectSmoothDemo } from "@/components/components/typperdemo";
 import { BackgroundBeams } from "@/components/ui/background-gradient-animation";
+import { CreateCourseForm } from '../courses/chat/_components/forms/post-courseAI';
 
 export const generateMetadata = (): Metadata => {
   return {
@@ -15,7 +16,7 @@ export const generateMetadata = (): Metadata => {
 export default function Avances() {
 
   return (
-    <div className="bg-zinc-900 h-screen overflow-y-auto">
+/*     <div className="bg-zinc-900 h-screen overflow-y-auto">
       <BackgroundBeams/>
         <br></br>
         <br></br>
@@ -28,6 +29,7 @@ export default function Avances() {
         <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
           <Card/>
         </div>
-      </div>
+      </div> */
+      <CreateCourseForm/>
   );
 }

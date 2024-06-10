@@ -8,15 +8,15 @@ const course_advance_schema ={
     properties:{
         course: {
             type: "string",
-            description: "Name of the course this is given in the cbody of the request"
+            description: "Name of the course this is given in the body of the request"
         },
         description_course: {
             type: "string",
-            description: "Descripition of the course based on the topics in english"
+            description: "Description of the course based on the topics in english"
         },
         topics:{
             type: "array",
-            description: "Get all the names of the mor relevant topic and if its necesary create topics",
+            description: "Get all the names of the most relevant topics and if its necessary create topics",
             items:{
                 type:"object",
                 properties:{
@@ -26,7 +26,7 @@ const course_advance_schema ={
                     },
                     brief:{
                         type:"string",
-                        description: "A resume of the most important things of the topic"
+                        description: "A summary of the most important things of the topic"
                     }
                 }
             }
