@@ -83,7 +83,8 @@ export default function ClasesLayout({
          // Assuming fetchCourses is defined in the scope of ClasesLayout
       };
     return (
-      <section>
+      <>
+      <section className='hidden lg:flex'>
         {open ? (
             <div className="grid max-h-full h-4/5 lg:min-h-screen w-full lg:grid-cols-[280px_1fr] ">
             <div className="border-r bg-[#18181b] lg:block relative inset-x-0 z-20">
@@ -160,23 +161,27 @@ export default function ClasesLayout({
                   {children}
                 </section>
               </div>
-            <div className="grid lg:hidden max-h-full h-4/5 lg:min-h-screen w-full lg:grid-cols-[280px_1fr] pt-[70px]  ">
-                <div className="border-r bg-gray-100/40 lg:block dark:bg-gray-800/40 ">
-                    <div className="flex h-full max-h-screen flex-col gap-2">
-                    <div className="flex h-[60px] items-center border-b px-6">
-                        <Link className="flex items-center gap-2 font-semibold" href={`/s/chat`}>
-                        <MessageCircleIcon className="h-6 w-6" />
-                        <span className="">JMO</span>
-                        </Link>
-                        <Drawer>
-                            <DrawerTrigger>
-                              <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
-                                <BellIcon className="h-4 w-4" />
-                                <span className="sr-only">Toggle notifications</span>
-                              </Button>
-                            </DrawerTrigger>
-                            <DrawerContent>
-                            <DrawerHeader>
+            </section>
+        )}
+      </section>
+      <section className='flex lg:hidden'>
+        <div className="grid max-h-full min-h-screen w-full lg:grid-cols-[280px_1fr] ">
+              <div className="border-r bg-[#18181b] lg:block relative inset-x-0 z-20">
+                  <div className="flex h-full max-h-screen pt-[70px] flex-col gap-2">
+                  <div className="flex h-[60px] items-center border-b px-6">
+                      <Link className="flex items-center gap-2 font-semibold  text-white" href={`/s/courses/chat`}>
+                      <MessageCircleIcon className="h-6 w-6" />
+                      <span className="">Clases</span>
+                      </Link>
+                      <Drawer>
+                        <DrawerTrigger className='ml-auto'>
+                          <Button className=" h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline">
+                            <PlusIcon className="h-4 w-4" />
+                            <span className="sr-only">Add course</span>
+                          </Button>
+                        </DrawerTrigger>
+                          <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                          <DrawerHeader>
                                 <DrawerTitle>Add Course</DrawerTitle>
                                 <DrawerDescription>
                                 <PostCourse onSuccess={handleCourseCreated} />
@@ -184,49 +189,43 @@ export default function ClasesLayout({
                             </DrawerHeader>
                             </DrawerContent>
                         </Drawer>
-                        
-                        <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setOpen(false)}>
-                            <XIcon className="h-4 w-4" />
-                            <span className="sr-only">Hide sidebar</span>
-                        </Button>
-        
-                    </div>
-                    <div className="flex-1 scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll py-2">
-                        <div className="px-4 mb-4">
-                            <Input placeholder="Search contacts..." />
-                        </div>
-                        {/* mobile */}
-                        <nav className="grid items-start px-4 text-sm font-medium">
-                            {chatsInfo.map((course:TCourse, index) => (
-                                <Link
-                                key={index}
-                                className={`flex items-center gap-3 rounded-lg ${selectedChat === index ? 'bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50' : 'px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'}`}
-                                href={`/s/courses/chat/${course._id}`}
-                                onClick={() => setSelectedChat(index)}
-                                >
-                                <Avatar>
-                                    <AvatarImage alt={`@${course._id}`} src="/placeholder-avatar.jpg" />
-                                    <AvatarFallback>{course.course.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <div>{course.course}</div>
-                                    {/* <div className="text-xs text-gray-400">{course.message}</div> */}
-                                </div>
-{/*                                 <Badge className="ml-auto bg-purple-600 hover:bg-white hover:text-black">{course.badge}</Badge>
- */}                                </Link>
-                            ))}
-                        </nav>
-                    </div>
-                </div>
-            </div>
+                      
+                      <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpen(false)}>
+                          <XIcon className="h-4 w-4" />
+                          <span className="sr-only">Hide sidebar</span>
+                      </Button>
+                  </div>
+                  <div className="flex-1 scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll py-2">
+                      {/* lg */}
+                      <nav className="grid items-start px-4 text-sm font-medium ">
+                          {chatsInfo.map((course:TCourse, index) => (
+                              <Link
+                              key={index}
+                              className={`flex items-center gap-3 rounded-lg ${selectedChat === index ? 'bg-zin-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50' : 'px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'}`}
+                              href={`/s/courses/chat/${course._id}`}
+                              onClick={() => setSelectedChat(index)}
+                              >
+                              <Avatar className="z-0"> {/* Change z-[-20] to z-0 */}
+                                  <AvatarImage alt={`@${course._id}`} src="/placeholder-avatar.jpg" />
+                                  <AvatarFallback>{course.course.charAt(0)}</AvatarFallback>
+                              </Avatar>
+                              <div>
+                                  <div className='text-white hover:text-white-400'>{course.course}</div>
+                                  {/* <div className="text-xs text-white">{course.message}</div> */}
+                              </div>
+  {/*                             <Badge className="ml-auto bg-purple-600 hover:bg-white hover:text-black">{course.badge}</Badge>
+  */}                            </Link>
+                          ))}
+                      </nav>
+                  </div>
+                  </div>
+              </div>
 
-            <section >
-              {children}
-            </section>
-            </div>
-            </section>
-        )}
+              <section >
+                {children}
+              </section>
+              </div>
       </section>
-      
+      </>
     )
   }  

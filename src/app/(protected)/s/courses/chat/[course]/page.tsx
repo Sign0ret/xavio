@@ -165,37 +165,45 @@ export default function ChatClase({ params }: Props) {
 
   return (
     <section>
-    <div className="hidden lg:flex flex-col min-h-screen h-screen pt-[70px]">
+        <div className="flex flex-col fixed inset-0 lg:static scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll pt-[70px] min-h-screen h-screen bg-[#18181b] z-40">
         <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-[#18181b] px-6 relative inset-x-0 z-50">
-            <Link className="lg:hidden" href={`s/courses/chat`}>
-                <MessageCircleIcon className="h-6 w-6"/>
+            <Link className="lg:hidden" href={`/s/courses/chat`}>
+                <MessageCircleIcon className="h-6 w-6 text-white"/>
                 <span className="sr-only">Classes</span>
             </Link>
             <PatchCourse params={params} courseDescription={course} onSuccess={handleCourseUpdated} />
-            <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
+            <Button className="flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <ChevronsUpDownIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
             </Button>
-            {openTasks ? (
-                <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpenTasks(false)}>
-                    <XIcon className="h-4 w-4" />
-                    <span className="sr-only">Hide tasksbar</span>
-                </Button>
-            ) : (
-                <Button className="hidden lg:flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpenTasks(true)}>
-                    <TextIcon className="h-4 w-4" />
-                    <span className="sr-only">open tasks</span>
-                </Button>
-            )}
+            <div className='hidden lg:flex'>
+                {openTasks ? (
+                    <Button className="flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpenTasks(false)}>
+                        <XIcon className="h-4 w-4" />
+                        <span className="sr-only">Hide tasksbar</span>
+                    </Button>
+                ) : (
+                    <Button className="flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpenTasks(true)}>
+                        <TextIcon className="h-4 w-4" />
+                        <span className="sr-only">open tasks</span>
+                    </Button>
+                )}
+            </div>
+            <Sheet>
+                <SheetTrigger className='flex lg:hidden'>
+                    <Button className="flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setOpenTasks(true)}>
+                        <TextIcon className="h-4 w-4 text-white" />
+                        <span className="sr-only">open tasks</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent className='bg-zinc-900'>
+                    <Right_bar params={params} courseInfo={course} />
+                </SheetContent>
+            </Sheet>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 pr-0 mr-0 bg-zinc-900 md:pr-0 max-h-full overflow-y-hidden">
-{/*             {fetchingMessages && (
-                <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-7 w-7 border-t-2 border-b-2 border-purple-500"></div>
-                </div>
-            )} */}
             {openTasks ? (
-                <section className='flex flex-row overflow-y-hidden'>
+                <section className='hidden lg:flex flex-row overflow-y-hidden'>
                 <div className="w-4/5 p-4 overflow-y-auto no-scrollbar" ref={scrollContainerRef}>
                     <div ref={topRef}></div>
                     {messages.map((msg: Message, index) => (
@@ -229,7 +237,7 @@ export default function ChatClase({ params }: Props) {
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <Dialog>
-                                <DialogTrigger>
+                                <DialogTrigger className='hidden lg:flex'>
                                     <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                         <span><CameraIcon className='h-4 w-4 mr-2' /></span>
                                         <p>Media</p>
@@ -244,10 +252,25 @@ export default function ChatClase({ params }: Props) {
                                     </DialogHeader>
                                 </DialogContent>
                             </Dialog>
+                            <Drawer>
+                                <DrawerTrigger className='flex lg:hidden'>
+                                    <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                        Media
+                                    </DropdownMenuLabel>
+                                </DrawerTrigger>
+                                <DrawerContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
+                                    <DrawerHeader>
+                                    <DrawerTitle>Upload Media</DrawerTitle>
+                                    <DrawerDescription>
+                                        <PostMedia params={params} />
+                                    </DrawerDescription>
+                                    </DrawerHeader>
+                                </DrawerContent>
+                            </Drawer>
                             {matchingMember?.admin && (
                             <>
                                 <Dialog>
-                                    <DialogTrigger>
+                                    <DialogTrigger className='hidden lg:flex'>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                             <span><BookOpenIcon className='h-4 w-4 mr-2' /></span>
                                             <p>Task</p>
@@ -262,8 +285,23 @@ export default function ChatClase({ params }: Props) {
                                         </DialogHeader>
                                     </DialogContent>
                                 </Dialog>
+                                <Drawer>
+                                    <DrawerTrigger className='flex lg:hidden'>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Task
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                        <DrawerHeader>
+                                        <DrawerTitle>New Task AI</DrawerTitle>
+                                        <DrawerDescription>
+                                            <PostSubject params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
+                                        </DrawerDescription>
+                                        </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
                                 <Dialog>
-                                    <DialogTrigger>
+                                    <DialogTrigger className='hidden lg:flex'>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                             <span><FileQuestionIcon className='h-4 w-4 mr-2' /></span>
                                             <p>Quiz</p>
@@ -278,8 +316,23 @@ export default function ChatClase({ params }: Props) {
                                         </DialogHeader>
                                     </DialogContent>
                                 </Dialog>
+                                <Drawer>
+                                    <DrawerTrigger className='flex lg:hidden'>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Quiz
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                        <DrawerHeader>
+                                        <DrawerTitle>New Quiz AI</DrawerTitle>
+                                        <DrawerDescription>
+                                            <PostQuiz params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
+                                        </DrawerDescription>
+                                        </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
                                 <Dialog>
-                                    <DialogTrigger>
+                                    <DialogTrigger className='hidden lg:flex'>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                             <span><CheckIcon className='h-4 w-4 mr-2' /></span>
                                             <p>Topic</p>
@@ -294,6 +347,21 @@ export default function ChatClase({ params }: Props) {
                                         </DialogHeader>
                                     </DialogContent>
                                 </Dialog>
+                                <Drawer>
+                                    <DrawerTrigger className='flex lg:hidden'>
+                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                            Topic
+                                        </DropdownMenuLabel>
+                                    </DrawerTrigger>
+                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                    <DrawerHeader>
+                                        <DrawerTitle>New Topic</DrawerTitle>
+                                        <DrawerDescription>
+                                            <PostTopic params={params} courseName={course.course} onSuccess={handleCourseUpdated}/>
+                                        </DrawerDescription>
+                                    </DrawerHeader>
+                                    </DrawerContent>
+                                </Drawer>
                             </>
                             )}
                         </DropdownMenuContent>
@@ -310,137 +378,7 @@ export default function ChatClase({ params }: Props) {
                 </form>
             </div>
         </main>
-    </div>
-        {/* mobile */}
-        <div className="flex lg:hidden flex-col fixed inset-0 scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll pt-[70px] min-h-screen h-screen bg-[#18181b] z-40">
-            <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
-                <Link className="lg:hidden" href={`/s/courses/chat`}>
-                    <MessageCircleIcon className="h-6 w-6" />
-                    <span className="sr-only">Home</span>
-                </Link>
-                <PatchCourse params={params} courseDescription={course} onSuccess={handleCourseUpdated} />
-            <Button className="flex lg:hidden ml-2 h-8 w-8" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
-                <ChevronsUpDownIcon className="h-4 w-4"/>
-                <span className="sr-only">Move up</span>
-            </Button>
-            <Sheet>
-                <SheetTrigger>
-                    {/* <Button className="hidden lg:flex ml-2 h-8 w-8" size="icon" variant="outline"> */}
-                        <TextIcon className="h-4 w-4" />
-                        <span className="sr-only">open tasks</span>
-                    {/* </Button> */}
-                </SheetTrigger>
-                <SheetContent>
-                    <Right_bar params={params} courseInfo={course} />
-                    {/* <SheetHeader>
-                    <SheetDescription>
-                        <p>ajustes</p>
-                    </SheetDescription>
-                    </SheetHeader> */}
-                </SheetContent>
-            </Sheet>
-            
-            </header>
-            <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 max-h-full overflow-y-hidden">
-                     <div className='p-4 overflow-y-auto no-scrollbar'  >
-                
-                        {messages.map((msg: Message, index) => (
-                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket}/>
-                        ))}
-                      </div>
-                    <div className={`mt-auto ${upInput ? 'mb-20' : 'mb-0'}`}>
-                        <div className='mb-2 px-5'>
-                            {reply && <Reply message={reply} onClose={handleCloseReply} />}
-                        </div>
-                        <form className="flex items-center gap-4" onSubmit={handleSubmit}>
-                            <DropdownMenu>
-                            <DropdownMenuTrigger>
-                                <PencilIcon className="h-4 w-4 ml-4 text-white"/>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className='flex flex-col ml-2 mb-2 items-start bg-[#18181b] text-white'>
-                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                {/* Nueva Foto/Video/Documeto Mobil */}
-                                <Drawer>
-                                    <DrawerTrigger>
-                                        <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                            Media
-                                        </DropdownMenuLabel>
-                                    </DrawerTrigger>
-                                    <DrawerContent className='max-h-screen scrollbar-thumbrounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-zinc-900 scrollbar-track-zinc-900 h-32 overflow-y-scroll'>
-                                        <DrawerHeader>
-                                        <DrawerTitle>Upload Media</DrawerTitle>
-                                        <DrawerDescription>
-                                            <PostMedia params={params} />
-                                        </DrawerDescription>
-                                        </DrawerHeader>
-                                    </DrawerContent>
-                                </Drawer>
-                                {matchingMember?.admin && (
-                                    <>
-                                        <Drawer>
-                                            <DrawerTrigger>
-                                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                                    Task
-                                                </DropdownMenuLabel>
-                                            </DrawerTrigger>
-                                            <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                                <DrawerHeader>
-                                                <DrawerTitle>New Task AI</DrawerTitle>
-                                                <DrawerDescription>
-                                                    <PostSubject params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
-                                                </DrawerDescription>
-                                                </DrawerHeader>
-                                            </DrawerContent>
-                                        </Drawer>
-                                        {/* Nuevo Quiz Mobil */}
-                                        <Drawer>
-                                            <DrawerTrigger>
-                                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                                    Quiz
-                                                </DropdownMenuLabel>
-                                            </DrawerTrigger>
-                                            <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                                <DrawerHeader>
-                                                <DrawerTitle>New Quiz AI</DrawerTitle>
-                                                <DrawerDescription>
-                                                    <PostQuiz params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
-                                                </DrawerDescription>
-                                                </DrawerHeader>
-                                            </DrawerContent>
-                                        </Drawer>
-                                        {/* Nueva Tarea Mobil */}
-                                        <Drawer>
-                                            <DrawerTrigger>
-                                                <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                                    Topic
-                                                </DropdownMenuLabel>
-                                            </DrawerTrigger>
-                                            <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                            <DrawerHeader>
-                                                <DrawerTitle>New Topic</DrawerTitle>
-                                                <DrawerDescription>
-                                                    <PostTopic params={params} courseName={course.course} onSuccess={handleCourseUpdated}/>
-                                                </DrawerDescription>
-                                            </DrawerHeader>
-                                            </DrawerContent>
-                                        </Drawer>
-                                    </>
-                                )}
-                            </DropdownMenuContent>
-                            </DropdownMenu>
-                            <Input
-                              value={message}
-                              className="flex-1 bg-zinc-200" 
-                              placeholder="Type a message..."
-                              onChange={(e) => setMessage(e.target.value)}
-                              />
-                            <Button variant="outline" type="submit" className='bg-purple-600 text-white'>Send</Button>
-                        </form>
-                    </div>
-                    </main>
-        </div>
-        
+    </div>        
     </section>
     
     
