@@ -64,6 +64,7 @@ export function CreateCourseForm() {
             }
 
             const courseData = generateResponse.data;
+            
 
             // Call the API to save the course to MongoDB
             const saveResponse = await axios.post('http://localhost:3000/api/courseAI', courseData);

@@ -44,7 +44,7 @@ const memberSchema = new Schema<IMemberDocument>({
     timestamps: true
 });
 
-const courseAISchema = new Schema<ICourseAIDocument>({
+const courseAI = new Schema<ICourseAIDocument>({
     course: {
         type: String,
         required: true
@@ -60,4 +60,4 @@ const courseAISchema = new Schema<ICourseAIDocument>({
     timestamps: true
 });
 
-export default models.CourseAI || model('CourseAI', courseAISchema)
+export default models.CourseAI || model('CourseAI', courseAI)

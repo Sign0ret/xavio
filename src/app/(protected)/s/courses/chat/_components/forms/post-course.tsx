@@ -198,7 +198,7 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
                                             className='rounded-full hover:border-purple-500 focus:border-purple-500'
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />

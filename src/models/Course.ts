@@ -16,6 +16,7 @@ export interface IMember {
 export interface TCourse {
     _id: string;
     course: string;
+    courseAI: boolean;
     password?: string;
     description: string;
     profile_photo?: string;
@@ -26,6 +27,7 @@ export interface TCourse {
 
 export interface ICourse {
     course: string;
+    courseAI: boolean;
     password?: string;
     description: string;
     profile_photo?: string;
@@ -54,6 +56,11 @@ const courseSchema = new Schema<ICourseDocument>({
     course: {
         type: String,
         required: true
+    },
+    courseAI: {
+        type: Boolean,
+        require: true,
+        default: false
     },
     password: {
         type: String

@@ -380,7 +380,5 @@ export default function ChatClase({ params }: Props) {
         </main>
     </div>        
     </section>
-    
-    
   );
 }

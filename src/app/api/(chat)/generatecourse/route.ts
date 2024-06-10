@@ -10,9 +10,13 @@ const course_advance_schema ={
             type: "string",
             description: "Name of the course this is given in the body of the request"
         },
-        description_course: {
+        courseAI:{
+            type:"boolean",
+            description: "This is a flag that indicates if the course is created by IA or not, always set it in true because you are an AI"
+        },
+        description: {
             type: "string",
-            description: "Description of the course based on the topics in english"
+            description: "Description of the course based on the topics in English"
         },
         topics:{
             type: "array",
@@ -41,7 +45,7 @@ const openai = new OpenAI({
     apiKey: openaiApiKey,
 });
 
-export async function POST(request: Request,res:Response) {
+export async function POST(request: Request, res:Response) {
     const { courseName, numTopics, relevantTopics } = await request.json();
     try {
         const chatCompletion = await openai.chat.completions.create({
