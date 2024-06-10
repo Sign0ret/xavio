@@ -15,7 +15,7 @@ type Props = {
   taskSubmits: TSubmitT[];
 };
 
-export default function TaskCompare({ params , taskSubmits}: Props) {
+export default function TaskOthers({ params , taskSubmits}: Props) {
   const [compareSubmit, setCompareSubmit] = useState<TSubmitT | null>(null);
   const handleCompareClick = (submit: TSubmitT) => {
     setCompareSubmit(submit);
@@ -67,7 +67,7 @@ export default function TaskCompare({ params , taskSubmits}: Props) {
                 className='bg-zinc-900 hover:bg-black transition-colors duration-300 bg-opacity-50'
                 onClick={() => handleCompareClick(submit)}   
               >
-                compare
+                review
               </Button>
             </div>
           ))}

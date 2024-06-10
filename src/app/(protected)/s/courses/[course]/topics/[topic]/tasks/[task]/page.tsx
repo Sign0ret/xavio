@@ -50,9 +50,9 @@ export default async function QuizClase({ params }: Props) {
       <div className="h-screen w-full">
       <div className="flex flex-col lg:flex-row">
         {/* left */}
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex w-full lg:w-2/5 flex-col items-start justify-end space-y-2 p-[40px] lg:p-0 h-screen"> 
+        <div className="max-w-7xl flex w-full lg:w-2/5 flex-col items-start justify-end space-y-2 lg:p-0 h-screen"> 
           <div className="pl-14 w-full max-h-[90vh] h-full">
-            <Button className="p-20 flex flex-col">
+            <Button className="flex flex-col">
               {submit ? (
                 <>
                   <TaskSideCard params={params} taskDescription={taskDescription} submit={submit}/>
@@ -60,9 +60,9 @@ export default async function QuizClase({ params }: Props) {
             ) : (
               <>
                 <h2>{taskDescription.task}</h2>
-                <p>{taskDescription.instructions}</p>
               </>
             )}
+            <p>{taskDescription.instructions}</p>
             </Button>
           </div>
         </div>

@@ -10,6 +10,7 @@ export interface TSubmitT {
     comments?: string;
     rubric: TCriterion[];
     updatedAt: Date;
+    createdAt: Date;
 }
 
 export interface TTask {
