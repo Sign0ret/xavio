@@ -16,7 +16,7 @@ const WelcomeText = () => {
               <h2 className="text-center text-lg font-bold mb-2  text-purple-400">Discover our courses</h2>
               <p className="text-center  text-white">Explore personalized recommendations based on your interests.</p>
               </div>
-              <div className=" rounded-full p-4 rounded-lg  shadow-xl">
+              <div className="p-4 rounded-lg  shadow-xl">
               <h2 className="text-center text-lg font-bold mb-2  text-purple-400">Join us</h2>
               <p className="text-center  text-white">Take the next step and <span className='font-bold'>Join Xavio</span> to shape your educational future.</p>
               </div>

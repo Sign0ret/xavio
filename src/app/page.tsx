@@ -18,8 +18,24 @@ const font = Poppins({
 
 export default async function Home() {
   const user = await currentUser();
+  let content = <></>;
   if (!user) {
-    return;
+    return (
+      <div>
+        <br></br>
+        <br></br>
+        <br></br>
+        <TypewriterEffectSmoothDemo/>
+        <div className="flex max-w-[300px] mx-auto justify-center items-center">
+          <BackgroundGradientDemo1/>  
+        </div>
+        <BackgroundBeams/>
+        <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
+            <WelcomeText/>
+            <Footer/>
+        </div>
+      </div>
+    )
   }
   try {
     const fetchCourses = async () => {
@@ -47,7 +63,7 @@ export default async function Home() {
         <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
           <Card courses={courses}/>
         </div>
-        <div >
+        <div>
             {user?.id ? (
               <>
                <BackgroundBeams/>
@@ -57,7 +73,7 @@ export default async function Home() {
               </>
             ) : (
               <>
-                <BackgroundBeams/>
+              <BackgroundBeams/>
                <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">
                   <WelcomeText/>
                   <Footer/>
