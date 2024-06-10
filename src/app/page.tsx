@@ -13,7 +13,7 @@ const font = Poppins({
   subsets: ["latin"],
   weight: ["600"],
 })
-
+ 
 
 
 export default async function Home() {
@@ -42,10 +42,10 @@ export default async function Home() {
         <br></br>
         <TypewriterEffectSmoothDemo/>
         <div className="flex max-w-[300px] mx-auto justify-center items-center">
-          <BackgroundGradientDemo1/>
+          <BackgroundGradientDemo1/>  
         </div>
         <div className="mx-auto w-full sm:w-full md:w-[95%] lg:w-[90%] mt-16">
-          <Card/>
+          <Card courses={courses}/>
         </div>
         <BackgroundBeams/>
         <div  className="mx-auto w-full sm:w-full md:w-[100%] lg:w-[100%] ">

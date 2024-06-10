@@ -1,4 +1,5 @@
 "use client";
+import { TCourse } from "@/models/Course";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -8,11 +9,7 @@ export const HoverEffect2 = ({
   items,
   className,
 }: {
-  items: {
-    title: string;
-    description: string;
-    link: string;
-  }[];
+  items: TCourse[];
   className?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -26,8 +23,8 @@ export const HoverEffect2 = ({
     >
       {items.map((item, idx) => (
         <Link
-          href={item?.link}
-          key={item?.link}
+          href={`/s/courses/${item._id}/topics`}
+          key={item._id}
           className="relative group  block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -51,7 +48,7 @@ export const HoverEffect2 = ({
             )}
           </AnimatePresence>
           <Card>
-            <CardTitle>{item.title}</CardTitle>
+            <CardTitle>{item.course}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
           </Card>
         </Link>

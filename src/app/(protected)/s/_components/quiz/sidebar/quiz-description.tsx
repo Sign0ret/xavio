@@ -28,7 +28,7 @@ function QuizDescription({ params , quizDescription}: Props) {
   }
   const submitData = {
       sender: user.id,
-      grade: 85,
+      grade: 0,
       answers: quizDescription.structure,
       open: true
   };  
