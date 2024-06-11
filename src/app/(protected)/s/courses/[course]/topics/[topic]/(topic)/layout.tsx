@@ -43,19 +43,19 @@ export default async function TopicsCourseLayout({
     )
   }
   try {
-    const fetchTopics = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics`);
-      const topics = await res.json();
-      console.log("topics:", topics);
-      return topics;
-    }
-    const topics = await fetchTopics();
+    const fetchCourse = async () => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}`);
+        const topics = await res.json();
+        console.log("topics:", topics);
+        return topics;
+      }
+    const course = await fetchCourse();
     return (
       <div className="w-full flex flex-row pt-20 ">
           <div className='w-1/5  my-4 overflow-y-auto max-h-[85vh] text-white p-5 relative inset-x-0 z-50'>
               <div className="flex items-center justify-center ">
                   
-                  <p className="text-2xl text-center">Basic math</p>
+                  <p className="text-2xl text-center">{course.course}</p>
                     <Link href={`/s/courses/chat/${params.course}`} className='flex items-center py-2 px-4 rounded'>
                       <ChatBubbleIcon className="mr-2" />
                     </Link> 
@@ -77,7 +77,7 @@ export default async function TopicsCourseLayout({
                       </div>
                       <CollapsibleContent>
                       {/* Paticipantes */}
-                      {topics?.topics.map((topic:TTopic, index:Number) => (
+                      {course?.topics?.map((topic:TTopic, index:Number) => (
                           <Link 
                               href={`/s/courses/${params.course}/topics/${topic._id}`}
                               key={`topic-${index}`} 
