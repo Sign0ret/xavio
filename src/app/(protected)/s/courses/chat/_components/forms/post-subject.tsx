@@ -80,9 +80,16 @@ export function PostSubject({ params ,topics, onSuccess}: Props) {
               .catch(() => setError("Something went wrong"));
       }) */
       try {
+            // Find the selected topic based on the topic ID
+            const selectedTopic = topics.find(topic => topic._id === values.topic);
+
+            if (!selectedTopic) {
+                throw new Error("Selected topic not found");
+            }
         // Call the API to generate the quiz
         const response = await axios.post('http://localhost:3000/api/generateTask', {
-            topic: values.title,
+            nameTask: values.title,
+            topic: selectedTopic.topic,
             difficulty: values.difficulty,
         });
 

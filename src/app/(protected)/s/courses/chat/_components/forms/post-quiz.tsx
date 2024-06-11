@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import Spinner from '@/components/components/Spinner';  // Import the spinner component
+import Spinner from '@/components/components/Spinner';
 
 type Props = {
     params: {
@@ -29,7 +29,6 @@ type Props = {
     topics: TTopic[],
     onSuccess: () => void // Callback function to notify parent on success
 };
-
 
 export function PostQuiz({ params, topics, onSuccess }: Props) {
     const searchParams = useSearchParams();
@@ -58,9 +57,20 @@ export function PostQuiz({ params, topics, onSuccess }: Props) {
         setIsPending(true);
 
         try {
+            // Find the selected topic based on the topic ID
+            const selectedTopic = topics.find(topic => topic._id === values.topic);
+
+            if (!selectedTopic) {
+                throw new Error("Selected topic not found");
+            }
+
+            console.log("nameQuizz:", values.title);
+            console.log("topic:", selectedTopic.topic);
+
             // Call the API to generate the quiz
             const response = await axios.post('http://localhost:3000/api/generateQuizz', {
-                topic: values.title,
+                nameQuizz: values.title, // Pass the topic name
+                topic: selectedTopic.topic,
                 numQuestions: values.numQuestions,
                 difficulty: values.difficulty,
             });
@@ -70,7 +80,7 @@ export function PostQuiz({ params, topics, onSuccess }: Props) {
             }
 
             const quizData = response.data;
-            console.log("quizData:",quizData)
+
             // Call the API to save the quiz to MongoDB
             const saveResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${values.topic}/quizzes`, quizData);
 

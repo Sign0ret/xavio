@@ -55,13 +55,13 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: Request,res:Response) {
-    const { topic, difficulty} = await request.json();
+    const { topic,nameTask, difficulty} = await request.json();
     try {
         const chatCompletion = await openai.chat.completions.create({
             messages: [
                 {
                     role: "user",
-                    content: `Generate a detailed task for this topic "${topic}" and this difficulty ${difficulty} and give me the rubric of the task, also give me your response in a Json format with this schema ${task}`,
+                    content: `Generate a detailed task for this topic "${topic}" and this difficulty ${difficulty}, and the name of the task is ${nameTask} and give me the rubric of the task, also give me your response in a Json format with this schema ${task}`,
                 }
             ],
             model: "gpt-4o",
