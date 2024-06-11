@@ -48,7 +48,6 @@ function Navbar({ className, menuOpen, toggleMenu }: { className?: string; menuO
           <div className={`md:flex flex-col md:flex-row ${menuOpen ? 'block'  : 'hidden'} md:space-x-20 mt-4 md:mt-0`}>
             {user?.id ? (
               <>
-                <Link href={`/s/advances`}>Advance</Link>
                 <Link href={`/s/courses/chat`}>Courses</Link>
                 <Link href={`/s`}>Profile</Link>
               </>
@@ -59,7 +58,9 @@ function Navbar({ className, menuOpen, toggleMenu }: { className?: string; menuO
                   LogIn
                 </Button>
                 </LoginButton>
-                <Link href='/auth/register'>SignIn</Link>
+                <Button className="bg-transparent hover:bg-zinc-600 transition-colors duration-300">
+                  <Link href='/auth/register'>Sign In</Link>
+                </Button>
               </>
             )}
           </div>
