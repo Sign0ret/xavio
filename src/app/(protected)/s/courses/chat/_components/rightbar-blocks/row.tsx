@@ -68,7 +68,7 @@ export const RowContent = ({
                 <BookOpenIcon className="w-4 h-4" />
               </span>
               <p className="ml-2">
-                {item.url}
+                {/* {item.url} */}
               </p>
             </CardTitle>
           </Card>

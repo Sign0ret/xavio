@@ -74,8 +74,8 @@ export const ByTopic = ({
             </CardTitle>
             <CardDescription>
                 <div>
-                    {item.content ? (
-                        <RowContent items={item.content} params={params} topic={item._id}/>
+                    {item.contents ? (
+                        <RowContent items={item.contents} params={params} topic={item._id}/>
                     ) : (<></>)}
                 </div>
                 <div>
@@ -156,8 +156,8 @@ export const ByContent = ({
               </CardTitle>
               <CardDescription>
                   <div>
-                      {item.content ? (
-                          <RowContent items={item.content} params={params} topic={item._id}/>
+                      {item.contents ? (
+                          <RowContent items={item.contents} params={params} topic={item._id}/>
                       ) : (<></>)}
                   </div>
               </CardDescription>
