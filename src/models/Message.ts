@@ -5,6 +5,7 @@ export interface TMessage {
     sender: string;
     message: string;
     block: number;
+    createdAt: Date;
 }
 
 export interface IMessage {

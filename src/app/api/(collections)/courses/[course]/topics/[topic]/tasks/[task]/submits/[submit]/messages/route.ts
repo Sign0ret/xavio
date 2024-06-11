@@ -25,8 +25,8 @@ export async function POST(request: NextRequest, { params }: Props) {
         // Find the course and update the specified submit within the task
         const updatedCourse = await Course.findOneAndUpdate(
             { _id: course, 'topics._id': topic, 'topics.tasks._id': task, 'topics.tasks.submits._id': submit },
-            { $push: { 'topics.$.tasks.$[task].submits.$.messages': data } },
-            { new: true, runValidators: true, arrayFilters: [{ 'task._id': task }, { 'submit._id': submit }] }
+            { $push: { 'topics.$[topic].tasks.$[task].submits.$[submit].messages': data } },
+            { new: true, runValidators: true, arrayFilters: [{ 'topic._id': topic }, { 'task._id': task }, { 'submit._id': submit }] }
         );
 
         if (!updatedCourse) {
