@@ -9,6 +9,7 @@ import { TSubmitT, TTask } from '@/models/Task';
 import { IQuiz, ISubmit, TQuiz, TSubmit } from '@/models/Quiz';
 import { ExternalLinkIcon } from '@radix-ui/react-icons';
 import { TContent, TExtra } from '@/models/Topic';
+import moment from "moment"
 
 type Props = {
   params: { 
@@ -36,6 +37,9 @@ export default async function TopicCourse({ params }: Props) {
         <div>ERROR FETCHING THE TOPIC</div>
       )
     }
+    const formattedDate = (date: Date | undefined) => {
+        return date ? moment(date).format('HH:mm DD-MM-YY') : '';
+    };
     return (
       <div className="container mx-auto my-12 px-4 md:px-6 lg:px-8 relative inset-x-0 z-50">
         <section className="grid gap-6">
@@ -68,8 +72,8 @@ export default async function TopicCourse({ params }: Props) {
                 key={`${content._id}`}
                 className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800"
               >
-                <div className="flex items-center justify-between">
-                  <h4 className="text-lg font-medium">{content.content}</h4>
+                <div className="flex flex-col lg:flex-row items-center justify-between">
+                  <h4 className="text-lg font-medium">{content.content.length > 20 ? `${content.content.slice(0, 20)}...` : content.content}</h4>
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <DownloadIcon className="h-4 w-4" />
                       <a className="underline" href={`${content.url}`} download>
@@ -92,19 +96,19 @@ export default async function TopicCourse({ params }: Props) {
                 href={`/s/courses/${params.course}/topics/${params.topic}/quizzes/${task._id}`}
                 className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800 hover:bg-zinc-400"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col lg:flex-row items-center justify-between">
                   <div className='flex flex-row justify-start align-center'>
                     <CheckIcon className='h-5 w-5 mt-1 mr-1' />
-                    <h4 className="text-lg font-medium">{task.task}</h4>
+                    <h4 className="text-lg font-medium">{task.task.length > 20 ? `${task.task.slice(0, 20)}...` : task.task}</h4>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <CalendarIcon className="h-4 w-4" />
                     <span>
-                        {userSubmit ? `Submitted ${userSubmit.updatedAt?.toString()}` : `Due ${task.deadline?.toString()}`}
+                        {userSubmit ? `Submitted ${formattedDate(userSubmit.updatedAt)}` : `Due ${formattedDate(task.deadline)}`}
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col lg:flex-row items-center justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <StarIcon className={`h-4 w-4 ${userSubmit ? 'fill-green-500' : 'fill-yellow-500'}`} />
                     <span>{userSubmit ? userSubmit.grade : task.maxpoints} pts</span>
@@ -126,19 +130,19 @@ export default async function TopicCourse({ params }: Props) {
                   href={`/s/courses/${params.course}/topics/${params.topic}/quizzes/${quiz._id}`}
                   className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800 hover:bg-zinc-400"
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
                     <div className='flex flex-row justify-start align-center'>
                       <FileQuestionIcon className='h-5 w-5 mt-1 mr-1' />
-                      <h4 className="text-lg font-medium">{quiz.quiz}</h4>
+                      <h4 className="text-lg font-medium">{quiz.quiz.length > 20 ? `${quiz.quiz.slice(0, 20)}...` : quiz.quiz}</h4>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <CalendarIcon className="h-4 w-4" />
                       <span>
-                        {userSubmit ? `Submitted ${userSubmit.updatedAt.toString()}` : `Due ${quiz.deadline?.toString()}`}
+                        {userSubmit ? `Submitted ${formattedDate(userSubmit.updatedAt)}` : `Due ${formattedDate(quiz.deadline)}`}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <StarIcon className={`h-4 w-4 ${userSubmit ? 'fill-green-500' : 'fill-yellow-500'}`} />
                       <span>{userSubmit ? userSubmit.grade : quiz.maxpoints} pts</span>
