@@ -1,5 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 import {ICriterion, TCriterion, criterionSchema} from '@/models/Rubric_criterion';
+import { TMessage, messageSchema } from './Message';
 
 export interface TSubmitT {
     _id: string;
@@ -11,6 +12,7 @@ export interface TSubmitT {
     rubric: TCriterion[];
     updatedAt: Date;
     createdAt: Date;
+    messages: TMessage[];
 }
 
 export interface TTask {
@@ -33,6 +35,7 @@ export interface ISubmitT {
     url?: string;
     comments?: string;
     rubric: ICriterion[];
+    messages: TMessage[];
 }
 
 export interface ITask {
@@ -68,7 +71,8 @@ const submitTSchema = new Schema<ISubmitTDocument>({
     comments: {
         type: String,
     },
-    rubric: [criterionSchema]
+    rubric: [criterionSchema],
+    messages: [messageSchema]
 }, {
     timestamps: true
 });

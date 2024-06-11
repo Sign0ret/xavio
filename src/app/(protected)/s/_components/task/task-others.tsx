@@ -37,8 +37,8 @@ export default function TaskOthers({ params , taskSubmits}: Props) {
                     <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
-                <p className="mx-4">{compareSubmit.sender}</p>
-              </div>
+                <p className="mx-4">{compareSubmit.sender.length > 8 ? `${compareSubmit.sender.slice(0, 8)}...` : compareSubmit.sender}</p>
+                </div>
               <p>{compareSubmit.grade} pts</p>
               <Button 
                 className='bg-zinc-900 hover:bg-black transition-colors duration-300 bg-opacity-50'
@@ -61,9 +61,9 @@ export default function TaskOthers({ params , taskSubmits}: Props) {
                     <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
-                <p className="mx-4">{submit.sender}</p>
+                <p className="mx-4">{submit.sender.length > 8 ? `${submit.sender.slice(0, 8)}...` : submit.sender}</p>
               </div>
-              <p>{submit.grade} pts</p>
+              <p>{submit.grade}<span className="hidden lg:flex">pts</span></p>
               <Link 
                 className='bg-zinc-900 rounded hover:bg-black transition-colors duration-300 bg-opacity-50 p-2'
                 href={`/s/courses/${params.course}/topics/${params.topic}/tasks/${params.task}/${submit._id}`}   

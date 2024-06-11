@@ -57,21 +57,21 @@ export default async function QuizClase({ params }: Props) {
     }
     const submit = taskDescription?.submits?.find((submit: TSubmitT) => submit._id === params.submit) || null;
     return (
-      <div className="flex w-full lg:w-3/5 flex-col items-center justify-center p-8">
+      <div className="flex w-full lg:w-3/5 flex-col items-center justify-center p-8 ">
       <div>
         <div
-          className="relative inset-x-0 max-w-2xl mx-auto z-50 w-full sm:w-[80%] md:w-[60%] lg:w-[40%] lg:min-w-[900px] h-full p-8 my-4 overflow-y-auto max-h-[90vh] rounded-3xl bg-slate-800 opacity-80"
+          className="relative inset-x-0 max-h-[90vh] min-h-[90vh] max-w-2xl mx-auto z-50 w-full min-w-[50vw] h-full p-8 my-4 overflow-y-auto rounded-3xl bg-slate-800 opacity-80"
         >
-          <div className="flex flex-row justify-between mb-4 text-right text-white">
-          <Breadcrumb>
-            <BreadcrumbList>
-                <BreadcrumbItem >
-                <BreadcrumbLink href={`/s/courses/${params.course}/topics/${params.topic}/tasks/${params.task}`}>Mine</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem className="text-white">{submit?.sender}</BreadcrumbItem>
-            </BreadcrumbList>
-            </Breadcrumb>
+          <div className="flex flex-row justify-between mb-4 text-right">
+            <Breadcrumb>
+              <BreadcrumbList>
+                  <BreadcrumbItem >
+                  <BreadcrumbLink href={`/s/courses/${params.course}/topics/${params.topic}/tasks/${params.task}`}>Mine</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem className="text-white">{submit?.sender}</BreadcrumbItem>
+              </BreadcrumbList>
+              </Breadcrumb>
             <h1 className="text-white">
               Grade: {submit ? (submit.grade !== null ? `${submit.grade}/${taskDescription.maxpoints }` : '--/100') : '--/100'}
             </h1>
@@ -112,7 +112,7 @@ export default async function QuizClase({ params }: Props) {
               )}
             </section>
           ) : (
-            <p>No Submit</p>
+            <>No submit found</>
           )}
         </div>
       </div>

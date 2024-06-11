@@ -38,7 +38,7 @@ function QuizCompare({ params , quizSubmits}: Props) {
                     <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
-                <p className="mx-4">{compareSubmit.sender}</p>
+                <p className="mx-4">{compareSubmit.sender.length > 8 ? `${compareSubmit.sender.slice(0, 8)}...` : compareSubmit.sender}</p>
               </div>
               <p>{compareSubmit.grade} pts</p>
               <Button 
@@ -62,7 +62,7 @@ function QuizCompare({ params , quizSubmits}: Props) {
                     <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
-                <p className="mx-4">{submit.sender}</p>
+                <p className="mx-4">{submit.sender.length > 8 ? `${submit.sender.slice(0, 8)}...` : submit.sender}</p>
               </div>
               <p>{submit.grade} pts</p>
               <Button 

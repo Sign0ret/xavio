@@ -43,12 +43,12 @@ export default async function QuizClaseLayout({
               </div>
           </div>
           {/* Mobil */}
-          <div className="lg:hidden flex w-full flex-col items-center justify-center p-8 relative inset-x-0 max-w-2xl mx-auto z-50">
+          <div className="lg:hidden flex w-full flex-col items-center justify-center p-8 relative inset-x-0 mx-auto z-50">
               <Drawer>
                   <DrawerTrigger asChild>
                     <Button variant="default" className="bg-zinc-700 text-white hover:bg-zinc-700 transition-colors duration-300 bg-opacity-50">Instrucciones | {params.quiz}</Button>
                   </DrawerTrigger>
-                  <DrawerContent className='max-h-[vh-80] overflow-y-hidden bg-zinc-700 border-zinc-700'>
+                  <DrawerContent className='max-h-[vh-80] max-w-[vw-80] overflow-y-hidden bg-zinc-700 border-zinc-700'>
                       <DrawerDescription>
                         <QuizSideCard quizDescription={quizDescription} params={params}/>
                       </DrawerDescription>
