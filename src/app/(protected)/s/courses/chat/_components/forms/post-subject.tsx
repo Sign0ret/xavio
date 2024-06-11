@@ -92,7 +92,7 @@ export function PostSubject({ params ,topics, onSuccess}: Props) {
             topic: selectedTopic.topic,
             difficulty: values.difficulty,
         });
-
+ 
         if (response.status !== 200) {
             throw new Error("Failed to generate Task");
         }
