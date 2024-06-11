@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { XIcon } from "@/components/icons";
 import { TSubmitT } from "@/models/Task";
 import { TaskCheck } from "./task-check";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -63,12 +64,12 @@ export default function TaskOthers({ params , taskSubmits}: Props) {
                 <p className="mx-4">{submit.sender}</p>
               </div>
               <p>{submit.grade} pts</p>
-              <Button 
-                className='bg-zinc-900 hover:bg-black transition-colors duration-300 bg-opacity-50'
-                onClick={() => handleCompareClick(submit)}   
+              <Link 
+                className='bg-zinc-900 rounded hover:bg-black transition-colors duration-300 bg-opacity-50 p-2'
+                href={`/s/courses/${params.course}/topics/${params.topic}/tasks/${params.task}/${submit._id}`}   
               >
                 review
-              </Button>
+              </Link>
             </div>
           ))}
     </div>
