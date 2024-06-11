@@ -33,7 +33,7 @@ const quizz ={
                     },
                     options:{
                         type:"array",
-                        description: "All the possible answer options, 1 or more correct, random order",
+                        description: "All the possible answer options, 1 or more correct, the priority is that the order of the responses neded to be in a random order, dont give me always correct the first response , its possible but not always",
                         items:{
                             type:"object",
                             properties:{
