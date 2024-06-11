@@ -15,6 +15,11 @@ import {
 } from "@/components/ui/table"
 import PostTask from "@/app/(protected)/s/_components/task/post-task";
 import { TaskSideCard } from "@/app/(protected)/s/_components/task/task-sidecard";
+import { 
+  AvatarImage, 
+  AvatarFallback, 
+  Avatar 
+} from "@/components/ui/avatar"
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -24,6 +29,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import SubmitComment from "@/app/(protected)/s/_components/task/submit-comment";
 type Props = {
   params: { 
     course: string,
@@ -32,7 +38,7 @@ type Props = {
  }
 };
 
-export default async function QuizClase({ params }: Props) {
+export default async function TaskPage({ params }: Props) {
   const user = await currentUser();
   if (!user) {
     return (
@@ -55,10 +61,10 @@ export default async function QuizClase({ params }: Props) {
     }
     const submit = taskDescription?.submits?.find((submit: TSubmitT) => submit.sender === user.id) || null;
     return (
-      <div className="flex w-full lg:w-3/5 flex-col items-center justify-center p-8 ">
+      <div className="flex w-full lg:w-3/5 flex-col items-center justify-center space-y-2 lg:p-0 max-h-[70vh] h-[70vh] lg:h-[90vh] lg:max-h-[90vh]">
       <div>
         <div
-          className="relative inset-x-0 max-h-[90vh] min-h-[90vh] max-w-2xl mx-auto z-50 w-full min-w-[50vw] h-full p-8 my-4 overflow-y-auto rounded-3xl bg-slate-800 opacity-80"
+          className="relative inset-x-0 max-h-[70vh] min-h-[70vh] lg:max-h-[90vh] lg:min-h-[90vh] max-w-2xl mx-auto z-50 w-full min-w-[50vw] h-full p-8 my-4 mb-8 pb-10 overflow-y-auto rounded-3xl bg-slate-800 opacity-80"
         >
           <div className="flex flex-row justify-between mb-4 text-right">
             <Breadcrumb>
@@ -66,7 +72,7 @@ export default async function QuizClase({ params }: Props) {
                   <BreadcrumbItem >Mine</BreadcrumbItem>
                   <BreadcrumbSeparator />
               </BreadcrumbList>
-            </Breadcrumb>
+              </Breadcrumb>
             <h1 className="text-white">
               Grade: {submit ? (submit.grade !== null ? `${submit.grade}/${taskDescription.maxpoints }` : '--/100') : '--/100'}
             </h1>
@@ -105,9 +111,32 @@ export default async function QuizClase({ params }: Props) {
                   <img className="w-1/3" src={submit.url}></img>
                 </>
               )}
+
+              <div className="mt-5">
+              {/* Se ponen los comentarios existentes */}
+              {/* Contenedor comentario */}
+              {submit?.messages?.length > 0 && (
+                <div>
+                  {submit.messages.map((message, idx) => (
+                    <div className="flex items-center" key={message._id || idx}>
+                      <Avatar className="w-6 h-6">
+                        <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
+                        <AvatarFallback className="text-sm">JD</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h1 className="ml-2 text-white">{message.message}</h1>
+                        <p className="ml-2 text-xs text-white right-0">{message.createdAt ? message.createdAt?.toString() : "--/--/--"}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              </div>
+              {/* Form para agregar comentario */}
+              <SubmitComment params={params} submit={submit._id} />
             </section>
           ) : (
-            <PostTask params={params}/>
+            <>No submit found</>
           )}
         </div>
       </div>

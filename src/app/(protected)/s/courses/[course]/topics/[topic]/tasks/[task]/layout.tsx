@@ -62,7 +62,7 @@ export default async function TaskLayout({ params, children }: Props) {
       <div className="hidden lg:flex flex-col lg:flex-row">
         {/* left */}
         <div className="flex w-full lg:w-2/5 flex-col items-start justify-end space-y-2 lg:p-0 max-h-[90vh] min-h-[90vh]"> 
-          <div className="pl-14 w-full max-h-[90vh] h-full ">
+          <div className="pl-14 w-full max-h-[90vh] h-full mb-2">
             <AButton className="flex flex-col">
                 <div className="max-h-full overflow-y-scroll">
                     {submit ? (
@@ -85,7 +85,7 @@ export default async function TaskLayout({ params, children }: Props) {
        <div className="lg:hidden flex w-full flex-col items-center justify-center relative inset-x-0 mx-auto z-50">
               <Drawer>
                   <DrawerTrigger asChild>
-                    <Button variant="default" className="bg-slate-800/[0.8] border-slate-800 text-white backdrop-blur-xl">Instrucciones | {params.task}</Button>
+                    <Button variant="default" className="mb-4 bg-slate-800/[0.8] border-slate-800 text-white backdrop-blur-xl">Instrucciones | {params.task}</Button>
                   </DrawerTrigger>
                   <DrawerContent className='max-h-[vh-80] max-w-[vw-80] overflow-y-hidden bg-slate-800/[0.8] border-slate-800'>
                       <DrawerDescription>

@@ -1,7 +1,14 @@
 import { Button } from "@/app/(protected)/s/_components/ui/moving-border";
+import { Button as ButtonSubmit } from "@/components/ui/button"
 import { currentUser } from "@/lib/auth";
+import { Input } from "@/components/ui/input"
 import { TSubmitT, TTask } from "@/models/Task";
 import React from 'react';
+import { 
+  AvatarImage, 
+  AvatarFallback, 
+  Avatar 
+} from "@/components/ui/avatar"
 
 import {
   Table,
@@ -24,6 +31,8 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
+import { postSubmitComment } from "@/actions/post-submit-comment";
+import SubmitComment from "@/app/(protected)/s/_components/task/submit-comment";
 
 type Props = {
   params: { 
@@ -34,7 +43,7 @@ type Props = {
  }
 };
 
-export default async function QuizClase({ params }: Props) {
+export default async function TaskSubmitPage({ params }: Props) {
   const user = await currentUser();
   if (!user) {
     return (
@@ -56,11 +65,17 @@ export default async function QuizClase({ params }: Props) {
       )
     }
     const submit = taskDescription?.submits?.find((submit: TSubmitT) => submit._id === params.submit) || null;
+    console.log("submit:",submit)
+    const newParams = {
+      course: params.course,
+      topic: params.topic,
+      task: params.task,
+    }
     return (
-      <div className="flex w-full lg:w-3/5 flex-col items-center justify-center p-8 ">
+      <div className="flex w-full lg:w-3/5 flex-col items-center justify-center space-y-2 lg:p-0 max-h-[70vh] h-[70vh] lg:h-[90vh] lg:max-h-[90vh]">
       <div>
         <div
-          className="relative inset-x-0 max-h-[90vh] min-h-[90vh] max-w-2xl mx-auto z-50 w-full min-w-[50vw] h-full p-8 my-4 overflow-y-auto rounded-3xl bg-slate-800 opacity-80"
+          className="relative inset-x-0 max-h-[70vh] min-h-[70vh] lg:max-h-[90vh] lg:min-h-[90vh] max-w-2xl mx-auto z-50 w-full min-w-[50vw] h-full p-8 my-4 mb-8 pb-10 overflow-y-auto rounded-3xl bg-slate-800 opacity-80"
         >
           <div className="flex flex-row justify-between mb-4 text-right">
             <Breadcrumb>
@@ -110,6 +125,49 @@ export default async function QuizClase({ params }: Props) {
                   <img className="w-1/3" src={submit.url}></img>
                 </>
               )}
+
+              <div className="mt-5">
+              {/* Se ponen los comentarios existentes */}
+              {/* Contenedor comentario */}
+              {submit?.messages?.length > 0 && (
+                <div>
+                  {submit.messages.map((message, idx) => (
+                    <div className="flex items-center" key={message._id || idx}>
+                      <Avatar className="w-6 h-6">
+                        <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
+                        <AvatarFallback className="text-sm">JD</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h1 className="ml-2 text-white">{message.message}</h1>
+                        <p className="ml-2 text-xs text-white right-0">{message.createdAt ? message.createdAt?.toString() : "--/--/--"}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              </div>
+              {/* Form para agregar comentario */}
+              <SubmitComment params={params} submit={params.submit}/>
+              {/* <form action={postSubmitComment} className='flex flex-row gap-4 mb-5 mt-5'>
+                  <input type="hidden" name="sender" value={user.id} />
+                  <input type="hidden" name="course" value={params.course} />
+                  <input type="hidden" name="topic" value={params.topic} />
+                  <input type="hidden" name="task" value={params.task} />
+                  <input type="hidden" name="submit" value={params.submit} />
+
+                  <Input 
+                      name="message"
+                      className="flex-1 bg-zinc-200" 
+                      placeholder="Type a comment..."
+                  />
+                  <ButtonSubmit 
+                      variant="outline"  
+                      className='bg-purple-600 text-white' 
+                      type='submit'
+                      >
+                      Send
+                  </ButtonSubmit>
+                </form> */}
             </section>
           ) : (
             <>No submit found</>

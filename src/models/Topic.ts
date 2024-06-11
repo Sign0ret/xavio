@@ -2,61 +2,67 @@ import { Schema, model, models } from 'mongoose';
 import { IQuiz, TQuiz, quizSchema } from '@/models/Quiz';
 import { ITask, TTask, taskSchema } from '@/models/Task';
 
-export interface TExtra {
+export interface TSource {
     _id: string;
-    extra: string;
-    brief: string;
+    name: string;
     url: string;
+}
+
+export interface TSection {
+    _id: string;
+    subtitle: string;
+    content: string;
 }
 
 export interface TContent {
     _id: string;
-    content: string;
-    brief: string;
-    url: string;
+    title: string;
+    description: string;
+    sections: TSection[];
 }
 
 export interface TTopic {
     _id: string;
     topic: string;
     brief?: string;
-    content: TContent[];
-    extra: TExtra[];
+    contents: TContent[];
+    sources: TSource[];
     quizzes?: TQuiz[];
     tasks: TTask[];
 }
 
-export interface IExtra {
-    extra: string;
-    brief: string;
+export interface ISource {
+    name: string;
     url: string;
 }
 
-export interface IContent {
+export interface ISection {
+    subtitle: string;
     content: string;
-    brief: string;
-    url: string;
+}
+
+export interface IContent {
+    title: string;
+    description: string;
+    sections: ISection[];
 }
 
 export interface ITopic {
     topic: string;
     brief?: string;
-    content: IContent[];
-    extra: IExtra[];
+    contents: IContent[];
+    sources: ISource[];
     quizzes?: IQuiz[];
     tasks: ITask[];
 }
 
-interface IExtraDocument extends IExtra, Document {}
+interface ISourceDocument extends ISource, Document {}
+interface ISectionDocument extends ISection, Document {}
 interface IContentDocument extends IContent, Document {}
 interface ITopicDocument extends ITopic, Document {}
 
-const extraSchema = new Schema<IExtraDocument>({
-    extra: {
-        type: String,
-        required: true
-    },
-    brief: {
+const sourceSchema = new Schema<ISourceDocument>({
+    name: {
         type: String,
         required: true
     },
@@ -68,20 +74,30 @@ const extraSchema = new Schema<IExtraDocument>({
     timestamps: true
 });
 
-
-const contentSchema = new Schema<IContentDocument>({
+const sectionSchema = new Schema<ISectionDocument>({
+    subtitle: {
+        type: String,
+        required: true
+    },
     content: {
         type: String,
         required: true
-    },
-    brief: {
-        type: String,
-        required: true
-    },
-    url: {
-        type: String,
-        required: true
     }
+}, {
+    timestamps: true
+});
+
+
+const contentSchema = new Schema<IContentDocument>({
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    sections: [sectionSchema]
 }, {
     timestamps: true
 });
@@ -94,8 +110,8 @@ export const topicSchema = new Schema<ITopicDocument>({
     brief: {
         type: String
     },
-    content: [contentSchema],
-    extra: [extraSchema],
+    contents: [contentSchema],
+    sources: [sourceSchema],
     quizzes: [quizSchema],
     tasks: [taskSchema],
 }, {

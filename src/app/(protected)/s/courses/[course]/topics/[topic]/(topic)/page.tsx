@@ -8,7 +8,7 @@ import { currentUser } from '@/lib/auth';
 import { TSubmitT, TTask } from '@/models/Task';
 import { IQuiz, ISubmit, TQuiz, TSubmit } from '@/models/Quiz';
 import { ExternalLinkIcon } from '@radix-ui/react-icons';
-import { TContent, TExtra } from '@/models/Topic';
+import { TContent, TSource } from '@/models/Topic';
 import moment from "moment"
 
 type Props = {
@@ -73,16 +73,13 @@ export default async function TopicCourse({ params }: Props) {
                 className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800"
               >
                 <div className="flex flex-col lg:flex-row items-center justify-between">
-                  <h4 className="text-lg font-medium">{content.content.length > 20 ? `${content.content.slice(0, 20)}...` : content.content}</h4>
+                  <h4 className="text-lg font-medium">{content.title.length > 20 ? `${content.title.slice(0, 20)}...` : content.title}</h4>
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <DownloadIcon className="h-4 w-4" />
-                      <a className="underline" href={`${content.url}`} download>
-                        Download
-                      </a>
+                    aqui
                   </div>
                 </div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {content.brief}
+                  {content.description}
                 </p>
                 <Button variant="outline">View</Button>
               </div>
@@ -168,23 +165,20 @@ export default async function TopicCourse({ params }: Props) {
             <CardTitle>External Resources</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
-            {topic?.extra?.map((extra:TExtra) => (
+            {topic?.sources?.map((source:TSource) => (
               <div
-                key={`${extra._id}`}
+                key={`${source._id}`}
                 className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="text-lg font-medium">{extra.extra}</h4>
+                  <h4 className="text-lg font-medium">{source.name}</h4>
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <ExternalLinkIcon className="h-4 w-4" />
-                    <a className="underline" href={`${extra.url}`}>
+                    <a className="underline" href={`${source.url}`}>
                       Visit
                     </a>
                   </div>
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {extra.brief}
-                </p>
             </div>
             ))}
           </CardContent>
