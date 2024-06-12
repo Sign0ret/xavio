@@ -8,7 +8,7 @@ import { currentUser } from '@/lib/auth';
 import { TSubmitT, TTask } from '@/models/Task';
 import { IQuiz, ISubmit, TQuiz, TSubmit } from '@/models/Quiz';
 import { ExternalLinkIcon } from '@radix-ui/react-icons';
-import { TContent, TSource, TTopic } from '@/models/Topic';
+import { TContent, TSection, TSource, TTopic } from '@/models/Topic';
 import moment from "moment"
 import axios from 'axios';
 
@@ -87,9 +87,9 @@ export default async function TopicCourse({ params }: Props) {
         return date ? moment(date).format('HH:mm DD-MM-YY') : '';
     };
     return (
-      <div className="container mx-auto my-12 px-4 md:px-6 lg:px-8 relative inset-x-0 z-50">
+      <div className="container mx-auto my-12 px-4 md:px-6 lg:px-8 relative inset-x-0 z-50 ">
         <section className="grid gap-6">
-        <Card>
+        <Card className=' bg-slate-800/[0.8] border-slate-800 text-white rounded-3xl'>
           <CardHeader>
             <CardTitle>Brief</CardTitle>
           </CardHeader>
@@ -99,7 +99,7 @@ export default async function TopicCourse({ params }: Props) {
               <div className="flex items-center justify-between">
                 <h4 className="text-lg font-medium">{topic.topic}</h4>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-400 dark:text-gray-300">
                 {topic.brief}
               </p>
             </div>
@@ -107,7 +107,7 @@ export default async function TopicCourse({ params }: Props) {
         </Card>
       </section>
         <section className="grid gap-6 mt-6">
-        <Card>
+        <Card className=' bg-slate-800/[0.8] border-slate-800 text-white rounded-3xl'>
           <CardHeader>
             <CardTitle>Learning Resources</CardTitle>
           </CardHeader>
@@ -120,14 +120,18 @@ export default async function TopicCourse({ params }: Props) {
               >
                 <div className="flex flex-col lg:flex-row items-center justify-between">
                   <h4 className="text-lg font-medium">{content.title.length > 20 ? `${content.title.slice(0, 20)}...` : content.title}</h4>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    aqui
-                  </div>
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-400 dark:text-gray-300">
                   {content.description}
                 </p>
-                <Button variant="outline">View</Button>
+                <div className='text-gray-200'>
+                  {content.sections.map((section:TSection)=>(
+                    <div key={section._id}>
+                      <h6>{section.subtitle}</h6>
+                      <p className="text-sm text-gray-400 dark:text-gray-300">{section.content}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
             {/* task */}
@@ -206,7 +210,7 @@ export default async function TopicCourse({ params }: Props) {
       </section>
       {/* external */}
       <section className="mt-6 grid gap-6">
-        <Card>
+        <Card className=' bg-slate-800/[0.8] border-slate-800 text-white rounded-3xl'>
           <CardHeader>
             <CardTitle>External Resources</CardTitle>
           </CardHeader>
@@ -217,7 +221,7 @@ export default async function TopicCourse({ params }: Props) {
                 className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="text-lg font-medium">{source.name}</h4>
+                  <h4 className="text-sm font-medium">{source.name}</h4>
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <ExternalLinkIcon className="h-4 w-4" />
                     <a className="underline" href={`${source.url}`}>
@@ -232,14 +236,14 @@ export default async function TopicCourse({ params }: Props) {
       </section>
       {/* integrated chat */}
       <section className="mt-6">
-        <Card>
+        <Card className=' bg-slate-800/[0.8] border-slate-800 text-white rounded-3xl'>
             <CardHeader>
               <CardTitle>CHATGPT with NEARBYY questions and answers (not saved) (only one answer will be displayed)</CardTitle>
             </CardHeader>
             <CardContent className="gap-4">
               <div className='flex flex-row gap-4 mb-5'>
                   <Input 
-                      className="flex-1 bg-zinc-200" 
+                      className="flex-1 bg-slate-700" 
                       placeholder="Type a message..."
                   />
                   <Button 
