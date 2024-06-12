@@ -11,7 +11,8 @@ import { ModalPupUp } from './_components/profile/modal-pup-up';
 
 export const generateMetadata = (): Metadata => {
   return {
-    title: `Profile`
+    title: `Profile`,
+    description: `User profile`
   }
 } 
 

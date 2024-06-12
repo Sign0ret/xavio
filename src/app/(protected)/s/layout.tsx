@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 
-export const generateMetadata = (): Metadata => {
+/* export const generateMetadata = (): Metadata => {
   return {
     title: `Sesion`
   }
-} 
+}  */
 
 export default async function SessionLayout({
   children,

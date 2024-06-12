@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: "XAVIO",
     template: "%s | XAVIO",
   },
-  description: "plataforma de aprendizaje acompañado por IA generativa",
+  description: "learning platform accompanied by generative AI",
 };
 
 export default async function RootLayout({

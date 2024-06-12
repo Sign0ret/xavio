@@ -9,7 +9,8 @@ type Props = {
 
 export const generateMetadata = ({ params }: Props): Metadata => {
   return {
-    title: `Curso ${params.course}`
+    title: `${params.course} course`,
+    description: `Resources and course content`
   }
 } 
   

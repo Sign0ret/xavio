@@ -20,6 +20,14 @@ import { ChatBubbleIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { currentUser } from '@/lib/auth';
 import { TTopic } from '@/models/Topic';
+import { Metadata } from 'next';
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `${params.course} course`,
+    description: `Course topics`
+  }
+} 
 
 type Props = {
   params: { 

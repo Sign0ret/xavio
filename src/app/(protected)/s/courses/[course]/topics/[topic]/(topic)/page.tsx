@@ -41,6 +41,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+
+import { Metadata } from 'next';
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `${params.course} topics`,
+    description: `Resources and course content`
+  }
+} 
+
 type Props = {
   params: { 
     course: string,

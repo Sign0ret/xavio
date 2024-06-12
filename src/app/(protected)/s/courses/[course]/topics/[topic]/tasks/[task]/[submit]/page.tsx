@@ -33,6 +33,14 @@ import {
   } from "@/components/ui/breadcrumb"
 import { postSubmitComment } from "@/actions/post-submit-comment";
 import SubmitComment from "@/app/(protected)/s/_components/task/submit-comment";
+import { Metadata } from "next";
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `${params.course} task`,
+    description: `Compare submitted task`
+  }
+} 
 
 type Props = {
   params: { 

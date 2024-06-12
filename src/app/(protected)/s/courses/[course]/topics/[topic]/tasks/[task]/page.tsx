@@ -30,6 +30,15 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import SubmitComment from "@/app/(protected)/s/_components/task/submit-comment";
+import { Metadata } from "next";
+
+export const generateMetadata = ({ params }: Props): Metadata => {
+  return {
+    title: `${params.course} task`,
+    description: `Submitted task`
+  }
+} 
+
 type Props = {
   params: { 
     course: string,
