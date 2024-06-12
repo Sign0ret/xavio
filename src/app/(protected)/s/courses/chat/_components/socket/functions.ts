@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Socket } from "socket.io-client";
 import { Message } from "../messages/message";
+import { useCurrentUser } from '@/hooks/use-current-user';
 const useChatSocket = (socket: Socket | null) => {
+    const user = useCurrentUser();
     const [message, setMessage] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
     const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
@@ -11,7 +13,7 @@ const useChatSocket = (socket: Socket | null) => {
         if (socket) {
             const newMessage: Message = {
                 _id: "",
-                sender: 'Messi',
+                sender: user ? user.id : "" ,
                 message: message,
                 block: 1,
                 createdAt: "",
