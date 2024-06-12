@@ -136,7 +136,7 @@ export default async function TaskPage({ params }: Props) {
               <SubmitComment params={params} submit={submit._id} />
             </section>
           ) : (
-            <>No submit found</>
+            <PostTask params={params} />
           )}
         </div>
       </div>

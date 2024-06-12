@@ -8,8 +8,9 @@ import { currentUser } from '@/lib/auth';
 import { TSubmitT, TTask } from '@/models/Task';
 import { IQuiz, ISubmit, TQuiz, TSubmit } from '@/models/Quiz';
 import { ExternalLinkIcon } from '@radix-ui/react-icons';
-import { TContent, TSource } from '@/models/Topic';
+import { TContent, TSource, TTopic } from '@/models/Topic';
 import moment from "moment"
+import axios from 'axios';
 
 type Props = {
   params: { 
@@ -31,11 +32,56 @@ export default async function TopicCourse({ params }: Props) {
       const topic = await res.json();
       return topic;
     }
-    const topic = await fetchTopic();
+    const topic: TTopic = await fetchTopic();
     if (!topic) {
       return (
         <div>ERROR FETCHING THE TOPIC</div>
       )
+    }
+    // obtenemos nombre del curso sin gastar recursos
+    const fetchCourseName = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/coursename`);
+      const course = await res.json();
+      return course;
+    }
+    const courseName = await fetchCourseName();
+    console.log("courseName:",courseName)
+    if (!courseName) {
+      return (
+        <div>ERROR FETCHING THE courseName</div>
+      )
+    }
+    const onCreate = async () => {
+      try {
+          // Find the selected topic based on the topic ID
+          // Call the API to generate the quiz
+          const response = await axios.post('http://localhost:3000/api/generateTopic', {
+              topicPassed: topic.topic, // Pass the topic name
+              detail: "high",
+              course: courseName.course,
+          });
+
+          if (response.status !== 200) {
+              throw new Error("Failed to generate content");
+          }
+
+          const contentData = response.data;
+          console.log("contentData:",contentData)
+          // Call the API to save the quiz to MongoDB
+          const saveResponse = await axios.patch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}`, contentData);
+
+          if (saveResponse.status !== 200) {
+              throw new Error("Failed to save Content");
+          }
+      } catch (error: any) {
+      } finally {
+        // refresh
+      }
+  };
+
+    if (!topic.contents || topic.contents.length === 0 ) {
+      onCreate();
+      // refresh a la ruta
     }
     const formattedDate = (date: Date | undefined) => {
         return date ? moment(date).format('HH:mm DD-MM-YY') : '';
@@ -67,7 +113,7 @@ export default async function TopicCourse({ params }: Props) {
           </CardHeader>
           <CardContent className="grid gap-4">
             {/* content */}
-            {topic?.content?.map((content:TContent) => (
+            {topic?.contents?.map((content:TContent) => (
               <div 
                 key={`${content._id}`}
                 className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800"
