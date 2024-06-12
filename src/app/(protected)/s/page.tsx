@@ -7,6 +7,7 @@ import { Portafolio } from './_components/profile/portfolio';
 import { currentUser } from '@/lib/auth';
 import { LogoutButton } from '@/components/auth/logout';
 import UploadPDF from './_components/profile/upload_pdf';
+import { ModalPupUp } from './_components/profile/modal-pup-up';
 
 export const generateMetadata = (): Metadata => {
   return {
@@ -45,9 +46,9 @@ export default async function Perfil() {
                     <LogoutButton>Bye</LogoutButton>
                   </div>
                 </div>
-                <button className="px-16 py-2 rounded-md bg-purple-600 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-purple-600">
-                  CV o Link a redes
-                </button>
+                
+                <ModalPupUp></ModalPupUp>
+                
                 <UploadPDF />
               </div>
             </div>
