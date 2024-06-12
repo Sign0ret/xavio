@@ -7,7 +7,7 @@ type Props = {
         user: string
     }
 };
-
+// Get AI coures filter by user.
 export async function GET(request: NextRequest, { params }: Props)  {
     try {
         dbConnect();

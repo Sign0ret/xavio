@@ -25,10 +25,11 @@ try {
     })
 }
 }
-
+// Add a member to a certian course. 
 export async function POST(request: any, { params }: Props) {
     try {
-        const data = await request.json()
+        const data = await request.json();
+        console.log(data);
         const objectFound = await Course.findById(params.course);
         if(!objectFound) return NextResponse.json({
             message: 'Course not found',

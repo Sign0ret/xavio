@@ -8,6 +8,7 @@ type Props = {
     }
 };
 
+// Get normal coures filter by the user
 export async function GET(request: NextRequest, { params }: Props)  {
     try {
         dbConnect();
