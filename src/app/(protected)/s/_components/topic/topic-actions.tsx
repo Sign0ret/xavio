@@ -46,9 +46,16 @@ import { PostSubject } from '../../courses/chat/_components/forms/post-subject';
   };
   
 export default function TopicActions({params, topics}:Props) {
-
+    const fetchTopic = async () => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}`);
+        const topic = await res.json();
+        console.log(topic); 
+        return topic;
+      }
     const handleTopicUpdated = () => {
+        console.log("Se intentó");
         // Fetch courses again to update the list after a new course is created
+        fetchTopic();
         // Assuming fetchCourses is defined in the scope of ClasesLayout
       };
   return (
