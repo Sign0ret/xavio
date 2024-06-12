@@ -28,6 +28,7 @@ model User {
   twoFactorConfirmation TwoFactorConfirmation?
   courses       String[]
   advances      String[]
+  cv            String?
 }
 
 model Account {
