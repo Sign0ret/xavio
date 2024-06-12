@@ -79,7 +79,7 @@ export function CreateCourseForm() {
             courseData.members = members;
 
             // Call the API to save the course to MongoDB
-            const saveResponse = await axios.post('http://localhost:3000/api/course', courseData);
+            const saveResponse = await axios.post('http://localhost:3000/api/courses', courseData);
 
             if (saveResponse.status !== 200) {
                 throw new Error("Failed to save course");

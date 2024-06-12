@@ -11,13 +11,45 @@ import { ExternalLinkIcon } from '@radix-ui/react-icons';
 import { TContent, TSection, TSource, TTopic } from '@/models/Topic';
 import moment from "moment"
 import axios from 'axios';
-
+import { 
+  PencilIcon, 
+  BookOpenIcon,
+} from '@/components/icons';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { 
+  DropdownMenuTrigger, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuItem, 
+  DropdownMenuContent, 
+  DropdownMenu 
+} from "@/components/ui/dropdown-menu"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 type Props = {
   params: { 
     course: string,
     topic: string,
  }
 };
+import { PostSubject } from '../../../../chat/_components/forms/post-subject';
+import { PostQuiz } from '../../../../chat/_components/forms/post-quiz';
+import TopicActions from '@/app/(protected)/s/_components/topic/topic-actions';
 // content (.md, .pdf) quizzes, tasks,
 export default async function TopicCourse({ params }: Props) {
   const user = await currentUser();
@@ -38,6 +70,7 @@ export default async function TopicCourse({ params }: Props) {
         <div>ERROR FETCHING THE TOPIC</div>
       )
     }
+    const topics: TTopic[] = [topic];
     // obtenemos nombre del curso sin gastar recursos
     const fetchCourseName = async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/coursename`);
@@ -86,6 +119,7 @@ export default async function TopicCourse({ params }: Props) {
     const formattedDate = (date: Date | undefined) => {
         return date ? moment(date).format('HH:mm DD-MM-YY') : '';
     };
+
     return (
       <div className="container mx-auto my-12 px-4 md:px-6 lg:px-8 relative inset-x-0 z-50 ">
         <section className="grid gap-6">
@@ -140,7 +174,7 @@ export default async function TopicCourse({ params }: Props) {
               return (
                 <Link 
                 key={`${task._id}`}
-                href={`/s/courses/${params.course}/topics/${params.topic}/quizzes/${task._id}`}
+                href={`/s/courses/${params.course}/topics/${params.topic}/tasks/${task._id}`}
                 className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800 hover:bg-zinc-400"
               >
                 <div className="flex flex-col lg:flex-row items-center justify-between">
@@ -205,6 +239,9 @@ export default async function TopicCourse({ params }: Props) {
                   </div>
                 </Link>
             )})}
+            <div className='flex justify-center'>
+              <TopicActions params={params} topics={topics} />
+            </div>
           </CardContent>
         </Card>
       </section>
