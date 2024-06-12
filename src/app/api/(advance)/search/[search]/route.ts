@@ -31,10 +31,14 @@ export async function GET(request: NextRequest, { params }: Props) {
         },
       },
       {
+        $match: {
+          courseAI: true, // Include only courses where courseAI is true
+        },
+      },
+      {
         $limit: 10,
       }
     ]);
-
     // Return results
     return NextResponse.json(results, {
       status: 200

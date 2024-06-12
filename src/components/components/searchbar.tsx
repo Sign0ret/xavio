@@ -1,8 +1,27 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BackgroundGradient } from "../ui/background-gradient";
 
-export function BackgroundGradientDemo1() {
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
+
+export function SearchBar({ onSearch }: SearchBarProps) {
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleInputChange = (e: any) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleKeyDown = async (e: any) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (searchInput.trim()) {
+        onSearch(searchInput);
+      }
+    }
+  };
+
   return (
     <div className="flex items-center justify-center">
       <div className="relative w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
@@ -11,6 +30,9 @@ export function BackgroundGradientDemo1() {
             type="text"
             placeholder="Search a Topic"
             className="w-full py-2 pl-8 pr-4 text-white bg-zinc-900 border border-transparent focus:outline-none focus:border-white rounded-full"
+            value={searchInput}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
           />
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white"
@@ -28,6 +50,6 @@ export function BackgroundGradientDemo1() {
           </svg>
         </BackgroundGradient>
       </div>
-    </div>
+  </div>
   );
 }
