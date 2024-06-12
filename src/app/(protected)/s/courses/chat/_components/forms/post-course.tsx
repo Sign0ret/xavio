@@ -81,10 +81,9 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
             return setCreateError("Invalid fields!");
         }
         const { course, password, description, members } = validatedFields.data;
-        const hashedPassword = await bcrypt.hash(password, 10);
         const sendData = {
             course,
-            password: hashedPassword,
+            password: password.toString(),
             description,
             members
         };
@@ -137,19 +136,30 @@ export function PostCourse({ onSuccess }: PostCourseProps) {
         startTransition(() => {
             async function submitData() {
                 try {
-                    const send = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${id}/members`, {
-                        method: 'POST',
+                    const getCoursePassword = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${id}/coursepassword`, {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(newMember),
                     });
-                    if (!send.ok) {
-                        throw new Error('Failed to fetch course');
+                    const coursePassword = await getCoursePassword.json();
+                    console.log("coursePassword:",coursePassword)
+                    if (coursePassword.password && coursePassword.password.toString() === password.toString()) {
+                        const send = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${id}/members`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(newMember),
+                        });
+                        if (!send.ok) {
+                            throw new Error('Failed to fetch course');
+                        }
+                        setSubscribeSuccess("Successfully subscribed to course");
+                        onSuccess(); //callback to update the courses layout 
+                        router.refresh();
+                    } else {
+                        setSubscribeError("Wrong password");
                     }
-                    setSubscribeSuccess("Successfully subscribed to course");
-                    onSuccess(); //callback to update the courses layout 
-                    router.refresh();
                 } catch (error: any) {
                     setSubscribeError(error.message);
                 }

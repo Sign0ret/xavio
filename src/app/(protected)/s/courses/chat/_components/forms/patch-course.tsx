@@ -40,6 +40,7 @@ import { patchDescription } from "@/actions/patch-description";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Button } from "@/components/ui/button";
 import { deleteMember } from "@/actions/delete-member";
+import { patchCoursePassword } from "@/actions/patch-course-password";
 
 type Props = {
   params: { 
@@ -52,6 +53,7 @@ type Props = {
 export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
     const user = useCurrentUser();
     const [onEditing, setOnEditing] = useState<boolean>(false)
+    const [onResetPassword, setOnResetPassword] = useState<boolean>(false)
   console.log("courseDescription:",courseDescription)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     if (!courseDescription) {
@@ -64,6 +66,7 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
 
     const handleRefresh = () => {
         setOnEditing(false); // Set editing to false
+        setOnResetPassword(false); // Set editing to false
         onSuccess(); // Call onSuccess function
     };
 
@@ -135,13 +138,43 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
                                 </button>
                             </div>
                             <div className="rounded-md my-2 font-mono text-sm flex flex-row justify-between items-center">
-                             <div className="flex flex-row items-center justify-start">
+                             <div className="flex flex-col items-left justify-center">
                                  <p className="">{courseDescription.description}</p>
+                                 <p>id: {courseDescription._id}</p>
+                                 <p>pw: {courseDescription.password ? courseDescription.password : ""}</p>
+                                 <p>tired of your password? 
+                                    <button onClick={() => setOnResetPassword(true)} className="text-red-500">
+                                        reset
+                                    </button>
+                                 </p>
                              </div>
                             </div>
                             </>
                         )}
-                        
+                        {onResetPassword && (
+                            <form className="grid items-center justify-center grid-4" action={patchCoursePassword}>
+                                <input name="id" type="hidden" value={courseDescription._id} className="text-xl bg-white text-center"/>
+                                <input name="password" type="text" className="rounded-full border b-black  text-xl text-center bg-white mb-2"/>
+                                <div className="flex flex-row justify-center items-center gap-4">
+                                    <Button 
+                                        className="flex items-center py-2 rounded"
+                                        type="submit"
+                                        variant="outline"
+                                    >
+                                        Save
+                                        {/* <CheckIcon className="mr-2" /> */}
+                                    </Button> 
+                                    <Button 
+                                        className="flex items-center py-2 rounded"
+                                        onClick={handleRefresh}
+                                        variant="outline"
+                                    >
+                                        Close
+                                        {/* <CheckIcon className="mr-2" /> */}
+                                    </Button>                          
+                                </div>
+                            </form>
+                        )}
                     </div>
                     <Collapsible>
                         <div className="flex flex-row justify-between items-center ">

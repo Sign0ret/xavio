@@ -21,7 +21,7 @@ export const HoverEffect2 = ({
         className
       )}
     >
-      {items.map((item, idx) => (
+      {items?.map((item, idx) => (
         <Link
           href={`/s/courses/${item._id}/topics`}
           key={item._id}
