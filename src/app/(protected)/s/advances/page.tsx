@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Metadata } from 'next';
 import { Card } from "@/components/components/card";
-import { BackgroundGradientDemo1 } from "@/components/components/searchbar";
 import { TypewriterEffectSmoothDemo } from "@/components/components/typperdemo";
 import { BackgroundBeams } from "@/components/ui/background-gradient-animation";
 import { CreateCourseForm } from '../courses/chat/_components/forms/post-courseAI';
