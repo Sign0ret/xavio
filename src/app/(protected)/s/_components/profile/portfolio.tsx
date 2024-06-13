@@ -1,9 +1,48 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { LayoutGrid2 } from "@/components/ui/layout-grid-port";
-import DocumentViewer from "./documentviewer";
+import DocumentViewer from '@/app/(protected)/s/_components/profile/documentviewer';
 
 export function Portafolio() {
+  const cards = [
+    {
+      id: 1,
+      content: <SkeletonOne/>,
+      className: "md:col-span-4",
+      thumbnail: "/react-logo.jpg",
+    },
+    {
+      id: 2,
+      content: <SkeletonTwo />,
+      className: "col-span-1",
+      thumbnail: "/htmlcssjs.png",
+    },
+    {
+      id: 3,
+      content: <SkeletonThree />,
+      className: "col-span-1",
+      thumbnail: "/rubyonrails.png",
+    },
+    {
+      id: 4,
+      content: <SkeletonFour />,
+      className: "md:col-span-2",
+      thumbnail: "/python.png",
+    },
+    {
+      id: 5,
+      content: <SkeletonFive />,
+      className: "md:col-span-2",
+      thumbnail: "/cocina.jpg",
+    },
+    {
+      id: 6,
+      content: <SkeletonSix />,
+      className: "md:col-span-1",
+      thumbnail: "/logo-wiz.png",
+    },
+  ];
+
   return (
     <div className="h-screen pb-32 w-full h-max-[200px]">
       <LayoutGrid2 cards={cards} />
@@ -11,12 +50,12 @@ export function Portafolio() {
   );
 }
 
+interface SkeletonOneProps {
+  someHeader: string;
+}
+
 const SkeletonOne = () => {
-  return (
-    <div className="w-full h-full">
-      <DocumentViewer/>
-    </div>
-  );
+  return <DocumentViewer/>;
 };
 
 const SkeletonTwo = () => {
@@ -75,48 +114,3 @@ const SkeletonSix = () => {
     </div>
   );
 };
-
-const cards = [
-  {
-    id: 1,
-    content: <SkeletonOne />,
-    className: "md:col-span-4",
-    thumbnail:
-      "/react-logo.jpg",
-  },
-  {
-    id: 2,
-    content: <SkeletonTwo />,
-    className: "col-span-1",
-    thumbnail:
-      "/htmlcssjs.png",
-  },
-  {
-    id: 3,
-    content: <SkeletonThree />,
-    className: "col-span-1",
-    thumbnail:
-      "/rubyonrails.png",
-  },
-  {
-    id: 4,
-    content: <SkeletonFour />,
-    className: "md:col-span-2",
-    thumbnail:
-      "/python.png",
-  },
-  {
-    id: 5,
-    content: <SkeletonFive />,
-    className: "md:col-span-2",
-    thumbnail:
-      "/cocina.jpg",
-  },
-  {
-    id: 6,
-    content: <SkeletonSix />,
-    className: "md:col-span-1",
-    thumbnail:
-      "/logo-wiz.png",
-  },
-];
