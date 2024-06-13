@@ -21,6 +21,8 @@ import Link from 'next/link';
 import { currentUser } from '@/lib/auth';
 import { TTopic } from '@/models/Topic';
 import { Metadata } from 'next';
+import { deleteMemberRedirect } from '@/actions/delete-member-redirect';
+import { Button } from '@/components/ui/button';
 
 export const generateMetadata = ({ params }: Props): Metadata => {
   return {
@@ -76,6 +78,18 @@ export default async function TopicsCourseLayout({params}: Props) {
                     </div>
                 </Link>
             ))}
+            <form action={deleteMemberRedirect}>
+                <input name="member" type="hidden" value={user.id} />
+                <input name="course" type="hidden" value={params.course} />
+                <Button 
+                    className="rounded-md text-white  px-4 py-3 my-2 font-mono text-sm flex flex-row justify-between items-center bg-red-700 hover:bg-red-400 transition-colors duration-300"
+                    type="submit"
+                >
+                    <div className="flex flex-row items-center justify-start">
+                        Unsubscribe
+                    </div>
+                </Button>
+            </form>
           </div>
       </div>
     );

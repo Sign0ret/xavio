@@ -154,7 +154,7 @@ export default function TopicCourse({ params }: Props) {
             {topic?.contents?.map((content: TContent) => (
               <div key={content._id} className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800">
                 <div className="flex flex-col lg:flex-row items-center justify-between">
-                  <h4 className="text-lg font-medium">{content.title.length > 20 ? `${content.title.slice(0, 20)}...` : content.title}</h4>
+                  <h4 className="text-lg font-medium">{content.title}</h4>
                 </div>
                 <p className="text-sm text-gray-400 dark:text-gray-300">
                   {content.description}
@@ -176,7 +176,7 @@ export default function TopicCourse({ params }: Props) {
                    <div className="flex flex-col lg:flex-row items-center justify-between">
                     <div className='flex flex-row justify-start align-center'>
                       <CheckIcon className='h-5 w-5 mt-1 mr-1' />
-                      <h4 className="text-lg font-medium">{task.task.length > 20 ? `${task.task.slice(0, 20)}...` : task.task}</h4>
+                      <h4 className="text-lg font-medium">{task.task}</h4>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <CalendarIcon className="h-4 w-4" />
@@ -205,7 +205,7 @@ export default function TopicCourse({ params }: Props) {
                   <div className="flex flex-col lg:flex-row items-center justify-between">
                     <div className='flex flex-row justify-start align-center'>
                       <FileQuestionIcon className='h-5 w-5 mt-1 mr-1' />
-                      <h4 className="text-lg font-medium">{quiz.quiz.length > 20 ? `${quiz.quiz.slice(0, 20)}...` : quiz.quiz}</h4>
+                      <h4 className="text-lg font-medium">{quiz.quiz}</h4>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <CalendarIcon className="h-4 w-4" />

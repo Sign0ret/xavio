@@ -31,6 +31,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from '@/components/ui/button';
+import { deleteMember } from '@/actions/delete-member';
+import { deleteMemberRedirect } from '@/actions/delete-member-redirect';
 type Props = {
   params: { 
     course: string
@@ -67,9 +69,11 @@ export default async function TopicsCourseLayout({
                 <div className="flex items-center justify-center ">
                     
                     <p className="text-2xl text-center">{course.course}</p>
+                    {!course.courseAI && (
                       <Link href={`/s/courses/chat/${params.course}`} className='flex items-center py-2 px-4 rounded'>
                         <ChatBubbleIcon className="mr-2" />
                       </Link> 
+                    )}
                     
                 </div>
                 <Collapsible>
@@ -106,6 +110,19 @@ export default async function TopicsCourseLayout({
                     </CollapsibleContent>
                     </div>
                 </Collapsible>
+                <form action={deleteMemberRedirect}>
+                    <input name="member" type="hidden" value={user.id} />
+                    <input name="course" type="hidden" value={params.course} />
+                    <Button 
+                        className="rounded-md text-white  px-4 py-3 my-2 font-mono text-sm flex flex-row justify-between items-center bg-red-700 hover:bg-red-400 transition-colors duration-300"
+                        type="submit"
+                    >
+                        <div className="flex flex-row items-center justify-start">
+                            Unsubscribe
+                        </div>
+                    </Button>
+                </form>
+                
             </div>
             <div className='w-4/5 overflow-y-auto max-h-[90vh]'>
               {children}
@@ -118,6 +135,14 @@ export default async function TopicsCourseLayout({
                 </DrawerTrigger>
                 <DrawerContent className='max-h-[vh-80] max-w-[vw-80] overflow-y-hidden bg-zinc-700 border-zinc-700'>
                     <DrawerDescription className='p-4'>
+                    <div className="flex items-center justify-center ">
+                      <p className="text-2xl text-center">{course.course}</p>
+                      {!course.courseAI && (
+                        <Link href={`/s/courses/chat/${params.course}`} className='flex items-center py-2 px-4 rounded'>
+                          <ChatBubbleIcon className="mr-2" />
+                        </Link> 
+                      )}
+                    </div>
                       {course?.topics?.map((topic:TTopic, index:Number) => (
                           <Link 
                               href={`/s/courses/${params.course}/topics/${topic._id}`}
@@ -133,6 +158,18 @@ export default async function TopicsCourseLayout({
                               </div>
                           </Link>
                       ))}
+                      <form action={deleteMemberRedirect} className='pt-4'>
+                        <input name="member" type="hidden" value={user.id} />
+                        <input name="course" type="hidden" value={params.course} />
+                        <Button 
+                            className="rounded-md  text-white  px-4 py-3 my-2 font-mono text-sm flex flex-row justify-center items-center bg-red-700 hover:bg-red-400 transition-colors duration-300"
+                            type="submit"
+                        >
+                            <div className="flex flex-row items-center justify-center">
+                                Unsubscribe
+                            </div>
+                        </Button>
+                    </form>
                     </DrawerDescription>
                 </DrawerContent>
             </Drawer>

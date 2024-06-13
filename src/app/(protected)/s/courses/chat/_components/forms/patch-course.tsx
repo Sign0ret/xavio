@@ -41,6 +41,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { Button } from "@/components/ui/button";
 import { deleteMember } from "@/actions/delete-member";
 import { patchCoursePassword } from "@/actions/patch-course-password";
+import { deleteCourse } from "@/actions/delete-course";
 
 type Props = {
   params: { 
@@ -53,6 +54,7 @@ type Props = {
 export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
     const user = useCurrentUser();
     const [onEditing, setOnEditing] = useState<boolean>(false)
+    const [onDeleteCourse, setOnDeleteCourse] = useState<boolean>(false)
     const [onResetPassword, setOnResetPassword] = useState<boolean>(false)
   console.log("courseDescription:",courseDescription)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -67,6 +69,7 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
     const handleRefresh = () => {
         setOnEditing(false); // Set editing to false
         setOnResetPassword(false); // Set editing to false
+        setOnDeleteCourse(false); // Set editing to false
         onSuccess(); // Call onSuccess function
     };
 
@@ -95,7 +98,7 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
             <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                 <SheetDescription>
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center ">
                     <Avatar className="w-[150px] h-[150px] mb-5">
                         <AvatarImage alt="@janedoe" src={`${courseDescription.profile_photo}`} />
                         <AvatarFallback className="text-2xl text-center">{courseDescription.course}</AvatarFallback>
@@ -141,12 +144,21 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
                              <div className="flex flex-col items-left justify-center">
                                  <p className="">{courseDescription.description}</p>
                                  <p>id: {courseDescription._id}</p>
-                                 <p>pw: {courseDescription.password ? courseDescription.password : ""}</p>
-                                 <p>tired of your password? 
-                                    <button onClick={() => setOnResetPassword(true)} className="text-red-500">
-                                        reset
-                                    </button>
-                                 </p>
+                                 {matchingMember && matchingMember?.admin && (
+                                    <div>
+                                        <p>pw: {courseDescription.password ? courseDescription.password : ""}</p>
+                                        <p>tired of your password? 
+                                            <button onClick={() => setOnResetPassword(true)} className="text-red-500">
+                                                reset
+                                            </button>
+                                        </p>
+                                        <p>want to delete the course? 
+                                            <button onClick={() => setOnDeleteCourse(true)} className="text-red-500">
+                                                delete
+                                            </button>
+                                        </p>
+                                    </div>
+                                 )}
                              </div>
                             </div>
                             </>
@@ -170,6 +182,31 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
                                         variant="outline"
                                     >
                                         Close
+                                        {/* <CheckIcon className="mr-2" /> */}
+                                    </Button>                          
+                                </div>
+                            </form>
+                        )}
+                        {onDeleteCourse && (
+                            <form className="grid items-center justify-center grid-4" action={deleteCourse}>
+                                <input name="id" type="hidden" value={courseDescription._id} className="text-xl bg-white text-center"/>
+                                <label>Escribe el nombre del curso para eliminarlo</label>
+                                <input name="course" type="text" className="rounded-full border b-black  text-xl text-center bg-white mb-2"/>
+                                <div className="flex flex-row justify-center items-center gap-4">
+                                    <Button 
+                                        className="flex items-center py-2 rounded"
+                                        type="submit"
+                                        variant="outline"
+                                    >
+                                        Delete
+                                        {/* <CheckIcon className="mr-2" /> */}
+                                    </Button> 
+                                    <Button 
+                                        className="flex items-center py-2 rounded"
+                                        onClick={handleRefresh}
+                                        variant="outline"
+                                    >
+                                        Cancel
                                         {/* <CheckIcon className="mr-2" /> */}
                                     </Button>                          
                                 </div>

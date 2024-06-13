@@ -1,7 +1,6 @@
 "use server"
 
 import { currentUser } from "@/lib/auth";
-import bcrypt from "bcryptjs";
 
 export async function patchCoursePassword(formData: FormData) {
     const user = await currentUser();
@@ -10,9 +9,8 @@ export async function patchCoursePassword(formData: FormData) {
     if ((!password) || !user ){
         return;
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
     const sendData = {
-        password: hashedPassword
+        password
     };
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${id}`, {
