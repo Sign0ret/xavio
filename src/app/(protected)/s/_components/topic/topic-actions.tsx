@@ -31,9 +31,11 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+import { useRouter } from 'next/navigation'
 import { TTopic } from '@/models/Topic';
 import { PostQuiz } from '../../courses/chat/_components/forms/post-quiz';
 import { PostSubject } from '../../courses/chat/_components/forms/post-subject';
+import { usePathname } from 'next/navigation'
 
 
 
@@ -46,16 +48,13 @@ import { PostSubject } from '../../courses/chat/_components/forms/post-subject';
   };
   
 export default function TopicActions({params, topics}:Props) {
-    const fetchTopic = async () => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}`);
-        const topic = await res.json();
-        console.log(topic); 
-        return topic;
-      }
+    const router = useRouter()
+    const pathname = usePathname()
+
     const handleTopicUpdated = () => {
         console.log("Se intentó");
         // Fetch courses again to update the list after a new course is created
-        fetchTopic();
+        router.push(pathname)
         // Assuming fetchCourses is defined in the scope of ClasesLayout
       };
   return (

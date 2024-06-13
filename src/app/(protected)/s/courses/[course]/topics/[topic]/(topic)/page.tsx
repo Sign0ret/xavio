@@ -11,6 +11,8 @@ import { ExternalLinkIcon } from '@radix-ui/react-icons';
 import { TContent, TSection, TSource, TTopic } from '@/models/Topic';
 import moment from "moment"
 import axios from 'axios';
+import { redirect } from 'next/navigation'
+
 import { 
   PencilIcon, 
   BookOpenIcon,
@@ -112,7 +114,7 @@ export default async function TopicCourse({ params }: Props) {
           console.log("contentData:",contentData)
           // Call the API to save the quiz to MongoDB
           const saveResponse = await axios.patch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}`, contentData);
-
+          redirect('/s');
           if (saveResponse.status !== 200) {
               throw new Error("Failed to save Content");
           }
@@ -124,6 +126,7 @@ export default async function TopicCourse({ params }: Props) {
 
     if (!topic.contents || topic.contents.length === 0 ) {
       onCreate();
+      /* redirect(`/s/courses/${params.course}/topics/${params.topic}`) */
       // refresh a la ruta
     }
     const formattedDate = (date: Date | undefined) => {
@@ -133,6 +136,7 @@ export default async function TopicCourse({ params }: Props) {
     return (
       <div className="container mx-auto my-12 px-4 md:px-6 lg:px-8 relative inset-x-0 z-50 ">
         <section className="grid gap-6">
+        {!topic.contents || topic.contents.length === 0  && <Link className=' bg-slate-800/[0.8] border-slate-800 text-white rounded-3xl p-4' href={`/s/courses/${params.course}/topics/${params.topic}`}>REFRESH ME, WE ARE GENERATING THE CONTENT FOR YOU</Link>}
         <Card className=' bg-slate-800/[0.8] border-slate-800 text-white rounded-3xl'>
           <CardHeader>
             <CardTitle>Brief</CardTitle>
@@ -169,7 +173,7 @@ export default async function TopicCourse({ params }: Props) {
                   {content.description}
                 </p>
                 <div className='text-gray-200'>
-                  {content.sections.map((section:TSection)=>(
+                  {content?.sections?.map((section:TSection)=>(
                     <div key={section._id}>
                       <h6>{section.subtitle}</h6>
                       <p className="text-sm text-gray-400 dark:text-gray-300">{section.content}</p>
@@ -323,7 +327,7 @@ export default async function TopicCourse({ params }: Props) {
   } catch(err:any) {
     return (
       <div>
-        Error Fetching Topics {user.id}
+        <Link href={`/s/${params.course}/topics/${params.topic}`}>REFRESH ME</Link>
       </div>
     )
   }
