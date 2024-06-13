@@ -30,7 +30,8 @@ type User = {
 export default function TopicCourse({ params }: Props) {
   const [topics, setTopics] = useState<TTopic[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [question, setQuestion] = useState('');
+  const [response, setResponse] = useState('');
   const user = useCurrentUser();
 
   const fetchTopic = async (): Promise<TTopic> => {
@@ -99,6 +100,27 @@ export default function TopicCourse({ params }: Props) {
 
   const topic = topics[0];
 
+
+  const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestion(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const topicResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/topics/${params.topic}`);
+      const topicData = await topicResponse.json();
+      const context = JSON.stringify(topicData);
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/makeQuestion`, {
+        question,
+        context
+      });
+
+      setResponse(response.data.response);
+    } catch (error) {
+      console.error('Error fetching response:', error);
+    }
+  };
   return (
     <div className="container mx-auto my-12 px-4 md:px-6 lg:px-8 relative inset-x-0 z-50 ">
       <section className="grid gap-6">
@@ -237,32 +259,33 @@ export default function TopicCourse({ params }: Props) {
           </CardContent>
         </Card>
       </section>
-      <section className="mt-6">
+      <section className="mt-6 grid gap-6">
         <Card className='bg-slate-800/[0.8] border-slate-800 text-white rounded-3xl'>
           <CardHeader>
             <CardTitle>CHATGPT with NEARBYY questions and answers (not saved) (only one answer will be displayed)</CardTitle>
           </CardHeader>
-          <CardContent className="gap-4">
+          <CardContent>
             <div className='flex flex-row gap-4 mb-5'>
-              <Input className="flex-1 bg-slate-700" placeholder="Type a message..." />
-              <Button variant="outline" className='bg-purple-600 text-white' type='submit'>
+              <Input
+                className="flex-1 bg-slate-700"
+                placeholder="Type a message..."
+                value={question}
+                onChange={handleQuestionChange}
+              />
+              <Button variant="outline" className='bg-purple-600 text-white' onClick={handleSubmit}>
                 Send
               </Button>
             </div>
-            <div className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800">
-              <div className="flex items-center justify-between">
-                <h4 className="text-lg font-medium">Answer Title</h4>
-                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                  <Button size="sm" variant="ghost">
-                    <CopyIcon className="h-4 w-4" />
-                    <span className="ml-2">Copy</span>
-                  </Button>
+            {response && (
+              <div className="grid gap-2 rounded-md border border-gray-200 p-4 dark:border-gray-800">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-lg font-medium">Answer</h4>
                 </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {response}
+                </p>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                A comprehensive guide to the fundamentals of web development.
-              </p>
-            </div>
+            )}
           </CardContent>
         </Card>
       </section>
