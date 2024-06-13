@@ -46,7 +46,9 @@ export interface TQuiz {
     assignment_date?: Date;
     deadline?: Date;
     timelimit?: number;
+    timeexp?: number; // Add timeexp as an optional property
 }
+
 
 export interface IOptionA {
     option: string;
