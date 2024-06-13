@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { LayoutGrid2 } from "@/components/ui/layout-grid-port";
+import DocumentViewer from "./documentviewer";
 
 export function Portafolio() {
   return (
@@ -12,12 +13,8 @@ export function Portafolio() {
 
 const SkeletonOne = () => {
   return (
-    <div>
-      <p className="font-bold text-4xl text-white">React</p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Proyecto desarrollado en el curso de desarrollo de Software
-      </p>
+    <div className="w-full h-full">
+      <DocumentViewer/>
     </div>
   );
 };
@@ -83,7 +80,7 @@ const cards = [
   {
     id: 1,
     content: <SkeletonOne />,
-    className: "md:col-span-2",
+    className: "md:col-span-4",
     thumbnail:
       "/react-logo.jpg",
   },

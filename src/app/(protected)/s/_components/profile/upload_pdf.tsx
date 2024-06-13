@@ -1,3 +1,4 @@
+
 import { currentUser } from '@/lib/auth';
 import React from 'react'
 import {s3client, endpoint} from '@/lib/s3client'
@@ -42,7 +43,7 @@ export default async function UploadPDF() {
                 id: user.id // Specify the user's ID here
               },
               data: {
-  //@ts-ignore
+                //@ts-ignore
                 cv: url // Update the cv attribute with the new value
               }
             });

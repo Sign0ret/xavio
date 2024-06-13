@@ -6,8 +6,8 @@ import { AnimatedTooltipPreview } from './_components/profile/avatar-circle';
 import { Portafolio } from './_components/profile/portfolio';
 import { currentUser } from '@/lib/auth';
 import { LogoutButton } from '@/components/auth/logout';
-import UploadPDF from './_components/profile/upload_pdf';
 import { ModalPupUp } from './_components/profile/modal-pup-up';
+import DocumentViewer from './_components/profile/documentviewer';
 
 export const generateMetadata = (): Metadata => {
   return {
@@ -18,6 +18,9 @@ export const generateMetadata = (): Metadata => {
 
 export default async function Perfil() {
     const user = await currentUser();
+    /* if (!user) return;
+    console.log(user);
+    const cv =  */
 
   return (
     <div className="relative min-h-[2000px] md:min-h-[1000px] z-0">
@@ -41,16 +44,15 @@ export default async function Perfil() {
                     <AnimatedTooltipPreview />
                   </div>
                   <div className='grid text-white p-6 justify-center md:border-l-2 border-gray-700'>
-                    <h1 className='font-bold text-3xl py-'>{user?.name}</h1>
+                    <h1 className='font-bold text-3xl py-2'>{user?.name}</h1>
                     <p className='md:py-0 py-2'>Ingeniero en Tecnologías Computacionales</p>
                     <p className='md:py-0 py-2'>Tecnológico de Monterrey</p>
-                    <LogoutButton>Bye</LogoutButton>
+                    <LogoutButton>Logout</LogoutButton>
                   </div>
                 </div>
                 
                 <ModalPupUp></ModalPupUp>
                 
-                <UploadPDF />
               </div>
             </div>
           </div>
