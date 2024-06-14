@@ -120,12 +120,12 @@ export default async function TaskSubmitPage({ params }: Props) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {submit.rubric.map((criterion, index) => (
+                  {taskDescription.rubric?.map((criterion, index) => (
                     <TableRow key={criterion._id}>
                       <TableCell className="font-medium">{taskDescription.rubric[index].criterion}</TableCell>
                       <TableCell>{taskDescription.rubric[index].points}</TableCell>
-                      <TableCell>{criterion.points}</TableCell>
-                      <TableCell className="font-medium">{criterion.criterion}</TableCell>
+                      <TableCell>coming soon</TableCell>
+                      {/* <TableCell className="font-medium">{criterion.criterion}</TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -138,6 +138,7 @@ export default async function TaskSubmitPage({ params }: Props) {
               </Table>
               {submit.url && (
                 <>
+                  {submit.text && (<p className="text-white p-4">{submit.text}</p>)}
                   <img className="w-1/3" src={submit.url}></img>
                 </>
               )}

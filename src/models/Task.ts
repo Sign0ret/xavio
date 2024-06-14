@@ -24,7 +24,7 @@ export interface TTask {
     instructions: string;
     submits: TSubmitT[];
     maxpoints: number;
-    rubric: ICriterion[];
+    rubric: TCriterion[];
     timeexp: number;
 }
 

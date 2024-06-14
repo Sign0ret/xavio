@@ -90,7 +90,7 @@ export default async function PostTask({ params }: Props) {
             <h1 className="text-white">Delivery files</h1>
             <input name="url" type="file" className="border rounded-lg p-2 bg-white" />
         </div>
-        <div>
+        {/* <div>
             <h1 className="text-white">Delivery comments</h1>
             <input
             name="comments"
@@ -98,7 +98,7 @@ export default async function PostTask({ params }: Props) {
             className="w-[40%] p-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline"
             placeholder="Escribe aquí tu comentario"
             />
-        </div>
+        </div> */}
         <div className="flex justify-end">
             <button 
             className="hover:bg-slate-900 text-white font-semibold py-2 px-4 rounded-3xl bg-slate-900"
