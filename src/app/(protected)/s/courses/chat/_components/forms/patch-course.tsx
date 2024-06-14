@@ -42,6 +42,8 @@ import { Button } from "@/components/ui/button";
 import { deleteMember } from "@/actions/delete-member";
 import { patchCoursePassword } from "@/actions/patch-course-password";
 import { deleteCourse } from "@/actions/delete-course";
+import { NameMember } from "@/models/Message";
+import { deleteMemberRedirect } from "@/actions/delete-member-redirect";
 
 type Props = {
   params: { 
@@ -49,9 +51,10 @@ type Props = {
   },
   courseDescription: TCourse | null;
   onSuccess: () => void // Callback function to notify parent on success
+  names: NameMember[] | null;
 };
 
-export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
+export function PatchCourse({ params, courseDescription, onSuccess, names }:Props) {
     const user = useCurrentUser();
     const [onEditing, setOnEditing] = useState<boolean>(false)
     const [onDeleteCourse, setOnDeleteCourse] = useState<boolean>(false)
@@ -74,6 +77,9 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
     };
 
     if(!user) {
+        return;
+    }
+    if(!names) {
         return;
     }
 
@@ -239,9 +245,8 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
                                                 <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
                                                 <AvatarFallback>JD</AvatarFallback>
                                             </Avatar>
-                                            <p className="mx-4">{matchingMember.member}</p>
+                                            <p className="mx-4">{user.name}</p>
                                         </div>
-                                        {matchingMember.admin && (
                                         <DropdownMenu>
                                             <DropdownMenuTrigger>
                                                 <button id="dropdownMenuIconButton" onClick={toggleDropdown} className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
@@ -251,20 +256,20 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
                                                 </button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent>
-                                                <form action={deleteMember}>
+                                                <form action={deleteMemberRedirect}>
                                                     <input name="member" type="hidden" value={matchingMember.member} />
                                                     <input name="course" type="hidden" value={params.course} />
                                                     <DropdownMenuLabel>Manage</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem>
-                                                        <Button type="submit">Kick out</Button>
+                                                        <Button type="submit">Unsubscribe</Button>
                                                     </DropdownMenuItem>
                                                 </form>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
-                                        )}
                                     </div>
                                     {courseDescription.members.map((member) => {
+                                        let name = (names?.find(item => item.member === member.member) || {}).name || 'anonym'; 
                                         if (member._id !== matchingMember._id) return (
                                             <div 
                                                 key={member._id} 
@@ -277,7 +282,7 @@ export function PatchCourse({ params, courseDescription, onSuccess }:Props) {
                                                         <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
                                                         <AvatarFallback>JD</AvatarFallback>
                                                     </Avatar>
-                                                    <p className="mx-4">{member.member}</p>
+                                                    <p className="mx-4">{name}</p>
                                                 </div>
                                                 {matchingMember?.admin && (
                                                 <DropdownMenu>

@@ -27,9 +27,10 @@ type Props = {
   },
   onReply: (message: Message) => void;
   socket: any;
+  name: string;
 };
 
-export function Boilerplate_message({ message, params, onReply, socket}: Props) {
+export function Boilerplate_message({ message, params, onReply, socket, name}: Props) {
   const user = useCurrentUser();
   const {
     deleteMessage,
@@ -104,7 +105,7 @@ export function Boilerplate_message({ message, params, onReply, socket}: Props) 
       )}
       <div className={`flex flex-col w-full max-w-[320px] lg:max-w-[500px] leading-1.5 p-4 border-gray-200 bg-zinc-600 ${isCurrentUser ? 'rounded-s-xl rounded-se-xl' : 'rounded-e-xl rounded-es-xl'} dark:bg-gray-700`} style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
   <div className="flex items-center space-x-2 rtl:space-x-reverse">
-    <span className="text-sm font-semibold text-white dark:text-white">{message.sender}</span>
+    <span className="text-sm font-semibold text-white dark:text-white">{name}</span>
   </div>
   {isEditing ? (
     <input

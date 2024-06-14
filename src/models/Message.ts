@@ -1,5 +1,13 @@
 import { Schema, model, models } from 'mongoose';
 
+export interface NameMember {
+    _id: string;
+    member: string;
+    admin: boolean;
+    name: string;
+  }
+  
+
 export interface TMessage {
     _id: string;
     sender: string;

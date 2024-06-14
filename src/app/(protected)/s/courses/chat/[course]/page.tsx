@@ -79,6 +79,8 @@ import { PatchCourse } from '../_components/forms/patch-course';
 import useWebSocketConnection from '../_components/socket/connection';
 import { TCourse, TMember } from '@/models/Course';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { User } from '@prisma/client';
+import { NameMember } from '@/models/Message';
 
 type Props = {
   params: { 
@@ -112,6 +114,7 @@ export default function ChatClase({ params }: Props) {
   const [openTasks, setOpenTasks] = useState<boolean>(false);
   const [upInput, setUpInput] = useState<boolean>(false);
   const [course, setCourse] = useState<TCourse | null>(null);
+  const [names, setNames] = useState<NameMember[] | null>(null);
   const [error, setError] = useState(null);
   const [shouldScrollToBottom, setShouldScrollToBottom] = useState(false);
 
@@ -134,6 +137,16 @@ export default function ChatClase({ params }: Props) {
       const data = await res.json();
       setCourse(data);
       setShouldScrollToBottom(true);
+
+      const names = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/members/names`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch course');
+      }
+      const namesData = await names.json();
+      setCourse(data);
+      setShouldScrollToBottom(true);
+      setNames(namesData);
+
     } catch (error: any) {
       setError(error);
     }
@@ -170,7 +183,7 @@ export default function ChatClase({ params }: Props) {
                 <MessageCircleIcon className="h-6 w-6 text-white"/>
                 <span className="sr-only">Classes</span>
             </Link>
-            <PatchCourse params={params} courseDescription={course} onSuccess={handleCourseUpdated} />
+            <PatchCourse params={params} courseDescription={course} onSuccess={handleCourseUpdated} names={names} />
             <Button className="flex ml-2 h-8 w-8 bg-purple-600 border-purple-600 text-white" size="icon" variant="outline" onClick={() => setUpInput(!upInput)}>
                 <ChevronsUpDownIcon className="h-4 w-4"/>
                 <span className="sr-only">Move up</span>
@@ -205,9 +218,14 @@ export default function ChatClase({ params }: Props) {
                 <section className='hidden lg:flex flex-row overflow-y-hidden'>
                 <div className="w-4/5 p-4 overflow-y-auto no-scrollbar" ref={scrollContainerRef}>
                     <div ref={topRef}></div>
-                    {messages.map((msg: Message, index) => (
-                        <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket}/>
-                    ))}
+                        {messages?.map((msg: Message, index) => {
+                            let name = (names?.find(item => item.member === msg.sender) || {}).name || 'anonym';
+
+                            console.log("name:",name)
+                            return (
+                                <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket} name={name}/>
+                        )}
+                    )}
                 </div>
                 <section className='w-[280px] relative inset-x-0 max-w-2xl mx-auto z-50'>
                     <Right_bar params={params} courseInfo={course} />
@@ -216,9 +234,13 @@ export default function ChatClase({ params }: Props) {
             ) : (
                 <div className='p-4 overflow-y-auto no-scrollbar mr-4' ref={scrollContainerRef}>
                     <div ref={topRef}></div>
-                    {messages.map((msg: Message, index) => (
-                        <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket}/>
-                    ))}
+                    {messages?.map((msg: Message, index) => {
+                        let name = (names?.find(item => item.member === msg.sender) || {}).name || 'anonym';
+                        console.log("name:",name)
+                        return (
+                            <Boilerplate_message key={`${index}-mensaje`} message={msg} params={params} onReply={handleOpenReply} socket={socket} name={name}/>
+                        )
+                    } )}
                 </div>
             )}
             <div className={`mt-auto pr-6 ${upInput ? 'mb-20' : 'mb-0'} relative inset-x-0 z-50`}>
