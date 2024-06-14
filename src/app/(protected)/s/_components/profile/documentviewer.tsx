@@ -27,10 +27,10 @@ export default function DocumentViewer() {
 
   return (
     <div>
-      <div>DocumentViewer</div>
+      
       {pdfLink && (
         <a href={pdfLink} download>
-          <button>Descargar PDF</button>
+          <button className='bg-purple-600 text-white w-full h-full py-24 rounded-md text-2xl border-2 border-transparent hover:bg-white hover:text-black hover:border-purple-600 transition duration-300 ease-in-out font-bold'>Descargar <br /> CV</button>
         </a>
       )}
     </div>
