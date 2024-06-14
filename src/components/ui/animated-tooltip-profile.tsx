@@ -79,7 +79,7 @@ export const AnimatedTooltipProfile = ({
             onMouseMove={handleMouseMove}
             height={1100}
             width={1100}
-            src={item.image}
+            src="/"
             alt={item.name}
             className="object-cover !m-0 !p-0 object-top rounded-full h-56 w-56 border-2 group-hover:scale-105 group-hover:z-30 border-white  relative transition duration-500"
           />

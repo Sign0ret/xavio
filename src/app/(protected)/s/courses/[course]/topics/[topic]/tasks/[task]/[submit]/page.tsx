@@ -138,7 +138,6 @@ export default async function TaskSubmitPage({ params }: Props) {
               </Table>
               {submit.url && (
                 <>
-                  <p>{submit.url}</p>
                   <img className="w-1/3" src={submit.url}></img>
                 </>
               )}
