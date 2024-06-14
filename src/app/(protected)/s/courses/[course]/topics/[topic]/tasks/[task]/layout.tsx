@@ -26,6 +26,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import { NameMember } from "@/models/Message";
 
 type Props = {
   params: { 

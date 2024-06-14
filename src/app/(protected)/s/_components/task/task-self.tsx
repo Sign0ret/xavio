@@ -23,13 +23,13 @@ export default function TaskSelf({ params , taskSubmit}: Props) {
   return (
     <div>
       <div className="flex flex-row justify-between mb-5">
-        <p>Submited at: {taskSubmit.createdAt ? taskSubmit.createdAt.toString() : "undefined"} min</p>
-        <p>{taskSubmit.grade} pts</p>
+        <p>Submited</p>
+        <p>{taskSubmit.messages?.length} messages</p>
       </div>
-      <div className='flex flex-row justify-left items-center pb-5'>
+      {/* <div className='flex flex-row justify-left items-center pb-5'>
         <MessageCircleIcon className='w-4 h-4 mr-2' />
         <p>comentario del profesor</p>
-      </div>
+      </div> */}
     </div>
   )
 }

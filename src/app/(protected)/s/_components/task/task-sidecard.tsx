@@ -12,6 +12,7 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import { TSubmitT, TTask } from '@/models/Task';
 import TaskSelf from './task-self';
 import TaskOthers from './task-others';
+import { NameMember } from '@/models/Message';
 
 type Props = {
   params: {
@@ -26,6 +27,29 @@ type Props = {
 export function TaskSideCard({ params, taskDescription, submit }: Props) {
   const user = useCurrentUser()
   const [value, setValue] = React.useState('self');
+  const [names, setNames] = useState<NameMember[] | null>(null);
+
+  useEffect(() => {
+    fetchNames(); // Fetch courses when component mounts
+
+    // Cleanup function if needed
+    return () => {
+      // Cleanup code if any
+    };
+  }, []);
+
+  const fetchNames = async () => {
+    try {
+      const names = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/members/names`);
+      if (!names.ok) {
+        throw new Error('Failed to fetch course');
+      }
+      const namesData = await names.json();
+      setNames(namesData);
+
+    } catch (error: any) {
+    }
+    }
   if(!user){
     return;
   }
@@ -35,7 +59,7 @@ export function TaskSideCard({ params, taskDescription, submit }: Props) {
         content = <TaskSelf params={params} taskSubmit={submit}/>;
         break;
         case 'others':
-        content = <TaskOthers params={params} taskSubmits={taskDescription.submits}/>;
+        content = <TaskOthers params={params} taskSubmits={taskDescription.submits} names={names}/>;
         break;
         default:
         content = <TaskSelf params={params} taskSubmit={submit}/>;

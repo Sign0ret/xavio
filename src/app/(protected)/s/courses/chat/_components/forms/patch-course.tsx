@@ -44,6 +44,7 @@ import { patchCoursePassword } from "@/actions/patch-course-password";
 import { deleteCourse } from "@/actions/delete-course";
 import { NameMember } from "@/models/Message";
 import { deleteMemberRedirect } from "@/actions/delete-member-redirect";
+import Link from "next/link";
 
 type Props = {
   params: { 
@@ -139,12 +140,14 @@ export function PatchCourse({ params, courseDescription, onSuccess, names }:Prop
                             <>
                             <div className="flex items-center justify-center">
                                 <p className="text-2xl text-center">{courseDescription.course}</p>
-                                <button 
-                                    className="flex items-center py-2 px-4 rounded"
-                                    onClick={() => setOnEditing(true)}
+                                {matchingMember && matchingMember?.admin &&  (
+                                    <button 
+                                        className="flex items-center py-2 px-4 rounded"
+                                        onClick={() => setOnEditing(true)}
                                     >
-                                    <PencilIcon className="mr-2" />
-                                </button>
+                                        <PencilIcon className="mr-2" />
+                                    </button>
+                                )}
                             </div>
                             <div className="rounded-md my-2 font-mono text-sm flex flex-row justify-between items-center">
                              <div className="flex flex-col items-left justify-center">
@@ -226,10 +229,10 @@ export function PatchCourse({ params, courseDescription, onSuccess, names }:Prop
                                 {/* Icono de despliegue */}
                                 <span><ChevronsUpDownIcon className="w-4 h-4"/></span>
                             </CollapsibleTrigger>
-                            <button className="flex items-center text-gray-450 font-bold mt-4 rounded">
+                            <Link href={`/s/courses/${params.course}/topics`} className="flex items-center text-gray-450 font-bold mt-4 rounded" >
                                 <BookOpenIcon className="mr-2" />
                                 Topics
-                            </button>
+                            </Link>
                         </div>
                         <CollapsibleContent>
                             {/* Paticipantes */}
@@ -247,26 +250,29 @@ export function PatchCourse({ params, courseDescription, onSuccess, names }:Prop
                                             </Avatar>
                                             <p className="mx-4">{user.name}</p>
                                         </div>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger>
-                                                <button id="dropdownMenuIconButton" onClick={toggleDropdown} className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
-                                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                                    <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                                                </svg>
-                                                </button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
-                                                <form action={deleteMemberRedirect}>
-                                                    <input name="member" type="hidden" value={matchingMember.member} />
-                                                    <input name="course" type="hidden" value={params.course} />
-                                                    <DropdownMenuLabel>Manage</DropdownMenuLabel>
-                                                    <DropdownMenuSeparator />
-                                                    <DropdownMenuItem>
-                                                        <Button type="submit">Unsubscribe</Button>
-                                                    </DropdownMenuItem>
-                                                </form>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+
+                                        {!matchingMember.admin && (
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger>
+                                                    <button id="dropdownMenuIconButton" onClick={toggleDropdown} className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
+                                                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                                    </svg>
+                                                    </button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <form action={deleteMemberRedirect}>
+                                                        <input name="member" type="hidden" value={matchingMember.member} />
+                                                        <input name="course" type="hidden" value={params.course} />
+                                                        <DropdownMenuLabel>Manage</DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem>
+                                                            <Button type="submit">Unsubscribe</Button>
+                                                        </DropdownMenuItem>
+                                                    </form>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        )}
                                     </div>
                                     {courseDescription.members.map((member) => {
                                         let name = (names?.find(item => item.member === member.member) || {}).name || 'anonym'; 

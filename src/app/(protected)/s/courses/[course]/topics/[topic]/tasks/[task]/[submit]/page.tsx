@@ -34,6 +34,7 @@ import {
 import { postSubmitComment } from "@/actions/post-submit-comment";
 import SubmitComment from "@/app/(protected)/s/_components/task/submit-comment";
 import { Metadata } from "next";
+import { NameMember } from "@/models/Message";
 
 export const generateMetadata = ({ params }: Props): Metadata => {
   return {
@@ -67,18 +68,26 @@ export default async function TaskSubmitPage({ params }: Props) {
       return task;
     }
     const taskDescription: TTask = await fetchTask();
+    const names = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/courses/${params.course}/members/names`);
+    if (!names.ok) {
+      throw new Error('Failed to fetch course');
+    }
+    const namesData: NameMember[] | null = await names.json();
     if (!taskDescription) {
       return (
         <div>ERROR FETCHING THE USER</div>
       )
     }
+    if(!namesData) return;
     const submit = taskDescription?.submits?.find((submit: TSubmitT) => submit._id === params.submit) || null;
     console.log("submit:",submit)
+    if (!submit) return;
     const newParams = {
       course: params.course,
       topic: params.topic,
       task: params.task,
     }
+    let submitName = (namesData?.find(item => item.member === submit.sender) || {}).name || 'anonym';
     return (
       <div className="flex w-full lg:w-3/5 flex-col items-center justify-center space-y-2 lg:p-0 max-h-[70vh] h-[70vh] lg:h-[90vh] lg:max-h-[90vh]">
       <div>
@@ -92,11 +101,11 @@ export default async function TaskSubmitPage({ params }: Props) {
                   <BreadcrumbLink href={`/s/courses/${params.course}/topics/${params.topic}/tasks/${params.task}`}>Mine</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
-                  <BreadcrumbItem className="text-white">{submit?.sender}</BreadcrumbItem>
+                  <BreadcrumbItem className="text-white">{submitName}</BreadcrumbItem>
               </BreadcrumbList>
               </Breadcrumb>
             <h1 className="text-white">
-              Grade: {submit ? (submit.grade !== null ? `${submit.grade}/${taskDescription.maxpoints }` : '--/100') : '--/100'}
+              Grade: coming/soon
             </h1>
           </div>
           {submit ? (
@@ -123,7 +132,7 @@ export default async function TaskSubmitPage({ params }: Props) {
                 <TableFooter>
                   <TableRow>
                     <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell className="text-right">{submit.grade}pts/{taskDescription.maxpoints}</TableCell>
+                    <TableCell className="text-right">coming/soon</TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>
@@ -139,18 +148,23 @@ export default async function TaskSubmitPage({ params }: Props) {
               {/* Contenedor comentario */}
               {submit?.messages?.length > 0 && (
                 <div>
-                  {submit.messages.map((message, idx) => (
-                    <div className="flex items-center" key={message._id || idx}>
-                      <Avatar className="w-6 h-6">
-                        <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
-                        <AvatarFallback className="text-sm">JD</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h1 className="ml-2 text-white">{message.message}</h1>
-                        <p className="ml-2 text-xs text-white right-0">{message.createdAt ? message.createdAt?.toString() : "--/--/--"}</p>
+                  {submit.messages.map((message, idx) => {
+                    let name = (namesData?.find(item => item.member === message.sender) || {}).name || 'anonym';
+                    return (
+                      <div className="flex items-center" key={message._id || idx}>
+                        <Avatar className="w-6 h-6">
+                          <AvatarImage alt="@janedoe" src="/placeholder-avatar.jpg" />
+                          <AvatarFallback className="text-sm">JD</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h1 className="ml-2 text-white">{message.message}</h1>
+                          {/* <p className="ml-2 text-xs text-white right-0">{message.createdAt ? message.createdAt?.toString() : "--/--/--"}</p> */}
+                          <p className="ml-2 text-xs text-white right-0">{name}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  } 
+                  )}
                 </div>
               )}
               </div>
