@@ -12,8 +12,15 @@ export const metadata: Metadata = {
   title: {
     default: "XAVIO",
     template: "%s | XAVIO",
+    
   },
   description: "learning platform accompanied by generative AI",
+  manifest: "/manifest.json",
+  icons: {
+    apple: "/icon.png",
+  },
+  themeColor: "#000000",
+
 };
 
 export default async function RootLayout({

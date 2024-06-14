@@ -6,37 +6,31 @@ const people = [
     id: 1,
     name: "Adolfo",
     designation: "Software Engineer",
-    image: "/ggs.png",
+    image: "/foto_foter_adolf.jpeg",
   },
   {
     id: 2,
     name: "Jorge",
     designation: "Software Engineer",
-    image: "/ggs.png",
+    image: "/foto_foter_jj.jpeg",
   },
   {
     id: 3,
     name: "Arturo",
     designation: "Software Engineer",
-    image: "/ggs.png",
+    image: "/foto_foter_artur.jpg",
   },
   {
     id: 4,
     name: "Carlos",
     designation: "Software Engineer",
-    image: "/ggs.png",
+    image: "/foto_foter_carlos.jpeg",
   },
   {
     id: 5,
     name: "Bryan",
     designation: "Software Engineer",
-    image: "/ggs.png",
-  },
-  {
-    id: 6,
-    name: "Dora",
-    designation: "The Explorer",
-    image: "/ggs.png",
+    image: "/foto_foter_bryan.jpeg",
   },
 ];
 
