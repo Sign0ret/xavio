@@ -147,21 +147,22 @@ export default function ClasesLayout({
             </section>
             </div>
         ) : (
-            <section>
-              <div className="hidden lg:grid max-h-full h-4/5 lg:min-h-screen w-full lg:grid-cols-[40px_1fr]  ">
-                <div className="flex h-full max-h-screen flex-col gap-2 pt-[70px]">
-                  <div className="flex h-[60px] items-center border-b relative inset-x-0 z-50">
-                    <Button className="ml-auto h-8 w-8" size="icon" variant="outline" onClick={() => setOpen(true)}>
-                        <MessageCircleIcon className="h-4 w-4" />
-                        <span className="sr-only">Toggle notifications</span>
-                    </Button>
-                  </div>
-                </div>
-                <section >
-                  {children}
-                </section>
+          <div className="grid max-h-full h-4/5 lg:min-h-screen w-full lg:grid-cols-[40px_1fr] ">
+          <div className="g-[#18181b] lg:block relative inset-x-0 z-20">
+              <div className="flex h-full max-h-screen pt-[70px] flex-col gap-2">
+              <div className="flex h-[60px] items-center border-b pl-3">
+                <Button className="ml-auto h-8 w-8" size="icon" variant="outline" onClick={() => setOpen(true)}>
+                    <MessageCircleIcon className="h-4 w-4" />
+                    <span className="sr-only">Toggle notifications</span>
+                </Button>
               </div>
-            </section>
+              </div>
+          </div>
+
+          <section >
+            {children}
+          </section>
+          </div>
         )}
       </section>
       <section className='flex lg:hidden'>
