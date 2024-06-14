@@ -1,13 +1,11 @@
 "use client"
 import React from 'react';
-import { Metadata } from 'next';
 import { useState, useEffect } from 'react';
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import useChatSocket from '../_components/socket/functions';
 import { Message } from '../_components/messages/message';
 
-import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { 
     DropdownMenuTrigger, 
     DropdownMenuLabel, 
@@ -50,9 +48,7 @@ import {
   SelectContent, 
   Select 
 } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
 import { 
   TextIcon, 
   MessageCircleIcon, 
@@ -79,7 +75,6 @@ import { PatchCourse } from '../_components/forms/patch-course';
 import useWebSocketConnection from '../_components/socket/connection';
 import { TCourse, TMember } from '@/models/Course';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { User } from '@prisma/client';
 import { NameMember } from '@/models/Message';
 
 type Props = {

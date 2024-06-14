@@ -8,6 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export const AnimatedTooltipProfile = ({
   items,
@@ -19,6 +20,7 @@ export const AnimatedTooltipProfile = ({
     image: string;
   }[];
 }) => {
+  const user = useCurrentUser();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 5 };
   const x = useMotionValue(0); // going to set this value on mouse move
@@ -70,7 +72,7 @@ export const AnimatedTooltipProfile = ({
               <div className="absolute inset-x-10 z-30 w-[80%] -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px " />
               <div className="absolute left-10 w-[60%] z-30 -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px " />
               <div className="font-bold text-white relative z-30 text-base">
-                {item.name}
+                {user ? user.name : "anonym"}
               </div>
               <div className="text-white text-xs">{item.designation}</div>
             </motion.div>
@@ -79,7 +81,7 @@ export const AnimatedTooltipProfile = ({
             onMouseMove={handleMouseMove}
             height={1100}
             width={1100}
-            src="/"
+            src={item.image}
             alt={item.name}
             className="object-cover !m-0 !p-0 object-top rounded-full h-56 w-56 border-2 group-hover:scale-105 group-hover:z-30 border-white  relative transition duration-500"
           />
