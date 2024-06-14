@@ -10,9 +10,9 @@ export const LogoutButton = ({
     children
 }: LogoutButtonProps) => {
     const router = useRouter()
-    const onClick = () => {
-        logout()
-        router.push('/')
+    const onClick = async () => {
+        await logout();
+        router.push('/');
     };
 
     return (
