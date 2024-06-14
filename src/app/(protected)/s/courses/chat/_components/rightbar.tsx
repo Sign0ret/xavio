@@ -39,9 +39,9 @@ export function Right_bar({ params, courseInfo }: Props) {
     case 'assignments':
       content = <ByTopic params={params} items={courseInfo?.topics} />;
       break;
-    case 'temas':
-      content = <ByContent params={params} items={courseInfo?.topics} />;
-      break;
+    // case 'temas':
+    //   content = <ByContent params={params} items={courseInfo?.topics} />;
+    //   break;
     case 'tareas':
       content = <ByTask params={params} items={courseInfo?.topics} />;
       break;
@@ -64,7 +64,7 @@ export function Right_bar({ params, courseInfo }: Props) {
                 }}
               >
                 <ToggleGroupItem value="assignments" className='text-purple-500 hover:bg-zinc-800'><ClipboardIcon className="h-4 w-4" /></ToggleGroupItem>
-                <ToggleGroupItem value="temas"  className='text-purple-500  hover:bg-zinc-800'><BookOpenIcon className='h-4 w-4' /></ToggleGroupItem>
+                {/* <ToggleGroupItem value="temas"  className='text-purple-500  hover:bg-zinc-800'><BookOpenIcon className='h-4 w-4' /></ToggleGroupItem> */}
                 <ToggleGroupItem value="tareas"  className='text-purple-500  hover:bg-zinc-800'><CheckIcon className='h-4 w-4' /></ToggleGroupItem>
                 <ToggleGroupItem value="quizzes"  className='text-purple-500  hover:bg-zinc-800'><FileQuestionIcon className='h-4 w-4' /></ToggleGroupItem>              
               </ToggleGroup>

@@ -245,6 +245,7 @@ export default function ChatClase({ params }: Props) {
                     </div>
                 )}
                 <form className="flex items-center gap-4" onSubmit={handleSubmit}>
+                    {matchingMember?.admin && (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                             <PencilIcon className="h-4 w-4 ml-4 text-white"/>
@@ -252,7 +253,7 @@ export default function ChatClase({ params }: Props) {
                         <DropdownMenuContent className='flex flex-col ml-14 mb-2 bg-[#18181b] text-white'>
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <Dialog>
+                            {/* <Dialog>
                                 <DialogTrigger className='hidden lg:flex'>
                                     <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                         <span><CameraIcon className='h-4 w-4 mr-2' /></span>
@@ -282,8 +283,7 @@ export default function ChatClase({ params }: Props) {
                                     </DrawerDescription>
                                     </DrawerHeader>
                                 </DrawerContent>
-                            </Drawer>
-                            {matchingMember?.admin && (
+                            </Drawer> */}
                             <>
                                 <Dialog>
                                     <DialogTrigger className='hidden lg:flex'>
@@ -379,9 +379,9 @@ export default function ChatClase({ params }: Props) {
                                     </DrawerContent>
                                 </Drawer>
                             </>
-                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
+                    )}
                     <Input 
                         value={message}
                         className="flex-1 bg-zinc-200" 

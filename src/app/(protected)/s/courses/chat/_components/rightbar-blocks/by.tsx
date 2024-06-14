@@ -73,11 +73,11 @@ export const ByTopic = ({
               </Badge>
             </CardTitle>
             <CardDescription>
-                <div>
+                {/* <div>
                     {item.contents ? (
                         <RowContent items={item.contents} params={params} topic={item._id}/>
                     ) : (<></>)}
-                </div>
+                </div> */}
                 <div>
                     {item.tasks ? (
                         <RowTask items={item.tasks} params={params} topic={item._id}/>
