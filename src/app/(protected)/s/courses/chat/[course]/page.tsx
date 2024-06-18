@@ -301,21 +301,21 @@ export default function ChatClase({ params }: Props) {
                                         </DialogHeader>
                                     </DialogContent>
                                 </Dialog>
-                                <Drawer>
-                                    <DrawerTrigger className='flex lg:hidden'>
+                                <Sheet>
+                                    <SheetTrigger className='flex lg:hidden'>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                             Task
                                         </DropdownMenuLabel>
-                                    </DrawerTrigger>
-                                    <DrawerContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
-                                        <DrawerHeader>
-                                        <DrawerTitle>New Task AI</DrawerTitle>
-                                        <DrawerDescription>
+                                    </SheetTrigger>
+                                    <SheetContent className='text-white max-h-screen min-h-[90vh] bg-[#18181b]'>
+                                        <SheetHeader>
+                                        <SheetTitle>New Task AI</SheetTitle>
+                                        <SheetDescription>
                                             <PostSubject params={params} topics={course.topics} onSuccess={handleCourseUpdated}/>
-                                        </DrawerDescription>
-                                        </DrawerHeader>
-                                    </DrawerContent>
-                                </Drawer>
+                                        </SheetDescription>
+                                        </SheetHeader>
+                                    </SheetContent>
+                                </Sheet>
                                 <Dialog>
                                     <DialogTrigger className='hidden lg:flex'>
                                         <DropdownMenuLabel className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
